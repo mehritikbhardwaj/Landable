@@ -42,12 +42,12 @@ class ChatsAdapter(private val chatsList: ArrayList<Chat>, private var context: 
 
         if (holder.javaClass == SentViewHolder::class.java) {
 
-            val viewHolder = holder as SentViewHolder
+            holder as SentViewHolder
             holder.sentMessage.text = Html.fromHtml(currentMessage.comment)
             holder.tv_date.text = Html.fromHtml(currentMessage.postedsince)
 
         } else {
-            val viewHolder = holder as RecieveViewHolder
+            holder as RecieveViewHolder
             holder.recieveMessage.text = Html.fromHtml(currentMessage.comment)
             holder.tv_date.text = Html.fromHtml(currentMessage.postedsince)
 

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.landable.app.R
@@ -32,7 +33,9 @@ class ChatsFragment : Fragment() {
     private var _Id:Int = 0
     private var touSerID:Int = 0
     private var isComingfromChat:Boolean = false
-   // private var file: File? = null
+    private var chatsAdapter: ChatsAdapter? = null
+
+    // private var file: File? = null
 
     companion object {
         fun newInstance() = ChatsFragment()
@@ -78,7 +81,7 @@ class ChatsFragment : Fragment() {
 
         if(chatUsersDataModel==null){
             getChatsList(_Id, touSerID, type)
-        }else getChatsList(_Id, chatUsersDataModel!!.id, type)
+        }else   getChatsList(_Id, touSerID, type)
 
         binding.ivSendChat.setOnClickListener {
             RegisterRepository().post_Addchat(
@@ -118,10 +121,12 @@ class ChatsFragment : Fragment() {
     private fun updateChatsUI() {
         binding.rvChats.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.rvChats.adapter = ChatsAdapter(chatsList, requireContext())
+        binding.rvChats.itemAnimator = DefaultItemAnimator()
+        chatsAdapter = ChatsAdapter(chatsList, requireContext())
+        binding.rvChats.adapter = chatsAdapter
         binding.ivProfileImage.load(LandableConstants.Image_URL + chats!!.logo)
         binding.tvName.text = chats!!.name
     }
 
-
 }
+

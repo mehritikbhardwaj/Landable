@@ -15,6 +15,9 @@
     <string name="writeFilePermissionString">Needs access to write file to your external directory.</string>
     <string name="galleryPermissionString">Needs access to your gallery so you can select pictures.</string>
 
+    <string name="msg_token_fmt" translatable="false">FCM registration Token: %s</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="fcm_message">FCM Message</string>
     <string-array name="bedCountArray">
         <item>1</item>
         <item>2</item>

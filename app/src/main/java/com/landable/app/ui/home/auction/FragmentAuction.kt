@@ -52,7 +52,7 @@ class FragmentAuction : Fragment(),
     private var borrowerName: String = ""
     private var priceRange = ArrayList<MonthsDataModel>()
     private var statusArray = ArrayList<MonthsDataModel>()
-    private var status: String = "Active"
+    private var status: String = "A"
     private var bankName: String = ""
     private var advertismentsList = ArrayList<Advertisment>()
     private var price: Int = 2
@@ -320,8 +320,8 @@ class FragmentAuction : Fragment(),
                 //this is the way to find selected object/item
                 //unitId = filterData!!.Unitmaster[pos].id
                 if (pos == 0) {
-                    status = "Active"
-                } else status = "Inactive"
+                    status = "A"
+                } else status = "N"
             }
     }
 

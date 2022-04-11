@@ -23,6 +23,7 @@ import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.dialog.CustomAlertDialog
 import com.landable.app.ui.dialog.CustomProgressDialog
 import com.landable.app.ui.home.agent.AgencyProfileFragment
+import com.landable.app.ui.home.agent.ContactOwnerDialogFragment
 import com.landable.app.ui.home.auction.FragmentAuction
 import com.landable.app.ui.home.categories.CategoriesAdapter
 import com.landable.app.ui.home.chats.ChatsFragment
@@ -496,24 +497,24 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         binding.layoutFilter.rvFurnishedType.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.layoutFilter.rvFurnishedType.adapter =
-            SaletypeAdapter(filterData!!.furnishedmaster, this, "furnishedType",furnishedType)
+            SaletypeAdapter(filterData!!.furnishedmaster, this, "furnishedType", furnishedType)
 
         //binding recycler view for category type filter
         binding.layoutFilter.rvCategory.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.layoutFilter.rvCategory.adapter = CategoriesAdapter(categoryList, this,categoryID)
+        binding.layoutFilter.rvCategory.adapter = CategoriesAdapter(categoryList, this, categoryID)
 
         //binding recycler view for sale type filter
         binding.layoutFilter.rvSaleType.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.layoutFilter.rvSaleType.adapter =
-            SaletypeAdapter(filterData!!.saletypemaster, this, "saleTypeClick",saleType)
+            SaletypeAdapter(filterData!!.saletypemaster, this, "saleTypeClick", saleType)
 
         //binding recycler view for possession type filter
         binding.layoutFilter.rvPossessionStatus.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.layoutFilter.rvPossessionStatus.adapter =
-            SaletypeAdapter(filterData!!.possessionmaster, this, "possessionCLick",possetionType)
+            SaletypeAdapter(filterData!!.possessionmaster, this, "possessionCLick", possetionType)
     }
 
     //DAta model for search
@@ -577,8 +578,8 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 binding.layoutFilter.rvPropertyType.adapter =
                     PropertyTypeAdapter(
                         filterData!!.residentialTypeLinkedHashMap[categoryType]!!,
-                        this
-                        ,subCategoryID)
+                        this, subCategoryID
+                    )
             }
             "Commercial" -> {
                 binding.layoutFilter.rvPropertyType.layoutManager =
@@ -586,7 +587,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 binding.layoutFilter.rvPropertyType.adapter =
                     PropertyTypeAdapter(
                         filterData!!.commercialTypeLinkedList[categoryType]!!,
-                        this,subCategoryID
+                        this, subCategoryID
                     )
             }
             "Agricultural" -> {
@@ -595,7 +596,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 binding.layoutFilter.rvPropertyType.adapter =
                     PropertyTypeAdapter(
                         filterData!!.agriculturalTypeLinkedList[categoryType]!!,
-                        this,subCategoryID
+                        this, subCategoryID
                     )
             }
         }
@@ -646,8 +647,8 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
             "agencyID" -> {
                 loadAgentProfileFragment(id)
             }
-            "chatClicked"->{
-                loadChatsFragment("Agency",AppInfo.getUserId().toInt(),id)
+            "chatClicked" -> {
+                loadChatsFragment("Agency", AppInfo.getUserId().toInt(), id)
             }
             "furnishedType" -> {
                 furnishedType = id
@@ -728,7 +729,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         bundle.putString("type", type)
         bundle.putInt("id", id)
         bundle.putInt("toUserID", toUserID)
-        bundle.putBoolean("comingfromchat",false)
+        bundle.putBoolean("comingfromchat", false)
 
         val chatsFragment = ChatsFragment.newInstance()
         chatsFragment.arguments = bundle
@@ -832,7 +833,34 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
             "selectedPropertyDetail" -> {
                 loadPropertyDetailFragment(featurePropertiesDataModel)
             }
+            "contactOwner" -> {
+                if (AppInfo.getSCode() == "" || AppInfo.getSCode() == "0") {
+                    (activity as HomeActivity).askForLogin()
+                    contactOwner(featurePropertiesDataModel!!)
+                } else {
+                    val fm = requireActivity().supportFragmentManager
+                    val dialogFragment = ContactOwnerDialogFragment(
+                        featurePropertiesDataModel!!.addedbyid,
+                        featurePropertiesDataModel.name
+                    )
+                    dialogFragment.show(fm, "")
+                }
+            }
+            "ViewAgencyProfile"->{
+                if (AppInfo.getSCode() == "" || AppInfo.getSCode() == "0") {
+                    (activity as HomeActivity).askForLogin()
+                    contactOwner(featurePropertiesDataModel!!)
+                } else {
+                    loadAgentProfileFragment(featurePropertiesDataModel!!.addedbyid)
+                }
+            }
         }
+    }
+
+    private fun contactOwner(propertyDetailInfoModel: FeaturePropertiesDataModel) {
+        (activity as HomeActivity).propertyID = propertyDetailInfoModel.propertyid
+        (activity as HomeActivity).contactType = "Property"
+        (activity as HomeActivity).agentID = propertyDetailInfoModel.addedbyid
     }
 
     private fun loadPropertyDetailFragment(propertyDataModel: FeaturePropertiesDataModel?) {

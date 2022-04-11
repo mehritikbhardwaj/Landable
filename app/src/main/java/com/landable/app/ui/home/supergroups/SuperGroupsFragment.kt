@@ -8,14 +8,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.landable.app.R
+import com.landable.app.common.AgentProfileListener
+import com.landable.app.common.LandableConstants
 import com.landable.app.data.repositories.RegisterRepository
 import com.landable.app.data.responses.ParseResponse
 import com.landable.app.databinding.FragmentPostedProjectBinding
 import com.landable.app.ui.HomeActivity
+import com.landable.app.ui.dialog.CustomAlertDialog
 import com.landable.app.ui.dialog.CustomProgressDialog
 import com.landable.app.ui.home.dataModels.SuperGroupsDataModelItem
 
-class SuperGroupsFragment : Fragment() {
+class SuperGroupsFragment : Fragment(), AgentProfileListener {
 
     private lateinit var binding: FragmentPostedProjectBinding
     private var progressDialog: CustomProgressDialog? = null
@@ -68,6 +71,39 @@ class SuperGroupsFragment : Fragment() {
     private fun updateSuperGroupsUI() {
         binding.rvPostedProject.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.rvPostedProject.adapter = SuperGroupsAdapter(superGroupsList)
+        binding.rvPostedProject.adapter = SuperGroupsAdapter(superGroupsList, this)
     }
+
+    private fun deleteSupergroup(id: Int) {
+        val deleteResponse = RegisterRepository().getDeleteSupergroup(id)
+        deleteResponse.observe(viewLifecycleOwner) {
+
+            if (it == LandableConstants.noInternetErrorMessage) {
+                //print NoInternet Error Message
+                CustomAlertDialog(
+                    requireContext(),
+                    LandableConstants.noInternetErrorTitle,
+                    it
+                ).show()
+            } else {
+                try {
+                    if (it.toString() != "null") {
+                        getMySuperGroups()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+            }
+        }
+    }
+
+    override fun onAgentClick(action: String, id: Int) {
+        when (action) {
+            "deleteSupergroup" -> {
+                deleteSupergroup(id)
+            }
+        }
+    }
+
 }

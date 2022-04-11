@@ -109,8 +109,8 @@ class PostProjectBasicInfoFragment : Fragment(), PropertyTypeClickListener,
 
 
         binding.buttonContinue.setOnClickListener {
-            loadPostProjectConfigurationPage(66, "PROJ22231704")
-            /* if (binding.tvLaunchDate.text.toString().isNullOrEmpty()
+       //     loadPostProjectConfigurationPage(66, "PROJ22231704")
+          if (binding.tvLaunchDate.text.toString().isNullOrEmpty()
                  || binding.edTitle.text.toString().isNullOrEmpty() ||
                  binding.tvPossessionDate.text.toString()
                      .isNullOrEmpty() || binding.edAddress.text.toString()
@@ -146,7 +146,7 @@ class PostProjectBasicInfoFragment : Fragment(), PropertyTypeClickListener,
                      )
                  )
              }
- */
+
         }
 
         binding.edAddress.setOnFocusChangeListener { v, hasFocus ->
@@ -538,13 +538,13 @@ class PostProjectBasicInfoFragment : Fragment(), PropertyTypeClickListener,
         if (isComingForEdit) {
             bundle.putSerializable("projectDataModel", projectData)
         }
-        val postProjectConfigurationFragment = ProjectUploadDocumentsFragment.newInstance()
+        val postProjectConfigurationFragment = PostProjectConfigurationFragment.newInstance()
         postProjectConfigurationFragment.arguments = bundle
         FragmentHelper().replaceFragmentAddToBackstack(
             requireActivity().supportFragmentManager,
             (activity as HomeActivity).getHomePageContainerId(),
             postProjectConfigurationFragment,
-            ProjectUploadDocumentsFragment::class.java.name
+            PostProjectConfigurationFragment::class.java.name
 
         )
     }

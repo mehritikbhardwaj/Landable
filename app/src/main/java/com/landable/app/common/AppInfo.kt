@@ -22,6 +22,15 @@ object AppInfo {
 
     }
 
+    fun getFCMToken(): String {
+        return sharedPreferencesUser?.getString("fcmToken", "")!!
+    }
+
+    fun setFCMToken(fcmToken: String) {
+        editorUser?.putString("fcmToken", fcmToken)
+        editorUser?.commit()
+    }
+
     fun setUserId(userId: String) {
         editorUser?.putString("userId", userId)
         editorUser?.commit()

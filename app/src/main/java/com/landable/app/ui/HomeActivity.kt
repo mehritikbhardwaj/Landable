@@ -2,6 +2,7 @@ package com.landable.app.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.Toast
@@ -9,9 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.landable.app.R
 import com.landable.app.common.AppInfo
 import com.landable.app.common.FragmentHelper
+import com.landable.app.common.LandableConstants
 import com.landable.app.common.ScreenTagManager
 import com.landable.app.databinding.ActivityHomeBinding
 import com.landable.app.ui.dialog.CustomConfirmationDialog
@@ -78,6 +83,11 @@ class HomeActivity : AppCompatActivity(),
             true
         }
 
+        if (AppInfo.getFCMToken().isBlank())
+            initializeFCM()
+        else LandableConstants.fcmToken = AppInfo.getFCMToken()
+
+       // Toast.makeText(this,LandableConstants.fcmToken,Toast.LENGTH_LONG).show()
         binding.ivBack.setOnClickListener {
             FragmentHelper().popBackStackImmediate(this@HomeActivity)
         }
@@ -90,6 +100,25 @@ class HomeActivity : AppCompatActivity(),
         }
         binding.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
     }
+
+    private fun initializeFCM() {
+        Firebase.messaging.token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("HomeActivity", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            LandableConstants.fcmToken = task.result
+            AppInfo.setFCMToken(LandableConstants.fcmToken)
+
+            // Log and toast
+            val msg = getString(R.string.msg_token_fmt, LandableConstants.fcmToken)
+            Log.d("HomeActivity", msg)
+            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+        })
+    }
+
 
     fun hideDrawer() {
         binding.drawer.closeDrawer(Gravity.LEFT)

@@ -143,8 +143,6 @@ class PostProjectConfigurationFragment : Fragment(),
     ) {
         updateSelectedImageBitmap(Uri.parse(selectedPhotoList[0]))
         binding.unitimageconfig.visibility = View.VISIBLE
-        Toast.makeText(requireContext(), selectedPhotoList.size.toString(), Toast.LENGTH_SHORT)
-            .show()
         binding.unitimageconfig.load(Uri.parse(selectedPhotoList[0]))
         binding.uploadImage.text = "1 selected"
     }

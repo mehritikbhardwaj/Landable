@@ -31,6 +31,7 @@ import com.landable.app.ui.home.dataModels.PropertyTypeDataModel
 import com.landable.app.ui.home.postProjectProperty.filterAdapters.PropertyTypeAdapter
 import com.landable.app.ui.home.postProjectProperty.filterAdapters.SaletypeAdapter
 import com.landable.app.ui.home.postProjectProperty.project.ProjectUploadDocumentsFragment
+import org.json.JSONObject
 import java.io.IOException
 
 
@@ -196,9 +197,22 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
             } else {
                 try {
                     if (it.toString() != "null") {
-                        if (it == "success") {
-                            FragmentHelper().popBackStackImmediate(activity as HomeActivity)
-                          //  loadPostSuperGroupMediaUpload(0,"","supergroup")
+                        val jsonObj = JSONObject(it)
+                        val status = jsonObj.getString("status")
+                        val threadId = jsonObj.getInt("id")
+                        if (status == "success") {
+                            Toast.makeText(
+                                requireContext(),
+                                "Supergroup posted successfully",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            loadPostSuperGroupMediaUpload(threadId, "", "supergroup")
+                            /*{
+                                "id": 3089,
+                                "status": "success"
+                            }*/
+                            //   FragmentHelper().popBackStackImmediate(activity as HomeActivity)
+                            //  loadPostSuperGroupMediaUpload(0,"","supergroup")
                         } else {
                             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT)
                                 .show()
@@ -243,24 +257,24 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
         binding.rvArbitrage.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvArbitrage.adapter =
-            SaletypeAdapter(filterData!!.Arbitragemaster, this, "arbitrageClick",arbitrage)
+            SaletypeAdapter(filterData!!.Arbitragemaster, this, "arbitrageClick", arbitrage)
 
         binding.rvSaleType.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvSaleType.adapter =
-            SaletypeAdapter(filterData!!.saletypemaster, this, "saleTypeClick",saleType)
+            SaletypeAdapter(filterData!!.saletypemaster, this, "saleTypeClick", saleType)
 
         binding.rvPossessionStatus.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvPossessionStatus.adapter =
-            SaletypeAdapter(filterData!!.possessionmaster, this, "possessionCLick",possetionType)
+            SaletypeAdapter(filterData!!.possessionmaster, this, "possessionCLick", possetionType)
     }
 
     private fun updateDashboardInfo() {
         categoryList = filterData!!.categorymaster
         binding.rvCategory.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvCategory.adapter = CategoriesAdapter(categoryList, this,categoryID)
+        binding.rvCategory.adapter = CategoriesAdapter(categoryList, this, categoryID)
 
     }
 
@@ -272,8 +286,8 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
                 binding.rvPropertyType.adapter =
                     PropertyTypeAdapter(
                         filterData!!.residentialTypeLinkedHashMap[categoryType]!!,
-                        this
-                        ,subCategoryID)
+                        this, subCategoryID
+                    )
             }
             "Commercial" -> {
                 binding.rvPropertyType.layoutManager =
@@ -281,7 +295,7 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
                 binding.rvPropertyType.adapter =
                     PropertyTypeAdapter(
                         filterData!!.commercialTypeLinkedList[categoryType]!!,
-                        this,subCategoryID
+                        this, subCategoryID
                     )
             }
             "Agricultural" -> {
@@ -290,7 +304,7 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
                 binding.rvPropertyType.adapter =
                     PropertyTypeAdapter(
                         filterData!!.agriculturalTypeLinkedList[categoryType]!!,
-                        this,subCategoryID
+                        this, subCategoryID
                     )
             }
         }

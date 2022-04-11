@@ -8,7 +8,7 @@ object LandableConstants {
     const val noInternetErrorTitle = "No Internet"
 
     const val deviceType = "Android"
-    const val fcmToken = "Test FCM"
+    var fcmToken = "Test FCM"
     const val galleryRequestCode = 1002
     const val cameraRequestCode = 1003
     const val writeExternalStorageRequestCode = 1004
@@ -74,5 +74,6 @@ object LandableConstants {
     const val Post_updateuserimage = "Post_updateuserimage"
     const val Post_Addsavedsearch = "Post_Addsavedsearch"
     const val GetPropertyforeditByID = "GetPropertyforeditByID"
+    const val GetDeleteSupergroup = "GetDeleteSupergroup"
 }
    

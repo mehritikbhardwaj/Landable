@@ -1182,6 +1182,32 @@ class RegisterRepository : SafeApiRequest() {
         return apiResponse
     }
 
+    fun getDeleteSupergroup(id: Int): LiveData<String> {
+        val apiResponse = MutableLiveData<String>()
+
+        MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).getDeleteSupergroup(
+            getRegisterUserHeaderMap(),
+            id
+        )
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        apiResponse.value = response.body()?.string()
+                    } else {
+                        apiResponse.value = response.errorBody()?.string()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    apiResponse.value = t.message
+                }
+            })
+        return apiResponse
+    }
+
 
     fun getNewsList(pageIndex: Int, keyword: String): LiveData<String> {
         val apiResponse = MutableLiveData<String>()

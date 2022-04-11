@@ -430,6 +430,13 @@ interface MyApi {
         @HeaderMap headers: Map<String, String>
     ): Call<ResponseBody>
 
+    @Headers("Content-Type: application/json")
+    @GET(LandableConstants.GetDeleteSupergroup)
+    fun getDeleteSupergroup(
+        @HeaderMap headers: Map<String, String>,
+        @Query("threadid") threadid: Int
+    ): Call<ResponseBody>
+
     companion object {
         operator fun invoke(
             networkConnectionInterceptor: NetworkConnectionInterceptor

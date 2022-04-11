@@ -47,7 +47,7 @@ class ProjectUploadDocumentsFragment : Fragment(),
         super.onCreate(savedInstanceState)
         projectID = requireArguments().getString("projectID")!!
         _id = requireArguments().getInt("id")
-//        comingFor = requireArguments().getString("comingFromMedia")!!
+        comingFor = requireArguments().getString("comingFromMedia")!!
     }
 
     override fun onCreateView(
@@ -97,33 +97,57 @@ class ProjectUploadDocumentsFragment : Fragment(),
                 progressDialog = CustomProgressDialog(requireContext())
                 progressDialog!!.show()
                 if (comingFor == "supergroup") {
-                    UploadImage(
+                    if (type == "Doc") {
+                        UploadImage(
+                            "AddSupergroupMedia",
+                            File(filePath!!),
+                            this,
+                            "", _id, "",
+                            "Document", "",
+                            "", "", ""
+                        )
+                    } else if (type == "FloorPlan") {
+                        UploadImage(
+                            "AddSupergroupMedia",
+                            File(filePath!!),
+                            this,
+                            "", _id,  "",
+                            "Floorplan",
+                            "", "", "", ""
+                        )
+                    } else UploadImage(
                         "AddSupergroupMedia",
                         File(filePath!!),
                         this,
                         "",
                         _id,
-                        projectID,
+                        "",
                         "Image",
                         "",
                         "",
                         "",
-                        "" +
-                                ""
-                    )
-                } else if (type == "Doc") {
-                    UploadImage(
-                        "ProjectImageUpload",
-                        File(filePath!!), this,
-                        "", _id, projectID,
-                        "Document", "",
-                        "", "", ""
+                        ""
                     )
                 } else {
-                    UploadImage(
-                        "ProjectImageUpload", File(filePath!!), this,
-                        "", _id, projectID, "Image", "", "", "", ""
-                    )
+                    if (type == "Doc") {
+                        UploadImage(
+                            "ProjectImageUpload",
+                            File(filePath!!), this,
+                            "", _id, projectID,
+                            "Document", "",
+                            "", "", ""
+                        )
+                    } else if (type == "FloorPlan") {
+                        UploadImage(
+                            "ProjectImageUpload", File(filePath!!), this,
+                            "", _id, projectID, "Floorplan", "", "", "", ""
+                        )
+                    } else {
+                        UploadImage(
+                            "ProjectImageUpload", File(filePath!!), this,
+                            "", _id, projectID, "Image", "", "", "", ""
+                        )
+                    }
                 }
 
             } else {
@@ -138,7 +162,21 @@ class ProjectUploadDocumentsFragment : Fragment(),
                     } else {
                         Uri.parse(uploadFileArrayList[i]).path
                     }
-                    UploadImage(
+                    if(comingFor == "supergroup"){
+                        UploadImage(
+                            "AddSupergroupMedia",
+                            File(filePath!!),
+                            this,
+                            "",
+                            _id,
+                            "",
+                            "Image",
+                            "",
+                            "",
+                            "",
+                            ""
+                        )
+                    }else UploadImage(
                         "ProjectImageUpload", File(filePath!!), this,
                         "", _id, projectID, "Image", "", "", "", ""
                     )
@@ -175,6 +213,7 @@ class ProjectUploadDocumentsFragment : Fragment(),
     override fun onClickButtonForUploadType(typeOfUpload: String) {
         when (typeOfUpload) {
             "UploadImage" -> {
+                uploadFileArrayList.clear()
                 selectedUploadType = "Image"
                 val fm = requireActivity().supportFragmentManager
                 val dialogFragment =
@@ -182,21 +221,20 @@ class ProjectUploadDocumentsFragment : Fragment(),
                 dialogFragment.show(fm, "")
             }
             "UploadVideo" -> {
-
-
-            }
-            "UploadDocument" -> {
-                selectedUploadType = "Doc"
-                val videoPickerIntent = Intent(Intent.ACTION_GET_CONTENT)
-                videoPickerIntent.type = "application/pdf"
-                startActivityForResult(videoPickerIntent, LandableConstants.galleryRequestCode)
-            }
-            "UploadFloorPlan" -> {
+                uploadFileArrayList.clear()
                 selectedUploadType = "FloorPlan"
                 val fm = requireActivity().supportFragmentManager
                 val dialogFragment =
                     UploadImageDialogFragment(this, LandableConstants.actionForMultipleSelection)
                 dialogFragment.show(fm, "")
+
+            }
+            "UploadDocument" -> {
+                uploadFileArrayList.clear()
+                selectedUploadType = "Doc"
+                val videoPickerIntent = Intent(Intent.ACTION_GET_CONTENT)
+                videoPickerIntent.type = "application/pdf"
+                startActivityForResult(videoPickerIntent, LandableConstants.galleryRequestCode)
             }
         }
     }
@@ -214,7 +252,6 @@ class ProjectUploadDocumentsFragment : Fragment(),
                 uploadFileArrayList.add(arrayList[0])
                 binding.uploadType.text = uploadFileArrayList.size.toString() + " item Selected"
             }
-            selectedUploadType = "Doc"
         }
         super.onActivityResult(requestCode, resultCode, data)
 

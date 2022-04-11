@@ -15,7 +15,7 @@
             android:layout_marginTop="@dimen/_25sdp"
             android:textSize="@dimen/_15ssp"
             android:layout_marginLeft="@dimen/_15sdp"
-            android:text="Upload Project Media" />
+            android:text="Upload Media" />
 
         <TextView
             android:id="@+id/uploadType"

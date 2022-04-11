@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_5sdp"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:id="@+id/unitTypeSize"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+
+                <TextView
+                    style="@style/filterTextSearchUI"
+                    android:text="@string/unit_type" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/outline_buttons"
+                    android:weightSum="1">
+
+                    <EditText
+                        android:id="@+id/edType"
+                        style="@style/editText_EditProfile"
+                        android:layout_width="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:background="@color/white"
+                        android:hint="0 BHK"
+                        android:maxLines="1"
+                        android:padding="@dimen/_5sdp"
+                        android:textSize="@dimen/_12ssp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+
+                <TextView
+                    style="@style/filterTextSearchUI"
+                    android:text="@string/unit_size" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/outline_buttons"
+                    android:weightSum="1">
+
+                    <EditText
+                        android:id="@+id/edSize"
+                        style="@style/editText_EditProfile"
+                        android:layout_width="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:background="@color/white"
+                        android:inputType="number"
+                        android:hint="15346"
+                        android:maxLines="1"
+                        android:padding="@dimen/_5sdp"
+                        android:textSize="@dimen/_12ssp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/unitImagePrice"
+            android:layout_width="match_parent"
+            android:layout_below="@id/unitTypeSize"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+
+                <TextView
+                    style="@style/filterTextSearchUI"
+                    android:text="@string/unit_price" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/outline_buttons"
+                    android:weightSum="1">
+
+                    <EditText
+                        android:id="@+id/edPrice"
+                        style="@style/editText_EditProfile"
+                        android:layout_width="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:background="@color/white"
+                        android:hint="2095656"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:padding="@dimen/_5sdp"
+                        android:textSize="@dimen/_12ssp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+
+                <TextView
+                    style="@style/filterTextSearchUI"
+                    android:text="@string/unit_image" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/outline_buttons"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/uploadImage"
+                        style="@style/editText_EditProfile"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:textSize="@dimen/_12ssp"
+                        android:layout_gravity="center"
+                        android:text="@string/upload_photos"
+                        android:drawableRight="@drawable/upload"
+                        android:padding="@dimen/_5sdp" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/unitimageconfig"
+            android:layout_width="@dimen/_100sdp"
+            android:visibility="gone"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_below="@id/unitImagePrice" />
+
+        <Button
+            android:id="@+id/buttonAdd"
+            style="@style/buttons_login_signup"
+            android:layout_below="@+id/unitimageconfig"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:padding="@dimen/_5sdp"
+            android:text="Add" />
+
+
+        <LinearLayout
+            android:id="@+id/configurationHEader"
+            android:layout_width="match_parent"
+            android:layout_below="@id/buttonAdd"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <TextView
+                style="@style/configurationHeadingText"
+                android:text="@string/unit_type" />
+
+            <TextView
+                style="@style/configurationHeadingText"
+                android:text="@string/unit_size" />
+
+            <TextView
+                style="@style/configurationHeadingText"
+                android:text="@string/price" />
+
+            <TextView
+                style="@style/configurationHeadingText"
+                android:text="@string/unit_image" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvConfiguration"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/configurationHEader"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp" />
+
+
+        <Button
+            android:id="@+id/buttonSubmit"
+            style="@style/buttons_login_signup"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:padding="@dimen/_5sdp"
+            android:text="Submit" />
+
+
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/filterTextSearchUI"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:textSize="@dimen/_15ssp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:text="Upload Project Media" />
+
+        <TextView
+            android:id="@+id/uploadType"
+            style="@style/editText_EditProfile"
+            android:layout_margin="@dimen/_15sdp"
+            android:textSize="@dimen/_12ssp"
+            android:clickable="false"
+            android:layout_gravity="center"
+            android:text="Select upload type"
+            android:drawableRight="@drawable/upload"
+            android:padding="@dimen/_8sdp" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_3sdp"
+            android:layout_height="wrap_content"
+            android:id="@+id/rvSelectedImages"/>
+
+        <Button
+            android:id="@+id/buttonUpload"
+            style="@style/buttons_login_signup"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:padding="@dimen/_5sdp"
+            android:text="Next" />
+    </LinearLayout>
+</layout>

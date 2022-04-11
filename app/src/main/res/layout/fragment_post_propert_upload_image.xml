@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <ImageView
+                    style="@style/postPropertyCircleIcon"
+                    app:tint="@color/colour_app" />
+
+                <View
+                    style="@style/postPropertyProgressView"
+                    android:layout_weight="2"
+                    android:backgroundTint="@color/colour_app" />
+
+                <ImageView
+                    style="@style/postPropertyCircleIcon"
+                    app:tint="@color/colour_app" />
+
+                <View
+                    style="@style/postPropertyProgressView"
+                    android:layout_weight="2"
+                    android:backgroundTint="@color/colour_app" />
+
+                <ImageView
+                    style="@style/postPropertyCircleIcon"
+                    app:tint="@color/colour_app" />
+
+                <View
+                    style="@style/postPropertyProgressView"
+                    android:layout_weight="2" />
+
+                <ImageView style="@style/postPropertyCircleIcon" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llProgressName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llProgress"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="9">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="Basic Info"
+                    android:textColor="@color/colour_app"
+                    android:textSize="@dimen/_8ssp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="@string/location"
+                    android:textColor="@color/colour_app"
+                    android:textSize="@dimen/_8ssp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="Photos"
+                    android:textColor="@color/colour_app"
+                    android:textSize="@dimen/_8ssp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="Additional Details"
+                    android:textSize="@dimen/_8ssp" />
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="Upload Photos" />
+
+            <TextView
+                android:id="@+id/uploadImage"
+                style="@style/editText_EditProfile"
+                android:layout_margin="@dimen/_3sdp"
+                android:textSize="@dimen/_12ssp"
+                android:clickable="false"
+                android:layout_gravity="center"
+                android:text="@string/upload_photos"
+                android:drawableRight="@drawable/upload"
+                android:padding="@dimen/_8sdp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_margin="@dimen/_3sdp"
+                android:layout_height="wrap_content"
+                android:id="@+id/rvSelectedImages"/>
+
+            <TextView
+                android:id="@+id/tvAvailableImages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Added Images"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:visibility="gone"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_2sdp"
+                android:id="@+id/rvAvailableImages"/>
+
+            <Button
+                android:id="@+id/buttonContact"
+                style="@style/buttons_login_signup"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:padding="@dimen/_5sdp"
+                android:text="Upload" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

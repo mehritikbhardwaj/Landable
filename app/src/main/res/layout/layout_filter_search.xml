@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+      <TextView
+          style="@style/filterTextSearchUI"
+          android:text="@string/property_category" />
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/rvCategory"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+      <TextView
+          style="@style/filterTextSearchUI"
+          android:text="@string/property_type" />
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/rvPropertyType"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+      <TextView
+          style="@style/filterTextSearchUI"
+          android:text="@string/sale_type" />
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/rvSaleType"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+      <TextView
+          style="@style/filterTextSearchUI"
+          android:text="@string/possession_status" />
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/rvPossessionStatus"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+      <TextView
+          style="@style/filterTextSearchUI"
+          android:text="@string/bhk" />
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/rvBHK"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+      <TextView
+          style="@style/filterTextSearchUI"
+          android:text="@string/bathroom" />
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/rvBathroom"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+      <TextView
+          style="@style/filterTextSearchUI"
+          android:text="@string/balcony" />
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/rvBalconey"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+
+      <TextView
+          style="@style/filterTextSearchUI"
+          android:text="@string/furnished_type" />
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/rvFurnishedType"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+      <TextView
+          style="@style/filterTextSearchUI"
+          android:text="@string/parking" />
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/rvParking"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+      <TextView
+          style="@style/filterTextSearchUI"
+          android:text="@string/amenities" />
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/rvAmenities"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+
+  </LinearLayout>
+</layout>

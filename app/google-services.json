@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "888203433603",
+    "project_id": "landable-push",
+    "storage_bucket": "landable-push.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888203433603:android:f8b2ff44bef5611c016db6",
+        "android_client_info": {
+          "package_name": "com.landable.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "888203433603-kta9dqvbtb8ieg47r7l9jd11i41p11eo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.landable.app",
+            "certificate_hash": "0aab18d7c8683da1c8e3d1b644e5d656ca82fcfc"
+          }
+        },
+        {
+          "client_id": "888203433603-ohs80o94cqdrnqhtlsbj645i3v3v0o76.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUoxLUJNgFJQh6krMN-zN2NjdAMVZm9j4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "888203433603-ohs80o94cqdrnqhtlsbj645i3v3v0o76.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

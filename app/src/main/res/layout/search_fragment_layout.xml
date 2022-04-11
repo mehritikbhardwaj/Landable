@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+
+        <TextView
+            style="@style/filterTextSearchUI"
+            android:text="@string/property_category" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/filterTextSearchUI"
+            android:text="@string/property_type" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPropertyType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/filterTextSearchUI"
+            android:text="@string/bhk" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBHK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:layout_centerVertical="true"
+                android:text="Price Range" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                app:boxStrokeColor="@color/outline_colour"
+                app:endIconTint="@color/outline_colour">
+
+                <!-- Inside text input layout add
+                      an auto complete text view
+                        and make its input type to none-->
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextViewForPriceValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:padding="@dimen/_1sdp"
+                    android:text="@string/select_price"
+                    android:textSize="@dimen/_10ssp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
+
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/priceRangeSeekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="1.0"
+            android:valueTo="100.0"
+            android:stepSize="1.0"
+            app:values="@array/priceRangeSliderValues"/>
+        <TextView
+            style="@style/filterTextSearchUI"
+            android:text="@string/sale_type" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSaleType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/filterTextSearchUI"
+            android:text="@string/possession_status" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPossessionStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/filterTextSearchUI"
+            android:text="Furnish Type" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFurnishedType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            style="@style/filterTextSearchUI"
+            android:text="@string/bathroom" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBathroom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/filterTextSearchUI"
+            android:text="@string/balcony" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBalcony"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/filterTextSearchUI"
+            android:text="@string/parking" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvParking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/filterTextSearchUI"
+            android:text="@string/amenities" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAmenities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:layout_centerVertical="true"
+                android:text="Built Up Area(Sq.Ft.)" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                app:boxStrokeColor="@color/outline_colour"
+                app:endIconTint="@color/outline_colour">
+
+                <!-- Inside text input layout add
+                      an auto complete text view
+                        and make its input type to none-->
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextViewForUnit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:padding="@dimen/_1sdp"
+                    android:text="@string/select_unit"
+                    android:textSize="@dimen/_10ssp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </RelativeLayout>
+
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/areaRangeSeekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="100.0"
+            android:valueTo="10000.0"
+            android:stepSize="10.0"
+            app:values="@array/areaRangeSliderValues"/>
+
+        <TextView
+            style="@style/filterTextSearchUI"
+            android:text="Posted Since" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPostedSince"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            style="@style/filterTextSearchUI"
+            android:text="@string/floor" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFloor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/buttonSearch"
+            style="@style/buttons_login_signup"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:padding="@dimen/_7sdp"
+            android:text="Search" />
+
+        <Button
+            android:id="@+id/buttonClearFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:padding="2dp"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/grey"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:textSize="@dimen/_10ssp"
+            android:text="Clear Filters" />
+    </LinearLayout>
+
+</ScrollView>

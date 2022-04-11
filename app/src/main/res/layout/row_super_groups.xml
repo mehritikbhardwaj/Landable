@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/llChatBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:background="@drawable/super_groups_row_outerline"
+        android:elevation="@dimen/_5sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:weightSum="1">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivImage"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/house"
+                    android:layout_marginLeft="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="0.2"
+                    app:civ_border_color="@color/grey"
+                    app:civ_border_width="1dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_1sdp"
+                    android:layout_weight="0.8"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="2"
+                        android:text="Hritik"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <TextView
+                        android:id="@+id/tvDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="Hritik"
+                        android:maxLines="2"
+                        android:padding="@dimen/_3sdp"
+                        android:textSize="@dimen/_10ssp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvCategoryName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:background="@drawable/free_home_page_bg"
+                            android:backgroundTint="@color/colour_app"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:text="Hritik"
+                            android:paddingTop="@dimen/_2sdp"
+                            android:paddingRight="@dimen/_10sdp"
+                            android:paddingBottom="@dimen/_2sdp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_8ssp" />
+
+                        <TextView
+                            android:id="@+id/tvSalesTypeName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:background="@drawable/free_home_page_bg"
+                            android:backgroundTint="@color/colour_app"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:text="Hritik"
+                            android:layout_marginLeft="@dimen/_2sdp"
+                            android:paddingTop="@dimen/_2sdp"
+                            android:paddingRight="@dimen/_10sdp"
+                            android:paddingBottom="@dimen/_2sdp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_8ssp" />
+
+
+                        <TextView
+                            android:id="@+id/tvPossessionName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:background="@drawable/free_home_page_bg"
+                            android:backgroundTint="@color/colour_app"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:text="Hritik"
+                            android:paddingTop="@dimen/_2sdp"
+                            android:paddingRight="@dimen/_10sdp"
+                            android:paddingBottom="@dimen/_2sdp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_8ssp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/_12sdp"
+                            android:layout_height="@dimen/_12sdp"
+                            android:layout_gravity="center"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/graymarker"
+                            app:tint="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tvAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:maxLength="40"
+                            android:maxLines="1"
+                            android:text="Hritik"
+                            android:textSize="@dimen/_8ssp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:id="@+id/tvSubCategoryName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:background="@drawable/property_background"
+                            android:backgroundTint="#EDDD58"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:text="Hritik"
+                            android:paddingTop="@dimen/_2sdp"
+                            android:paddingRight="@dimen/_10sdp"
+                            android:paddingBottom="@dimen/_2sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_8ssp" />
+
+                        <TextView
+                            android:id="@+id/tvArbitrage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:background="@drawable/property_background"
+                            android:backgroundTint="@color/green"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:layout_marginLeft="@dimen/_2sdp"
+                            android:text="Hritik"
+                            android:paddingTop="@dimen/_2sdp"
+                            android:paddingRight="@dimen/_10sdp"
+                            android:paddingBottom="@dimen/_2sdp"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_8ssp" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <View
+                style="@style/viewLine"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="4"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/featureOuterLayoutStyle">
+
+                    <ImageView
+                        style="@style/featuresOfPropertyImageStyle"
+                        android:src="@drawable/comments_dollar"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvComment"
+                        style="@style/tenSspTextBoldStyle"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:textStyle="normal"
+                        android:textSize="@dimen/_8ssp"
+                        android:text="1 Comment" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/featureOuterLayoutStyle">
+
+                    <ImageView
+                        style="@style/featuresOfPropertyImageStyle"
+                        android:src="@drawable/eye" />
+
+                    <TextView
+                        android:id="@+id/tvViews"
+                        style="@style/tenSspTextBoldStyle"
+                        android:textSize="@dimen/_8ssp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:textStyle="normal"
+                        android:text="1 Views" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/featureOuterLayoutStyle">
+
+                    <ImageView
+                        style="@style/featuresOfPropertyImageStyle"
+                        android:src="@drawable/clock" />
+
+                    <TextView
+                        android:id="@+id/tvTime"
+                        style="@style/tenSspTextBoldStyle"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:textStyle="normal"
+                        android:textSize="@dimen/_8ssp"
+                        android:text="250sq.ft" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:background="@drawable/property_background"
+                    android:padding="@dimen/_2sdp"
+                    android:backgroundTint="@color/colour_app"
+                    android:layout_margin="@dimen/_2sdp"
+                    style="@style/featureOuterLayoutStyle">
+
+                        <ImageView
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="center"
+                            android:padding="@dimen/_2sdp"
+                            android:src="@drawable/chat_bubble"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            style="@style/tenSspTextBoldStyle"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:gravity="center"
+                            android:textSize="@dimen/_8ssp"
+                            android:text="Chat"
+                            android:textColor="@color/white"
+                            android:textStyle="normal" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</layout>

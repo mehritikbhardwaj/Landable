@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivProfileImage"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/user_circle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.47" />
+
+                <ImageView
+                    android:id="@+id/ivUpdateFace"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/pencil"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivProfileImage"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.596"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.87" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/llAgencyProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/textView_EditProfile"
+                    android:text="@string/agency_name" />
+
+                <EditText
+                    android:id="@+id/edAgencyName"
+                    style="@style/editText_EditProfile"
+                    android:hint="@string/agency_name" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/textView_EditProfile"
+                android:text="@string/contact_person_name" />
+
+            <EditText
+                android:id="@+id/contactPersonName"
+                style="@style/editText_EditProfile"
+                android:hint="@string/contact_person_name" />
+
+            <TextView
+                style="@style/textView_EditProfile"
+                android:text="@string/email" />
+
+            <EditText
+                android:id="@+id/email"
+                style="@style/editText_EditProfile"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
+
+            <TextView
+                style="@style/textView_EditProfile"
+                android:text="@string/mobile_number" />
+
+
+            <EditText
+                android:id="@+id/number"
+                style="@style/editText_EditProfile"
+                android:hint="@string/mobile_number"
+                android:inputType="phone" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                app:boxStrokeColor="@color/outline_colour"
+                app:endIconTint="@color/outline_colour">
+
+                <!-- Inside text input layout add
+                      an auto complete text view
+                        and make its input type to none-->
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextViewForState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:padding="@dimen/_8sdp"
+                    android:text="Select State"
+                    android:textSize="@dimen/_12ssp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                app:boxStrokeColor="@color/outline_colour"
+                app:endIconTint="@color/outline_colour">
+
+                <!-- Inside text input layout add
+                      an auto complete text view
+                        and make its input type to none-->
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextViewForCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:padding="@dimen/_8sdp"
+                    android:text="Select City"
+                    android:textSize="@dimen/_12ssp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/textView_EditProfile"
+                android:text="@string/address" />
+
+            <EditText
+                android:id="@+id/edAddress"
+                style="@style/editText_EditProfile"
+                android:hint="@string/address" />
+
+            <fragment android:id="@+id/googleMap"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_160sdp"
+                android:layout_marginTop="@dimen/_10sdp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="Latitude" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/outline_buttons"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:id="@+id/edLatitude"
+                            style="@style/editText_EditProfile"
+                            android:layout_width="match_parent"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:background="@color/white"
+                            android:inputType="numberDecimal"
+                            android:maxLines="1"
+                            android:padding="@dimen/_5sdp"
+                            android:textSize="@dimen/_12ssp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="Longitude" />
+
+                    <TextView
+                        android:id="@+id/edLongitude"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/outline_buttons"
+                        android:capitalize="sentences"
+                        android:inputType="numberDecimal"
+                        android:padding="@dimen/_8sdp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                style="@style/textView_EditProfile"
+                android:text="@string/description" />
+
+            <EditText
+                android:id="@+id/description"
+                style="@style/editText_EditProfile"
+                android:layout_height="@dimen/_40sdp"
+                android:gravity="start"
+                android:hint="@string/description"
+                android:maxLength="100" />
+
+            <Button
+                android:id="@+id/buttonUpdate"
+                style="@style/buttons_login_signup"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:padding="@dimen/_7sdp"
+                android:text="@string/update_profile" />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</layout>

@@ -1,0 +1,153 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.kapt'
+}
+
+android {
+
+    dataBinding {
+        enabled = true
+    }
+
+    compileSdkVersion 31
+    buildToolsVersion '31.0.0'
+
+    defaultConfig {
+        applicationId "com.landable.app"
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.0.2"
+        multiDexEnabled true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+
+    signingConfigs {
+        release {
+            keyAlias 'landable'
+            keyPassword 'landable@2022'
+            storePassword 'landable@2022'
+            storeFile file('landable.jks')
+        }
+    }
+
+    flavorDimensions "tier"
+
+    productFlavors {
+        prod {
+            signingConfig signingConfigs.release
+            versionCode 11
+            versionName "1.0.10"
+            applicationId "com.landable.app"
+            dimension "tier"
+            buildConfigField "String", "BASE_URL", "\"https://api.landable.in/api/v1/\""
+        }
+
+        dev {
+            signingConfig signingConfigs.debug
+            versionCode 11
+            versionName "1.0.10"
+            applicationId "com.landable.app"
+            dimension "tier"
+            buildConfigField "String", "BASE_URL", "\"https://api.landable.in/api/v1/\""
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    kapt {
+        useBuildCache = false
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.0.2'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation platform('com.google.firebase:firebase-bom:29.2.1')
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+    // Saved state module for ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+
+    // retrofit for API calling
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+
+    //GSON converter
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // Manage size
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.intuit.ssp:ssp-android:1.0.6'
+
+    //kapt 'groupId:artifactId:1.5.21'
+
+    implementation 'com.android.support:multidex:1.0.3'
+
+    //for Kodein (kotlin dependency injection)
+    implementation 'org.kodein.di:kodein-di-generic-jvm:6.3.0'
+    implementation 'org.kodein.di:kodein-di-framework-android-x:6.3.0'
+
+    // For developers using AndroidX in their applications
+    implementation 'pub.devrel:easypermissions:3.0.0'
+
+    //circular image view
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //for image loading
+    implementation("io.coil-kt:coil:1.4.0")
+
+    implementation 'com.google.android.material:material:1.5.0'
+
+    // for google map
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+
+    implementation 'com.google.maps.android:android-maps-utils:0.4+'
+
+
+    // Glide for download images and display them
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    kapt "com.github.bumptech.glide:compiler:4.12.0"
+}

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="ProfileOtpViewModel"
+            type="com.landable.app.ui.home.profile.ProfileViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/llProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/navigation_profile_bg"
+            android:orientation="horizontal"
+            android:padding="@dimen/_15sdp"
+            android:weightSum="1">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circleImageView"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_2sdp"
+                android:layout_weight="0.95"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    android:id="@+id/tvCustomerType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10ssp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:onClick="@{ProfileOtpViewModel::onEditProfileClick}"
+                    style="@style/llSideNavigationStyle"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <ImageView
+                        style="@style/myProfileImageView"
+                        android:src="@drawable/edit"
+                        app:tint="@color/colour_app" />
+
+                    <TextView
+                        style="@style/myProfileTextView"
+                        android:text="@string/edit_profile" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llAgents"
+                    android:onClick="@{ProfileOtpViewModel::onAgentClick}"
+                    style="@style/llSideNavigationStyle"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <ImageView
+                        style="@style/myProfileImageView"
+                        android:src="@drawable/people"
+                        app:tint="@color/colour_app" />
+
+                    <TextView
+                        style="@style/myProfileTextView"
+                        android:text="@string/agents" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:onClick="@{ProfileOtpViewModel::onShortURLClick}"
+                    style="@style/llSideNavigationStyle"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <ImageView
+                        style="@style/myProfileImageView"
+                        android:src="@drawable/link" />
+
+                    <TextView
+                        style="@style/myProfileTextView"
+                        android:text="@string/short_url" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:onClick="@{ProfileOtpViewModel::onPostPropertyProjectClick}"
+                    style="@style/llSideNavigationStyle"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <ImageView
+                        style="@style/myProfileImageView"
+                        android:src="@drawable/plus" />
+
+                    <TextView
+                        android:id="@+id/tvPostProperty"
+                        style="@style/myProfileTextView"
+                        android:text="@string/post_project_property" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:onClick="@{ProfileOtpViewModel::onMyListingClick}"
+                    style="@style/llSideNavigationStyle"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <ImageView
+                        style="@style/myProfileImageView"
+                        android:src="@drawable/building" />
+
+                    <TextView
+                        style="@style/myProfileTextView"
+                        android:text="My Listings" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:onClick="@{ProfileOtpViewModel::onLeadsClick}"
+                    style="@style/llSideNavigationStyle"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <ImageView
+                        style="@style/myProfileImageView"
+                        android:src="@drawable/user_cog" />
+
+                    <TextView
+                        style="@style/myProfileTextView"
+                        android:text="@string/leads" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:onClick="@{ProfileOtpViewModel::onFavoritesClick}"
+                    style="@style/llSideNavigationStyle"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <ImageView
+                        style="@style/myProfileImageView"
+                        android:src="@drawable/heart"/>
+
+                    <TextView
+                        style="@style/myProfileTextView"
+                        android:text="@string/my_favourites" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:onClick="@{ProfileOtpViewModel::onActivityClick}"
+                    style="@style/llSideNavigationStyle"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <ImageView
+                        style="@style/myProfileImageView"
+                        android:src="@drawable/clock"
+                        app:tint="@color/colour_app" />
+
+                    <TextView
+                        style="@style/myProfileTextView"
+                        android:text="@string/my_activity" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:onClick="@{ProfileOtpViewModel::onSavedSearchesClick}"
+                    style="@style/llSideNavigationStyle"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <ImageView
+                        style="@style/myProfileImageView"
+                        android:src="@drawable/save_result"
+                        app:tint="@color/colour_app" />
+
+                    <TextView
+                        style="@style/myProfileTextView"
+                        android:text="@string/saved_searches" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:onClick="@{ProfileOtpViewModel::onChangePasswordClick}"
+                    style="@style/llSideNavigationStyle"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <ImageView
+                        style="@style/myProfileImageView"
+                        android:src="@drawable/key" />
+
+                    <TextView
+                        style="@style/myProfileTextView"
+                        android:text="@string/change_password" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:onClick="@{ProfileOtpViewModel::onLogoutClick}"
+                    style="@style/llSideNavigationStyle">
+
+                    <ImageView
+                        style="@style/myProfileImageView"
+                        android:src="@drawable/power_off" />
+
+                    <TextView
+                        style="@style/myProfileTextView"
+                        android:text="@string/log_out" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+
+
+    </LinearLayout>
+
+
+</layout>

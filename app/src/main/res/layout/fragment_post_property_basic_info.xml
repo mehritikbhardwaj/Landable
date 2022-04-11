@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/llPostPropertyLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <ImageView
+                    style="@style/postPropertyCircleIcon"
+                    app:tint="@color/colour_app" />
+
+                <View
+                    style="@style/postPropertyProgressView"
+                    android:layout_weight="2"
+                    android:backgroundTint="@color/colour_app" />
+
+                <ImageView style="@style/postPropertyCircleIcon" />
+
+                <View
+                    style="@style/postPropertyProgressView"
+                    android:layout_weight="2" />
+
+                <ImageView style="@style/postPropertyCircleIcon" />
+
+                <View
+                    style="@style/postPropertyProgressView"
+                    android:layout_weight="2" />
+
+                <ImageView style="@style/postPropertyCircleIcon" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="9">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="Basic Info"
+                    android:textColor="@color/colour_app"
+                    android:textSize="@dimen/_8ssp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="@string/location"
+                    android:textSize="@dimen/_8ssp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="Photos"
+                    android:textSize="@dimen/_8ssp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="Additional Details"
+                    android:textSize="@dimen/_8ssp" />
+
+            </LinearLayout>
+
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/property_category" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/property_type" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPropertyType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/sale_type" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSaleType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/possession_status" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPossessionStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:layout_marginBottom="0dp"
+                android:text="@string/title" />
+
+            <EditText
+                android:id="@+id/edTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="@string/unit" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        app:boxStrokeColor="@color/outline_colour"
+                        app:endIconTint="@color/outline_colour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <!-- Inside text input layout add
+                              an auto complete text view
+                                and make its input type to none-->
+                        <AutoCompleteTextView
+                            android:id="@+id/autoCompleteTextViewForUnit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:text="@string/select_unit"
+                            android:textSize="@dimen/_10ssp"
+                            android:padding="@dimen/_6sdp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="@string/total_area" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/outline_buttons"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:padding="@dimen/_3sdp"
+                        android:weightSum="1">
+
+                        <EditText
+                            android:id="@+id/edTotalArea"
+                            style="@style/editText_EditProfile"
+                            android:layout_width="0dp"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:layout_weight="0.6"
+                            android:background="@color/white"
+                            android:inputType="numberDecimal"
+                            android:padding="@dimen/_3sdp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:layout_weight="0.4"
+                            android:background="@drawable/size_flat_box_bg"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/tvAreaUnit"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_1sdp"
+                                android:textSize="@dimen/_8ssp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="@string/builtup_area" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/outline_buttons"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <EditText
+                            android:id="@+id/buildUpArea"
+                            style="@style/editText_EditProfile"
+                            android:layout_width="0dp"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:layout_weight="0.7"
+                            android:background="@color/white"
+                            android:inputType="numberDecimal"
+                            android:padding="@dimen/_3sdp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:layout_weight="0.3"
+                            android:background="@drawable/size_flat_box_bg"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/tvBuiltUpAreaUnit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_margin="@dimen/_1sdp"
+                                android:textSize="@dimen/_8ssp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="@string/carpet_area" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/outline_buttons"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <EditText
+                            android:id="@+id/carpetArea"
+                            style="@style/editText_EditProfile"
+                            android:layout_width="0dp"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:layout_weight="0.7"
+                            android:background="@color/white"
+                            android:inputType="numberDecimal"
+                            android:padding="@dimen/_3sdp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:layout_weight="0.3"
+                            android:background="@drawable/size_flat_box_bg"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/tvCarpetAreaUnit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_1sdp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:textSize="@dimen/_8ssp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/available_from" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    app:boxStrokeColor="@color/outline_colour"
+                    app:endIconTint="@color/outline_colour"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <!-- Inside text input layout add
+                          an auto complete text view
+                            and make its input type to none-->
+                    <AutoCompleteTextView
+                        android:id="@+id/autoCompleteTextViewForMonth"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:text="Select Month"
+                        android:textSize="@dimen/_10ssp"
+                        android:padding="@dimen/_6sdp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    app:boxStrokeColor="@color/outline_colour"
+                    app:endIconTint="@color/outline_colour"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <!-- Inside text input layout add
+                          an auto complete text view
+                            and make its input type to none-->
+                    <AutoCompleteTextView
+                        android:id="@+id/autoCompleteTextViewForYear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:text="Select Year"
+                        android:textSize="@dimen/_10ssp"
+                        android:padding="@dimen/_6sdp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/built_year" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                app:boxStrokeColor="@color/outline_colour"
+                app:endIconTint="@color/outline_colour"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_height="wrap_content">
+
+                <!-- Inside text input layout add
+                      an auto complete text view
+                        and make its input type to none-->
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextViewForBuiltYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:text="Select Year"
+                    android:textSize="@dimen/_10ssp"
+                    android:padding="@dimen/_6sdp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/beds" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                app:boxStrokeColor="@color/outline_colour"
+                app:endIconTint="@color/outline_colour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Inside text input layout add
+                      an auto complete text view
+                        and make its input type to none-->
+                <AutoCompleteTextView
+                    android:id="@+id/spinnerBeds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:text="Select Beds"
+                    android:textSize="@dimen/_10ssp"
+                    android:padding="@dimen/_6sdp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="@string/floor" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/outline_buttons"
+                        android:weightSum="1">
+
+                        <EditText
+                            android:id="@+id/tvFloor"
+                            style="@style/editText_EditProfile"
+                            android:layout_width="match_parent"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:background="@color/white"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:maxLines="1"
+                            android:padding="@dimen/_5sdp"
+                            android:textSize="@dimen/_12ssp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="@string/total_floor" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/outline_buttons"
+                        android:weightSum="1">
+
+                        <EditText
+                            android:id="@+id/tvTotalFloor"
+                            style="@style/editText_EditProfile"
+                            android:layout_width="match_parent"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:background="@color/white"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:maxLines="1"
+                            android:padding="@dimen/_5sdp"
+                            android:textSize="@dimen/_12ssp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/cost" />
+
+            <EditText
+                android:id="@+id/tvCOst"
+                style="@style/editText_EditProfile"
+                android:layout_width="match_parent"
+                android:inputType="numberDecimal"
+                android:padding="@dimen/_6sdp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/filterTextSearchUI"
+                    android:text="@string/address"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <EditText
+                android:id="@+id/edAddress"
+                style="@style/editText_EditProfile"
+                android:maxLength="100"
+                android:layout_width="match_parent"
+                android:inputType="textCapSentences"
+                android:padding="@dimen/_6sdp" />
+
+            <fragment android:id="@+id/googleMap"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_160sdp"
+                android:layout_marginTop="@dimen/_10sdp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="Latitude" />
+
+
+                        <TextView
+                            android:id="@+id/edLatitude"
+                            style="@style/editText_EditProfile"
+                            android:inputType="numberDecimal"
+                            android:clickable="false"
+                            android:layout_marginTop="0dp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="Longitude" />
+
+                    <TextView
+                        android:id="@+id/edLongitude"
+                        android:clickable="false"
+                        style="@style/editText_EditProfile"
+                        android:inputType="numberDecimal"
+                        android:layout_marginTop="0dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/description" />
+
+            <EditText
+                android:id="@+id/tvDescription"
+                style="@style/editText_EditProfile"
+                android:layout_height="@dimen/_100sdp"
+                android:gravity="start"
+                android:hint="@string/description"
+                android:inputType="textMultiLine"
+                android:maxLength="500"
+                android:maxLines="20" />
+
+            <Button
+                android:id="@+id/buttonContinue"
+                style="@style/buttons_login_signup"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:padding="@dimen/_7sdp"
+                android:text="Continue" />
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>

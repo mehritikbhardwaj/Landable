@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:scrollbars="none"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <ImageView
+                    style="@style/postPropertyCircleIcon"
+                    app:tint="@color/colour_app" />
+
+                <View
+                    style="@style/postPropertyProgressView"
+                    android:layout_weight="2"
+                    android:backgroundTint="@color/colour_app" />
+
+                <ImageView
+                    style="@style/postPropertyCircleIcon"
+                    app:tint="@color/colour_app" />
+
+                <View
+                    style="@style/postPropertyProgressView"
+                    android:layout_weight="2"
+                    android:backgroundTint="@color/colour_app" />
+
+                <ImageView
+                    style="@style/postPropertyCircleIcon"
+                    app:tint="@color/colour_app" />
+
+                <View
+                    style="@style/postPropertyProgressView"
+                    android:layout_weight="2"
+                    android:backgroundTint="@color/colour_app" />
+
+                <ImageView
+                    style="@style/postPropertyCircleIcon"
+                    app:tint="@color/colour_app" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llProgressName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llProgress"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="9">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="Basic Info"
+                    android:textColor="@color/colour_app"
+                    android:textSize="@dimen/_8ssp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="@string/location"
+                    android:textColor="@color/colour_app"
+                    android:textSize="@dimen/_8ssp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="Photos"
+                    android:textColor="@color/colour_app"
+                    android:textSize="@dimen/_8ssp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="Additional Details"
+                    android:textColor="@color/colour_app"
+                    android:textSize="@dimen/_8ssp" />
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/maintenance_charges_p_m" />
+
+            <EditText
+                android:inputType="numberDecimal"
+                android:id="@+id/edMaintenanceCharge"
+                style="@style/editText_EditProfile"
+                android:hint="@string/maintenance_charges_p_m" />
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/security_deposit" />
+
+            <EditText
+                android:id="@+id/securityDeposit"
+                android:inputType="numberDecimal"
+                style="@style/editText_EditProfile"
+                android:hint="@string/security_deposit" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="@string/bathroom" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:boxStrokeColor="@color/outline_colour"
+                        app:endIconTint="@color/outline_colour">
+
+                        <!-- Inside text input layout add
+                              an auto complete text view
+                                and make its input type to none-->
+                        <AutoCompleteTextView
+                            android:id="@+id/spinnerBathroom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:padding="@dimen/_6sdp"
+                            android:text="Select Bathroom"
+                            android:textSize="@dimen/_10ssp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="@string/balcony" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:boxStrokeColor="@color/outline_colour"
+                        app:endIconTint="@color/outline_colour">
+
+                        <!-- Inside text input layout add
+                              an auto complete text view
+                                and make its input type to none-->
+                        <AutoCompleteTextView
+                            android:id="@+id/spinnerBalconey"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:padding="@dimen/_6sdp"
+                            android:text="Select Balcony"
+                            android:textSize="@dimen/_10ssp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/parking" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="@color/outline_colour"
+                app:endIconTint="@color/outline_colour">
+
+                <!-- Inside text input layout add
+                      an auto complete text view
+                        and make its input type to none-->
+                <AutoCompleteTextView
+                    android:id="@+id/spinnerParking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:padding="@dimen/_8sdp"
+                    android:text="Select Parking"
+                    android:textSize="@dimen/_12ssp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/furnished_type" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="@color/outline_colour"
+                app:endIconTint="@color/outline_colour">
+
+                <!-- Inside text input layout add
+                      an auto complete text view
+                        and make its input type to none-->
+                <AutoCompleteTextView
+                    android:id="@+id/spinnerFurnished"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:padding="@dimen/_8sdp"
+                    android:text="Select Furnished Type"
+                    android:textSize="@dimen/_12ssp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/open_sides" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="@color/outline_colour"
+                app:endIconTint="@color/outline_colour">
+
+                <!-- Inside text input layout add
+                      an auto complete text view
+                        and make its input type to none-->
+                <AutoCompleteTextView
+                    android:id="@+id/spinnerOpenSides"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:padding="@dimen/_8sdp"
+                    android:text="Select Open Sides"
+                    android:textSize="@dimen/_12ssp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/available_floor" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxStrokeColor="@color/outline_colour"
+                app:endIconTint="@color/outline_colour">
+
+                <!-- Inside text input layout add
+                      an auto complete text view
+                        and make its input type to none-->
+                <AutoCompleteTextView
+                    android:id="@+id/spinnerFloors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:padding="@dimen/_8sdp"
+                    android:text="Select Available Floor"
+                    android:textSize="@dimen/_12ssp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/deposit_percentage" />
+
+            <EditText
+                android:id="@+id/edDepositPErcentage"
+                android:inputType="numberDecimal"
+                style="@style/editText_EditProfile"
+                android:hint="@string/deposit_percentage" />
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/pool_size" />
+
+            <EditText
+                android:id="@+id/poolSize"
+                android:inputType="numberDecimal"
+                style="@style/editText_EditProfile"
+                android:hint="@string/pool_size" />
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/additional_rooms" />
+
+            <EditText
+                android:id="@+id/edAdditionalRooms"
+                style="@style/editText_EditProfile"
+                android:hint="@string/additional_rooms" />
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/last_remodel_year" />
+
+            <EditText
+                android:id="@+id/edRemodelYear"
+                android:inputType="number"
+                style="@style/editText_EditProfile"
+                android:hint="@string/last_remodel_year" />
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/is_in_gated_colony" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                app:boxStrokeColor="@color/outline_colour"
+                app:endIconTint="@color/outline_colour">
+
+                <!-- Inside text input layout add
+                      an auto complete text view
+                        and make its input type to none-->
+                <AutoCompleteTextView
+                    android:id="@+id/isGatedCOlony"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:padding="@dimen/_8sdp"
+                    android:text="Is Gated Colony"
+                    android:textSize="@dimen/_12ssp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="Is cornered?" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                app:boxStrokeColor="@color/outline_colour"
+                app:endIconTint="@color/outline_colour">
+
+                <!-- Inside text input layout add
+                      an auto complete text view
+                        and make its input type to none-->
+                <AutoCompleteTextView
+                    android:id="@+id/isCornerd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:padding="@dimen/_8sdp"
+                    android:text="Is Cornered"
+                    android:textSize="@dimen/_12ssp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/amenities" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAmenities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <Button
+                android:id="@+id/buttonPost"
+                style="@style/buttons_login_signup"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:padding="@dimen/_7sdp"
+                android:text="@string/post" />
+        </LinearLayout>
+    </ScrollView>
+</layout>

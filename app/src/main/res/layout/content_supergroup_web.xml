@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+
+    <LinearLayout
+        android:id="@+id/topBr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@color/colour_app"
+            android:elevation="@dimen/_3sdp"
+            android:orientation="horizontal"
+            android:padding="@dimen/_5sdp">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="2dp"
+                android:elevation="@dimen/_5sdp"
+                android:src="@drawable/back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white" />
+
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="Add Post"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ivBack"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:orientation="vertical">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvArbitrage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <TextView
+                    style="@style/filterTextSearchUI"
+                    android:text="@string/property_category" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <TextView
+                    style="@style/filterTextSearchUI"
+                    android:text="@string/property_type" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPropertyType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    style="@style/filterTextSearchUI"
+                    android:text="@string/sale_type" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSaleType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    style="@style/filterTextSearchUI"
+                    android:text="@string/possession_status" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPossessionStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    style="@style/filterTextSearchUI"
+                    android:layout_marginBottom="0dp"
+                    android:text="@string/title" />
+
+                <EditText
+                    android:id="@+id/edTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapSentences"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
+
+
+                <TextView
+                    style="@style/filterTextSearchUI"
+                    android:text="@string/cost" />
+
+                <EditText
+                    android:id="@+id/tvCOst"
+                    style="@style/editText_EditProfile"
+                    android:layout_width="match_parent"
+                    android:inputType="numberDecimal"
+                    android:padding="@dimen/_6sdp" />
+
+                <TextView
+                    style="@style/filterTextSearchUI"
+                    android:text="@string/address" />
+
+                <EditText
+                    android:id="@+id/edAddress"
+                    style="@style/editText_EditProfile"
+                    android:maxLength="100"
+                    android:layout_width="match_parent"
+                    android:inputType="textCapSentences"
+                    android:padding="@dimen/_6sdp" />
+
+                <fragment android:id="@+id/googleMap"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_160sdp"
+                    android:layout_marginTop="@dimen/_10sdp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            style="@style/filterTextSearchUI"
+                            android:text="Latitude" />
+
+
+                        <TextView
+                            android:id="@+id/edLatitude"
+                            style="@style/editText_EditProfile"
+                            android:inputType="numberDecimal"
+                            android:clickable="false"
+                            android:layout_marginTop="0dp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/filterTextSearchUI"
+                            android:text="Longitude" />
+
+                        <TextView
+                            android:id="@+id/edLongitude"
+                            android:clickable="false"
+                            style="@style/editText_EditProfile"
+                            android:inputType="numberDecimal"
+                            android:layout_marginTop="0dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    style="@style/filterTextSearchUI"
+                    android:text="@string/description" />
+
+                <EditText
+                    android:id="@+id/tvDescription"
+                    style="@style/editText_EditProfile"
+                    android:layout_height="@dimen/_35sdp"
+                    android:gravity="start"
+                    android:hint="@string/description"
+                    android:inputType="textCapSentences"
+                    android:maxLength="100"
+                    android:maxLines="10" />
+
+                <Button
+                    android:id="@+id/buttonContinue"
+                    style="@style/buttons_login_signup"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:padding="@dimen/_7sdp"
+                    android:text="Submit" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+
+</layout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/llWhyLandable"
+                style="@style/whyLandableCategoriesLinearLayout"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/ivDetailsIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|top"
+                    android:src="@drawable/info" />
+
+                <ImageView
+                    android:id="@+id/ivIcon"
+                    android:layout_gravity="center"
+                    style="@style/homePageCategoriesImage"
+                    android:src="@drawable/house_user" />
+
+
+                <TextView
+                    android:id="@+id/tvText"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_gravity="center"
+                    style="@style/homePageCategoriesText"
+                    android:text="@string/registration_lookup" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+</layout>

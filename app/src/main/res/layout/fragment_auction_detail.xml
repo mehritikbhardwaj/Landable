@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/_15sdp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_weight="0.3"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/ivProfilePicture"
+                            android:layout_width="@dimen/_42sdp"
+                            android:layout_height="@dimen/_42sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/user_circle" />
+
+                        <TextView
+                            android:id="@+id/tvAuid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10ssp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_weight="0.7"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvAuctionName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <TextView
+                            android:id="@+id/tvBankName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:maxLines="1"
+                            android:textColor="@color/green"
+                            android:textSize="@dimen/_10ssp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:gravity="start"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/_12sdp"
+                                android:layout_height="@dimen/_12sdp"
+                                android:layout_gravity="center"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/graymarker" />
+
+                            <TextView
+                                android:id="@+id/tvLocation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:maxLength="40"
+                                android:maxLines="1"
+                                android:textSize="@dimen/_12ssp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/pricerow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/llProfile"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/tvPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.6"
+                        android:gravity="start"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <TextView
+                        android:id="@+id/tvStartDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.4"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10ssp" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view1"
+                    android:layout_below="@+id/pricerow"
+                    style="@style/viewLine" />
+
+                <TextView
+                    android:id="@+id/tvDescriptionHeading"
+                    android:layout_below="@+id/view1"
+                    style="@style/textView_EditProfile"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/description" />
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:maxLines="20"
+                    android:layout_below="@+id/tvDescriptionHeading"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:textSize="@dimen/_10ssp"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_below="@+id/tvDescription"
+                    style="@style/viewLine" />
+
+                <LinearLayout
+                    android:id="@+id/Contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:layout_below="@+id/view2">
+
+
+                    <Button
+                        android:id="@+id/share"
+                        style="@style/buttons_login_signup"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:layout_marginBottom="@dimen/_15sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:text="Share" />
+
+                    <Button
+                        android:id="@+id/buttonContact"
+                        android:layout_width="0dp"
+                        android:layout_weight="1.5"
+                        style="@style/buttons_login_signup"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:layout_marginBottom="@dimen/_15sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:text="@string/show_contact_details" />
+                </LinearLayout>
+
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_below="@+id/Contact"
+                    android:id="@+id/rvAdvertisements"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:id="@+id/view3"
+                    android:layout_below="@+id/rvAdvertisements"
+                    style="@style/viewLine" />
+
+                <TextView
+                    android:id="@+id/tvAuctionDetails"
+                    style="@style/textView_EditProfile"
+                    android:layout_below="@+id/view3"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/auction_details" />
+
+
+                <LinearLayout
+                    android:layout_below="@+id/tvAuctionDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        style="@style/auctionDetailsLayoutStyle">
+
+                        <TextView
+                            style="@style/auctionDetailsLeftSideStyle"
+                            android:text="Borrower Name :"/>
+
+                        <TextView
+                            android:id="@+id/tvBorrowerName"
+                            style="@style/auctionDetailsRightSideStyle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/auctionDetailsLayoutStyle">
+
+                        <TextView
+                            style="@style/auctionDetailsLeftSideStyle"
+                            android:text="Property Type :"/>
+
+                        <TextView
+                            android:id="@+id/tvPropertyTypeName"
+                            style="@style/auctionDetailsRightSideStyle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/possessionLayout"
+                        style="@style/auctionDetailsLayoutStyle">
+
+                        <TextView
+                            style="@style/auctionDetailsLeftSideStyle"
+                            android:text="Possession Status :"/>
+
+                        <TextView
+                            android:id="@+id/tvPossessionStatus"
+                            style="@style/auctionDetailsRightSideStyle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/actLayout"
+                        style="@style/auctionDetailsLayoutStyle">
+
+                        <TextView
+                            style="@style/auctionDetailsLeftSideStyle"
+                            android:text="Act :"/>
+
+                        <TextView
+                            android:id="@+id/tvAct"
+                            style="@style/auctionDetailsRightSideStyle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/auctionDetailsLayoutStyle">
+
+                        <TextView
+                            style="@style/auctionDetailsLeftSideStyle"
+                            android:text="Locality :"/>
+
+                        <TextView
+                            android:id="@+id/tvLocality"
+                            style="@style/auctionDetailsRightSideStyle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/auctionDetailsLayoutStyle">
+
+                        <TextView
+                            style="@style/auctionDetailsLeftSideStyle"
+                            android:text="City :"/>
+
+                        <TextView
+                            android:id="@+id/tvCityName"
+                            style="@style/auctionDetailsRightSideStyle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/auctionDetailsLayoutStyle">
+
+                        <TextView
+                            style="@style/auctionDetailsLeftSideStyle"
+                            android:text="Reserve Price :"/>
+
+                        <TextView
+                            android:id="@+id/tvReservePrice"
+                            style="@style/auctionDetailsRightSideStyle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/auctionDetailsLayoutStyle">
+
+                        <TextView
+                            style="@style/auctionDetailsLeftSideStyle"
+                            android:text="EMD Amount :"/>
+
+                        <TextView
+                            android:id="@+id/tvEMDAmount"
+                            style="@style/auctionDetailsRightSideStyle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/emdSubmission"
+                        style="@style/auctionDetailsLayoutStyle">
+
+                        <TextView
+                            style="@style/auctionDetailsLeftSideStyle"
+                            android:text="EMD Submission :"/>
+
+                        <TextView
+                            android:id="@+id/tvEMDSubmission"
+                            style="@style/auctionDetailsRightSideStyle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/auctionDetailsLayoutStyle">
+
+                        <TextView
+                            style="@style/auctionDetailsLeftSideStyle"
+                            android:text="Auction Start Date:"/>
+
+                        <TextView
+                            android:id="@+id/tvAuctionStart"
+                            style="@style/auctionDetailsRightSideStyle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tvAuctionEndDate"
+                        style="@style/auctionDetailsLayoutStyle">
+
+                        <TextView
+                            style="@style/auctionDetailsLeftSideStyle"
+                            android:text="Auction End Date:"/>
+
+                        <TextView
+                            android:id="@+id/tvAuctionEnd"
+                            style="@style/auctionDetailsRightSideStyle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/inspectionLayout"
+                        style="@style/auctionDetailsLayoutStyle">
+
+                        <TextView
+                            style="@style/auctionDetailsLeftSideStyle"
+                            android:text="Inspection Date:"/>
+
+                        <TextView
+                            android:id="@+id/tvInspectionDate"
+                            style="@style/auctionDetailsRightSideStyle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/auctionDetailsLayoutStyle">
+
+                        <TextView
+                            style="@style/auctionDetailsLeftSideStyle"
+                            android:text="Auction Website :"/>
+
+                        <TextView
+                            android:id="@+id/tvWebsite"
+                            android:textColor="@color/green"
+                            android:text="Go to Website"
+                            style="@style/auctionDetailsRightSideStyle"/>
+
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/tvDocuments"
+                        style="@style/textView_EditProfile"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="Documents" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvAuctionDocuments"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+
+    </ScrollView>
+</layout>

@@ -1,0 +1,242 @@
+<resources>
+    <string name="app_name">Landable</string>
+
+    <string-array name="priceRangeSliderValues">
+        <item>20.0</item>
+        <item>90.0</item>
+    </string-array>
+
+    <string-array name="areaRangeSliderValues">
+        <item>500.0</item>
+        <item>1000.0</item>
+    </string-array>
+
+    <string name="cameraPermissionString">Needs access to your camera so you can take pictures.</string>
+    <string name="writeFilePermissionString">Needs access to write file to your external directory.</string>
+    <string name="galleryPermissionString">Needs access to your gallery so you can select pictures.</string>
+
+    <string-array name="bedCountArray">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+    </string-array>
+
+
+    <!--Dialog texts-->
+    <string name="ok">Ok</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+
+    <!--splash text-->
+    <string name="we_land_you_with_trust_care">Intelligent Real Estate Platform</string>
+
+    <!--verify email fragment-->
+    <string name="verify_email">Verify Email</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="code_sent_text">Code is sent to</string>
+
+    <!--login page-->
+    <string name="login_page_header">"Let's sign you in"</string>
+    <string name="login_page_subHeader">Welcome back.</string>
+    <string name="login_page_subHeader_sec">"You've been missed!"</string>
+    <string name="login_button">Log In</string>
+    <string name="dont_have_account">"Don't have an account?"</string>
+    <string name="sign_up_text">Sign up</string>
+    <string name="forgot_password">Forgot Password?</string>
+
+    <string name="email_mobile_number">Email/Mobile Number</string>
+    <string name="password">Password</string>
+    <string name="facebook">Facebook</string>
+    <string name="google">Google</string>
+    <string name="skip">Skip</string>
+
+    <!--forgot password page-->
+    <string name="forgot_password_sub_header">Enter your registered email and we will send you a reset link.</string>
+    <string name="send_password">Send Password</string>
+
+    <!--bottom nav texts-->
+    <string name="home">Home</string>
+    <string name="activity">Activity</string>
+    <string name="shortlisted">Shortlisted</string>
+    <string name="profile">Profile</string>
+
+    <!--signup page-->
+    <string name="let_s_get_you_started">Let\'s get you started</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="already_have_an_account">Already have an account?</string>
+
+    <!--Navigation Texts-->
+    <string name="dashboard">Dashboard</string>
+    <string name="search_map">Search Map</string>
+    <string name="threads">Threads</string>
+    <string name="log_out">Log out</string>
+
+    <!--Home page texts-->
+    <string name="categories">Categories</string>
+    <string name="why_landable">Why Landable?</string>
+    <string name="search_here">Search here...</string>
+    <string name="reset_fragment_sub">Please enter new password</string>
+    <string name="submit">Submit</string>
+    <string name="change_password">Change Password</string>
+    <string name="total_clicked">Clicks :</string>
+    <string name="total_views">Views :</string>
+    <string name="super_groups">Supergroups</string>
+    <string name="auction">Auction</string>
+    <string name="data_analytics">Data analytics</string>
+    <string name="chat">Chat</string>
+    <string name="free_listing">Free Listing</string>
+
+    <!--Categories text-->
+    <string name="house_villa">House/Villa</string>
+    <string name="flat">Flat</string>
+    <string name="independent_floor">Independent Floor</string>
+    <string name="land_amp_building"><![CDATA[Land & building]]></string>
+    <string name="duplex">Duplex</string>
+
+    <!--Why landable text-->
+    <string name="registration_lookup">Registration Lookup</string>
+    <string name="real_estate_analytics">Real-Estate Analytics</string>
+    <string name="for_sale">For Sale</string>
+    <string name="agents">Agents</string>
+    <string name="short_url">Short Urls</string>
+    <string name="post_project_property">Post Project/Property</string>
+    <string name="posted_projects_properties">Posted Projects/Properties</string>
+    <string name="leads">Leads</string>
+    <string name="blog">Blog</string>
+    <string name="news">News</string>
+    <string name="i_am_looking_for_4">I am looking for 4 BHK flat in delhi price range should be 30-40 lakh</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="my_favourites">My Favourites</string>
+    <string name="my_activity">My Activity</string>
+    <string name="saved_searches">Saved Searches</string>
+    <string name="buy_rent">Buy/Rent</string>
+    <string name="search_property">Search Property</string>
+    <string name="auctions">Auctions</string>
+    <string name="search_posts">Search Posts</string>
+    <string name="my_posts">My posts</string>
+    <string name="due_diligence">Due Diligence</string>
+    <string name="property_registration_lookup">Property Registration Lookup</string>
+    <string name="analyse_trends">Analyse Trends</string>
+    <string name="smart_updates">Smart Updates</string>
+    <string name="notifications">Notifications</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="featured">Featured</string>
+    <string name="easy_link">Easy Link</string>
+    <string name="walk_score">Walk Score</string>
+    <string name="property_strength">Property Strength :</string>
+    <string name="distance_from_your_location">Distance from your location</string>
+    <string name="add_location">+ ADD LOCATION</string>
+    <string name="owner">Owner</string>
+    <string name="verified_owner">Verified Owner</string>
+    <string name="possession_status">Possession Status</string>
+    <string name="property_details">Property details</string>
+    <string name="read_more">Read More</string>
+    <string name="amenities">Amenities</string>
+    <string name="wifi">Wifi</string>
+    <string name="_24x7_camera">24x7 Camera</string>
+    <string name="location">Location</string>
+    <string name="add_review">Add Review</string>
+    <string name="leads_">Leads :</string>
+    <string name="similar_properties">Similar Properties</string>
+    <string name="_2_bhk_flat_for_sale_in_akshardham">2 BHK Flat for sale in akshardham</string>
+    <string name="similar_projects">Similar Projects</string>
+    <string name="description">Description</string>
+    <string name="a_land_is_a_beworld_them">A land is a beru beautigful plce anyone can travel from a world to another world it means ,. a lot for the people who are leaving in them</string>
+    <string name="expiration_date">Expiration Date :</string>
+    <string name="posted_date">Posted Date :</string>
+    <string name="add_property">Add Property</string>
+    <string name="favourites">Favourites</string>
+    <string name="featured_properties">Featured Properties</string>
+    <string name="project_details">Project Details</string>
+    <string name="featured_projects">Featured Projects</string>
+    <string name="year_built">Year Built :</string>
+    <string name="additional_rooms">Additional Rooms :</string>
+    <string name="agency_name">Agency Name</string>
+    <string name="contact_person_name">Contact Person Name</string>
+    <string name="address">Address</string>
+    <string name="update_profile">Update Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="property_category">Property Category</string>
+    <string name="property_type">Property Type</string>
+    <string name="sale_type">Sale type</string>
+    <string name="title">Title</string>
+    <string name="unit">Unit</string>
+    <string name="total_area">Total Area</string>
+    <string name="builtup_area">BuiltUp Area</string>
+    <string name="carpet_area">Carpet Area</string>
+    <string name="available_from">Available from</string>
+    <string name="built_year">Built Year</string>
+    <string name="beds">Beds</string>
+    <string name="floor">Floor</string>
+    <string name="total_floor">Total Floor</string>
+    <string name="cost">Cost</string>
+    <string name="rera_verified">Rera verified</string>
+    <string name="landmark">Landmark</string>
+    <string name="launch_date">Launch Date</string>
+    <string name="possession_date">Possession Date</string>
+    <string name="total_units">Total Units</string>
+    <string name="total_towers">Total Towers</string>
+    <string name="rera_registration_id">RERA Registration ID</string>
+    <string name="bhk">BHK</string>
+    <string name="bathroom">Bathroom</string>
+    <string name="balcony">Balcony</string>
+    <string name="furnished_type">Furnished Type</string>
+    <string name="parking">Parking</string>
+    <string name="keyword_or_location">Keyword or Location</string>
+    <string name="select_state">Select State</string>
+    <string name="view_map">View map</string>
+    <string name="share_property">Share Property</string>
+    <string name="show_contact_details">Show Contact Details</string>
+    <string name="auction_details">Auction Details</string>
+    <string name="select_unit">Select Unit</string>
+    <string name="upload_photos">Upload Photos</string>
+    <string name="share_subject">Share</string>
+    <string name="action_bookmark">Bookmark</string>
+    <string name="action_back">Back</string>
+    <string name="action_forward">Forward</string>
+    <string name="property_sizes">Property Sizes :</string>
+    <string name="unit_type">Unit Type</string>
+    <string name="unit_size">Unit Size</string>
+    <string name="price">Price</string>
+    <string name="unit_image">Unit Image</string>
+    <string name="no_reviews_yet">No reviews yet!</string>
+    <string name="maintenance_charges_p_m">Maintenance Charges (p/m)</string>
+    <string name="security_deposit">Security Deposit</string>
+    <string name="open_sides">Open Sides</string>
+    <string name="available_floor">Available Floor</string>
+    <string name="deposit_percentage">Deposit Percentage</string>
+    <string name="pool_size">Pool Size</string>
+    <string name="last_remodel_year">Last Remodel Year</string>
+    <string name="is_in_gated_colony">Is in gated colony?</string>
+    <string name="post">Post</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="borrower_name">Borrower Name</string>
+    <string name="select_price">Select Price</string>
+    <string name="status">Status</string>
+    <string name="Rs">\u20B9</string>
+    <string name="save">Save</string>
+    <string name="redirect_to">Redirect To</string>
+    <string name="url_name">Url Name</string>
+    <string name="base_url">Base Url</string>
+    <string name="date">DD-MM-YYYY</string>
+    <string name="rera">Rera</string>
+    <string name="add_agent">Add Agent</string>
+    <string name="unit_price">Unit Price</string>
+
+</resources>

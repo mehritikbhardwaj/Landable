@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="NavigationViewModel"
+            type="com.landable.app.ui.home.navigation.NavigationViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/appVersion"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:onClick="@{NavigationViewModel::onProfileCLick}"
+                    android:id="@+id/llProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/navigation_profile_bg"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_15sdp"
+                    android:weightSum="1">
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profilePicture"
+                        android:layout_width="@dimen/_42sdp"
+                        android:layout_height="@dimen/_42sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:src="@drawable/user_circle"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/_2sdp"
+                        android:layout_weight="0.95"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <TextView
+                            android:id="@+id/tvCustomerType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10ssp" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.05"
+                        android:src="@drawable/chevron_right"
+                        app:tint="@color/black" />
+
+                </LinearLayout>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:onClick="@{NavigationViewModel::onDashboardClick}"
+                            style="@style/llSideNavigationStyle"
+                            android:layout_marginTop="@dimen/_5sdp">
+
+                            <ImageView
+                                style="@style/myProfileImageView"
+                                android:src="@drawable/colour_home" />
+
+                            <TextView
+                                style="@style/myProfileTextView"
+                                android:text="@string/dashboard" />
+                        </LinearLayout>
+
+
+                        <LinearLayout style="@style/llSideNavigationHeaderStyle">
+
+                            <TextView
+                                style="@style/llSideNavigationHeaderTextStyle"
+                                android:text="@string/buy_rent" />
+
+                            <View style="@style/llSideNavigationHeaderLineStyle" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:onClick="@{NavigationViewModel::onSearchPropertyClick}"
+                            style="@style/llSideNavigationStyle">
+
+                            <ImageView
+                                style="@style/myProfileImageView"
+                                android:src="@drawable/building" />
+
+                            <TextView
+                                style="@style/myProfileTextView"
+                                android:text="@string/search_property" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:background="@drawable/property_background"
+                                android:backgroundTint="@color/colour_app"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:paddingTop="@dimen/_2sdp"
+                                android:paddingRight="@dimen/_5sdp"
+                                android:paddingBottom="@dimen/_2sdp"
+                                android:text="2"
+                                android:textColor="@color/white"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:onClick="@{NavigationViewModel::onAuctionsClick}"
+                            style="@style/llSideNavigationStyle">
+
+                            <ImageView
+                                style="@style/myProfileImageView"
+                                android:src="@drawable/auction"
+                                app:tint="@color/colour_app" />
+
+                            <TextView
+                                style="@style/myProfileTextView"
+                                android:text="@string/auctions" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:background="@drawable/property_background"
+                                android:backgroundTint="@color/colour_app"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:paddingTop="@dimen/_2sdp"
+                                android:paddingRight="@dimen/_5sdp"
+                                android:paddingBottom="@dimen/_2sdp"
+                                android:text="2"
+                                android:textColor="@color/white"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:onClick="@{NavigationViewModel::onSearchMapClick}"
+                            style="@style/llSideNavigationStyle">
+
+                            <ImageView
+                                style="@style/myProfileImageView"
+                                android:src="@drawable/map_marked" />
+
+                            <TextView
+                                style="@style/myProfileTextView"
+                                android:text="@string/search_map" />
+                        </LinearLayout>
+
+
+                        <LinearLayout style="@style/llSideNavigationHeaderStyle">
+
+                            <TextView
+                                style="@style/llSideNavigationHeaderTextStyle"
+                                android:text="@string/super_groups" />
+
+                            <View style="@style/llSideNavigationHeaderLineStyle" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:onClick="@{NavigationViewModel::onSearchPostClick}"
+                            style="@style/llSideNavigationStyle">
+
+                            <ImageView
+                                style="@style/myProfileImageView"
+                                android:src="@drawable/search_grey"
+                                app:tint="@color/colour_app" />
+
+                            <TextView
+                                style="@style/myProfileTextView"
+                                android:text="@string/search_posts" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:background="@drawable/property_background"
+                                android:backgroundTint="@color/colour_app"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:paddingTop="@dimen/_2sdp"
+                                android:paddingRight="@dimen/_5sdp"
+                                android:paddingBottom="@dimen/_2sdp"
+                                android:text="2"
+                                android:textColor="@color/white"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:onClick="@{NavigationViewModel::onAddPosts}"
+                            style="@style/llSideNavigationStyle">
+
+                            <ImageView
+                                style="@style/myProfileImageView"
+                                android:src="@drawable/plus" />
+
+                            <TextView
+                                style="@style/myProfileTextView"
+                                android:text="Add Posts" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:onClick="@{NavigationViewModel::onMyPostsClick}"
+                            style="@style/llSideNavigationStyle">
+
+                            <ImageView
+                                style="@style/myProfileImageView"
+                                android:src="@drawable/signature" />
+
+                            <TextView
+                                style="@style/myProfileTextView"
+                                android:text="@string/my_posts" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:onClick="@{NavigationViewModel::onChatClick}"
+                            style="@style/llSideNavigationStyle">
+
+                            <ImageView
+                                style="@style/myProfileImageView"
+                                android:src="@drawable/chatboxes_color" />
+
+                            <TextView
+                                style="@style/myProfileTextView"
+                                android:text="@string/chat" />
+                        </LinearLayout>
+
+                        <LinearLayout style="@style/llSideNavigationHeaderStyle">
+
+                            <TextView
+                                style="@style/llSideNavigationHeaderTextStyle"
+                                android:text="@string/due_diligence" />
+
+                            <View style="@style/llSideNavigationHeaderLineStyle" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:onClick="@{NavigationViewModel::onPropertyRegistrationLookup}"
+                            style="@style/llSideNavigationStyle">
+
+                            <ImageView
+                                style="@style/myProfileImageView"
+                                android:src="@drawable/chart_bar" />
+
+                            <TextView
+                                style="@style/myProfileTextView"
+                                android:text="@string/property_registration_lookup" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:background="@drawable/property_background"
+                                android:backgroundTint="@color/colour_app"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:paddingTop="@dimen/_2sdp"
+                                android:paddingRight="@dimen/_5sdp"
+                                android:paddingBottom="@dimen/_2sdp"
+                                android:text="2"
+                                android:textColor="@color/white"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:onClick="@{NavigationViewModel::onAnalyzeTrendsClick}"
+                            style="@style/llSideNavigationStyle">
+
+                            <ImageView
+                                style="@style/myProfileImageView"
+                                android:src="@drawable/file" />
+
+                            <TextView
+                                style="@style/myProfileTextView"
+                                android:text="@string/analyse_trends" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:background="@drawable/property_background"
+                                android:backgroundTint="@color/colour_app"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:paddingTop="@dimen/_2sdp"
+                                android:paddingRight="@dimen/_5sdp"
+                                android:paddingBottom="@dimen/_2sdp"
+                                android:text="2"
+                                android:textColor="@color/white"
+                                android:visibility="gone" />
+
+                        </LinearLayout>
+
+                        <LinearLayout style="@style/llSideNavigationHeaderStyle">
+
+                            <TextView
+                                style="@style/llSideNavigationHeaderTextStyle"
+                                android:text="@string/smart_updates" />
+
+                            <View style="@style/llSideNavigationHeaderLineStyle" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:onClick="@{NavigationViewModel::onNewsClick}"
+                            style="@style/llSideNavigationStyle">
+
+                            <ImageView
+                                style="@style/myProfileImageView"
+                                android:src="@drawable/newspaper" />
+
+                            <TextView
+                                style="@style/myProfileTextView"
+                                android:text="@string/news" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:background="@drawable/property_background"
+                                android:backgroundTint="@color/colour_app"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:paddingTop="@dimen/_2sdp"
+                                android:paddingRight="@dimen/_5sdp"
+                                android:paddingBottom="@dimen/_2sdp"
+                                android:text="2"
+                                android:textColor="@color/white"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:onClick="@{NavigationViewModel::onBlogsClick}"
+                            style="@style/llSideNavigationStyle">
+
+                            <ImageView
+                                style="@style/myProfileImageView"
+                                android:src="@drawable/edit" />
+
+                            <TextView
+                                style="@style/myProfileTextView"
+                                android:text="@string/blog" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:background="@drawable/property_background"
+                                android:backgroundTint="@color/colour_app"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:paddingTop="@dimen/_2sdp"
+                                android:paddingRight="@dimen/_5sdp"
+                                android:paddingBottom="@dimen/_2sdp"
+                                android:text="2"
+                                android:textColor="@color/white"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:onClick="@{NavigationViewModel::onNotificationsClick}"
+                            style="@style/llSideNavigationStyle">
+
+                            <ImageView
+                                style="@style/myProfileImageView"
+                                android:src="@drawable/notification" />
+
+                            <TextView
+                                android:id="@+id/tvLogin"
+                                style="@style/myProfileTextView"
+                                android:text="@string/notifications" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:background="@drawable/property_background"
+                                android:backgroundTint="@color/colour_app"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:paddingTop="@dimen/_2sdp"
+                                android:paddingRight="@dimen/_5sdp"
+                                android:paddingBottom="@dimen/_2sdp"
+                                android:text="2"
+                                android:textColor="@color/white"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </ScrollView>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/appVersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:gravity="center"
+            android:text="App Version V 1.0.0"
+            android:textSize="@dimen/_8ssp" />
+    </RelativeLayout>
+</layout>

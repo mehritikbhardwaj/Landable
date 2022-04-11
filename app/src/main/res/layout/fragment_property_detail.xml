@@ -1,0 +1,1043 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--For top bar where the property image and share and
+                back button and favourites is there...-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivPropertyImage"
+                    style="@style/bannerImageView"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+                    <!--
+                                    <ImageView
+                                        android:id="@+id/ivBack"
+                                        style="@style/sideBackButton"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />-->
+
+                    <TextView
+                        android:id="@+id/tvPropertyName"
+                        style="@style/propertyOrProjectDetailNameHeading"
+                        android:layout_weight="0.95"
+                        app:layout_constraintStart_toEndOf="@+id/ivBack"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/ivShare"
+                        style="@style/sideNavigationIcon"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_weight="0.05"
+                        android:src="@drawable/share"
+                        app:layout_constraintStart_toEndOf="@+id/tvPropertyName"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    style="@style/forSaleOrFeaturedLayoutStyle"
+                    android:backgroundTint="@color/green"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivPropertyImage"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:id="@+id/tvSaleType"
+                        style="@style/forSaleOrFeaturedTextStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/forSaleOrFeaturedLayoutStyle"
+                    android:backgroundTint="@color/colour_app"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivPropertyImage"
+                    app:layout_constraintStart_toEndOf="@+id/linearLayout2">
+
+                    <TextView
+                        android:id="@+id/tvPossessionName"
+                        style="@style/forSaleOrFeaturedTextStyle" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/ivFavourite"
+                    style="@style/favoriteIcon"
+                    android:src="@drawable/heart_white"
+                    android:visibility="visible"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivPropertyImage"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivUnFavorite"
+                    style="@style/favoriteIcon"
+                    android:src="@drawable/heart"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivPropertyImage"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--this layout is for entire screen after property image-->
+            <LinearLayout style="@style/propertyDetailLayout">
+
+                <!--Property name with rating..-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/tvPropertyHeading"
+                        style="@style/propertyOrProjectNameTextStyle"
+                        android:layout_weight="0.98" />
+
+                    <LinearLayout
+                        style="@style/forSaleOrFeaturedLayoutStyle"
+                        android:backgroundTint="@color/green"
+                        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/tvRating"
+                            style="@style/forSaleOrFeaturedTextStyle"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:drawableLeft="@drawable/star"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--layout for location of property-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <ImageView style="@style/LocationIcon" />
+
+                    <TextView
+                        android:id="@+id/tvPropertyLocation"
+                        style="@style/locationTextStyle"
+                        android:layout_weight="0.9" />
+                </LinearLayout>
+
+                <!--layout for price and type of property-->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_2sdp">
+
+                    <TextView
+                        android:id="@+id/tvCategoryName"
+                        style="@style/propertyOrProjectTypeTextStyle"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvPrice"
+                        style="@style/propertyOrProjectTypeTextStyle"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View style="@style/viewLine" />
+
+                <!--layout for bedroom study room size count-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <LinearLayout style="@style/featureOuterLayoutStyle">
+
+
+                        <ImageView
+                            style="@style/featuresOfPropertyImageStyle"
+                            android:src="@drawable/bed" />
+
+                        <TextView
+                            android:id="@+id/tvBedroomCount"
+                            style="@style/tenSspTextBoldStyle"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:textStyle="normal" />
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/featureOuterLayoutStyle">
+
+
+                        <ImageView
+                            style="@style/featuresOfPropertyImageStyle"
+                            android:src="@drawable/shower" />
+
+                        <TextView
+                            android:id="@+id/tvBathroomCount"
+                            style="@style/tenSspTextBoldStyle"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:textStyle="normal" />
+
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/featureOuterLayoutStyle">
+
+
+                        <ImageView
+                            style="@style/featuresOfPropertyImageStyle"
+                            android:src="@drawable/polygon" />
+
+                        <TextView
+                            android:id="@+id/tvPropertyArea"
+                            style="@style/tenSspTextBoldStyle"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:textStyle="normal" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View style="@style/viewLine" />
+
+                <!--layout for walk score and easy link-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_weight="0.7"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <ImageView
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_weight="0.1"
+                                android:src="@drawable/graymarker"
+                                app:tint="@color/colour_app" />
+
+                            <TextView
+                                style="@style/tenSspTextBoldStyle"
+                                android:layout_weight="0.7"
+                                android:text="@string/walk_score" />
+
+                            <TextView
+                                android:id="@+id/walkStrength"
+                                style="@style/tenSspTextBoldStyle"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_weight="0.1"
+                                android:text="Very Walkable"
+                                android:textStyle="normal" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <ProgressBar
+                                android:id="@+id/progressWalkScore"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/_5sdp"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_weight="0.96"
+                                android:max="100"
+                                android:progress="50"
+                                android:progressDrawable="@drawable/custom_progress_bar" />
+
+                            <TextView
+                                android:id="@+id/walkscoretext"
+                                style="@style/tenSspTextBoldStyle"
+                                android:layout_weight="0.04"
+                                android:textStyle="normal" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llMoreFilters"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:background="@drawable/property_background"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_3sdp">
+
+                        <ImageView
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/link"
+                            app:tint="@color/colour_app" />
+
+                        <TextView
+                            style="@style/tenSspTextBoldStyle"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:gravity="center"
+                            android:text="@string/easy_link"
+                            android:textStyle="normal" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!--  <View style="@style/viewLine" />
+  -->
+                <!--layout for property strength-->
+                <LinearLayout
+                    android:id="@+id/llPropertyStrength"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/tenSspTextBoldStyle"
+                            android:text="@string/property_strength"
+                            android:textStyle="normal" />
+
+                        <TextView
+                            android:id="@+id/propertyStrength"
+                            style="@style/tenSspTextBoldStyle" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:orientation="horizontal"
+                        android:weightSum="3.3">
+
+                        <ProgressBar
+                            android:id="@+id/firstProgress"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:max="33"
+                            android:progressDrawable="@drawable/custom_progress_bar" />
+
+                        <ImageView
+                            android:id="@+id/firstProgressImage"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.15"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/check_circular"
+                            android:visibility="gone" />
+
+                        <ProgressBar
+                            android:id="@+id/secondProgress"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:max="33"
+                            android:progressDrawable="@drawable/custom_progress_bar" />
+
+                        <ImageView
+                            android:id="@+id/secondProgressImage"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.15"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/check_circular"
+                            android:visibility="gone" />
+
+                        <ProgressBar
+                            android:id="@+id/thirdProgress"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:max="33"
+                            android:progressDrawable="@drawable/custom_progress_bar" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--   <View style="@style/viewLine" />-->
+
+                <!--header for distance from your location-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/tenSspTextBoldStyle"
+                            android:layout_alignParentStart="true"
+                            android:text="@string/distance_from_your_location" />
+
+                        <TextView
+                            android:id="@+id/addLocation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="@string/add_location"
+                            android:textColor="@color/colour_app"
+                            android:textSize="@dimen/_8ssp" />
+
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <!--distance with data from home and office-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <View style="@style/viewLine" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/description"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:textSize="@dimen/_10ssp" />
+
+
+                <View style="@style/viewLine" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/owner"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
+
+
+                <!--layout for owner details and contact owner-->
+                <LinearLayout
+                    android:id="@+id/llProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0">
+
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/circleImageView"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/ivBadge"
+                            style="@style/verifiedOwnerBadgeImageStyle"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/circleImageView"
+                            app:tint="@color/colour_app" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llOwnerPRofile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_weight="0.8"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvOwnerName"
+                            style="@style/tenSspTextBoldStyle"
+                            android:layout_gravity="left"
+                            android:textStyle="normal" />
+
+                        <TextView
+                            android:id="@+id/customerType"
+                            style="@style/tenSspTextBoldStyle"
+                            android:layout_gravity="left"
+                            android:textStyle="normal" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llContactOwner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.1"
+                        android:background="@drawable/property_background"
+                        android:backgroundTint="@color/colour_app"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/_3sdp"
+                        android:paddingBottom="@dimen/_3sdp"
+                        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/tvContactOwner"
+                            style="@style/forSaleOrFeaturedTextStyle"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:maxLength="15"
+                            android:text="Contact Owner"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_8ssp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--verified owner layout-->
+                <LinearLayout
+                    android:id="@+id/isVerified"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/navigation_profile_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_5sdp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/superstar"
+                        app:tint="@color/green" />
+
+                    <TextView
+                        style="@style/tenSspTextBoldStyle"
+                        android:layout_marginLeft="@dimen/_2sdp"
+                        android:text="@string/verified_owner"
+                        android:textAllCaps="true"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/property_details"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
+
+                <!--layout for property id and property type column-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Property ID"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <TextView
+                            android:id="@+id/tvPropertyID"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Property Type"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <TextView
+                            android:id="@+id/tvPropertyType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--layout for price and possession status of property-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/price"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <TextView
+                            android:id="@+id/tvPropertyPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/possession_status"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <TextView
+                            android:id="@+id/tvPossession"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <!--   <LinearLayout
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:orientation="vertical">
+
+                           <TextView
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:text="@string/year_built"
+                               android:textSize="@dimen/_12ssp" />
+
+                           <TextView
+                               android:id="@+id/tvYearBuilt"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_marginTop="@dimen/_1sdp"
+                               android:textColor="@color/black"
+                               android:textSize="@dimen/_12ssp"
+                               android:textStyle="bold" />
+                       </LinearLayout>-->
+
+                    <LinearLayout
+                        android:id="@+id/llAdditional"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/additional_rooms"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <TextView
+                            android:id="@+id/tvAdditionalRooms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View style="@style/viewLine" />
+
+                <!--  <TextView
+                      android:id="@+id/tvDocuments"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="@dimen/_5sdp"
+                      android:text="Floor Plans, Link and Documents"
+                      android:textAllCaps="true"
+                      android:textColor="@color/black"
+                      android:textSize="@dimen/_12ssp" />-->
+
+                <LinearLayout
+                    android:id="@+id/llImages"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Image"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colour_app"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <TextView
+                        android:id="@+id/tvFloorPlan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FloorPlan"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <TextView
+                        android:id="@+id/tvDocument"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Document"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/_12ssp" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPropertyImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <View
+                    android:id="@+id/linewAfterImages"
+                    style="@style/viewLine" />
+
+
+                <TextView
+                    android:id="@+id/tvAmenities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/amenities"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvAmenities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <View style="@style/viewLine" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        style="@style/tenSspTextBoldStyle"
+                        android:layout_weight="0.4"
+                        android:text="@string/location" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:gravity="center"
+                        android:layout_gravity="right"
+                        android:orientation="horizontal"
+                        android:weightSum="0.6">
+
+                        <ImageView
+                            style="@style/LocationIcon"
+                            android:layout_weight="0.05" />
+
+                        <TextView
+                            android:id="@+id/tvLocation"
+                            style="@style/tenSspTextBoldStyle"
+                            android:layout_weight="0.5"
+                            android:maxLines="1"
+                            android:layout_width="wrap_content"
+                            android:textSize="@dimen/_8ssp"
+                            android:textStyle="normal" />
+
+                    </LinearLayout>
+
+                    <!--map view has to place here-->
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <fragment
+                        android:id="@+id/googleMap"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_250sdp"
+                        android:layout_marginTop="@dimen/_10sdp" />
+
+                    <ImageView
+                        android:id="@+id/viewOnMap"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:padding="@dimen/_8sdp"
+                        android:src="@drawable/google_maps" />
+
+                </RelativeLayout>
+
+
+                <View style="@style/viewLine" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvAdvertisements"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.9"
+                        android:text="reviews"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/_12ssp" />
+
+
+                    <LinearLayout
+                        android:id="@+id/postReview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.1"
+                        android:background="@drawable/property_background"
+                        android:backgroundTint="@color/colour_app"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingBottom="@dimen/_5sdp"
+                        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            style="@style/forSaleOrFeaturedTextStyle"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="@string/add_review"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_10ssp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llNoReviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/rating" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/no_reviews_yet"
+                        android:textSize="@dimen/_10ssp" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvReviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_5sdp" />
+
+                <TextView
+                    style="@style/tenSspTextBoldStyle"
+                    android:layout_gravity="left"
+                    android:text="@string/featured_properties" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvFeaturedProperties"
+                    style="@style/homePageRecyclerViewStyle"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@color/grey" />
+
+                <TextView
+                    style="@style/tenSspTextBoldStyle"
+                    android:layout_gravity="left"
+                    android:text="@string/similar_properties" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSimilarProperties"
+                    style="@style/homePageRecyclerViewStyle"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:background="@drawable/pattern" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</layout>

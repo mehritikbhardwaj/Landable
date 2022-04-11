@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="LoginViewModel"
+            type="com.landable.app.ui.home.login.LoginViewModel" />
+    </data>
+
+    <ScrollView
+        android:id="@+id/outerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.login.LoginFragment">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_24sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_24sdp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="end"
+                    android:onClick="@{LoginViewModel::onSkipTextClick}"
+                    android:text="@string/skip"
+                    android:textColor="@color/colour_app"
+                    android:textSize="@dimen/_14ssp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:gravity="end"
+                    android:onClick="@{LoginViewModel::onSkipButtonClick}"
+                    android:src="@drawable/arrow_right" />
+
+            </LinearLayout>
+
+
+            <TextView
+                style="@style/header"
+                android:text="@string/login_page_header" />
+
+            <TextView
+                style="@style/sub_header"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:text="@string/login_page_subHeader" />
+
+            <TextView
+                style="@style/sub_header_sec"
+                android:text="@string/login_page_subHeader_sec" />
+
+            <EditText
+                style="@style/editText_outline"
+                android:layout_marginTop="@dimen/_24sdp"
+                android:autofillHints="username"
+                android:cursorVisible="true"
+                android:hint="@string/email_mobile_number"
+                android:inputType="text"
+                android:maxLength="50"
+                android:maxLines="1"
+                android:text="@={LoginViewModel.username}" />
+
+            <EditText
+                style="@style/editText_outline"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:autofillHints="password"
+                android:cursorVisible="true"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:maxLength="16"
+                android:maxLines="1"
+                android:text="@={LoginViewModel.password}" />
+
+            <TextView
+                style="@style/sub_header"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:onClick="@{LoginViewModel::onForgotPasswordButtonClick}"
+                android:text="@string/forgot_password"
+                android:textAppearance="?android:textAppearanceMedium" />
+
+            <Button
+                style="@style/buttons_login_signup"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:onClick="@{LoginViewModel::onLoginButtonClick}"
+                android:padding="@dimen/_7sdp"
+                android:text="@string/login_button" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingRight="@dimen/_12sdp"
+                    android:text="Or"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/outline_colour" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/black" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/loginWithOTP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_2sdp"
+                android:layout_gravity="center"
+                android:textColor="@color/colour_app"
+                android:gravity="center"
+                android:text="Login with OTP"
+                android:textAppearance="?android:textAppearanceMedium" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingRight="@dimen/_12sdp"
+                    android:text="Or"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/outline_colour" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/black" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/outline_buttons"
+                    android:drawableLeft="@drawable/fb"
+                    android:gravity="center"
+                    android:onClick="@{LoginViewModel::onFacebookButtonClick}"
+                    android:padding="@dimen/_10sdp"
+                    android:text="@string/facebook"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/outline_buttons"
+                    android:drawableLeft="@drawable/google"
+                    android:gravity="center"
+                    android:onClick="@{LoginViewModel::onGoogleButtonClick}"
+                    android:padding="@dimen/_10sdp"
+                    android:text="@string/google"
+                    android:textAppearance="?android:textAppearanceMedium" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_2sdp"
+                    android:text="@string/dont_have_account"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/sign_up_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{LoginViewModel::onSignUpButtonClick}"
+                    android:padding="@dimen/_2sdp"
+                    android:text="@string/sign_up_text"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colour_app" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

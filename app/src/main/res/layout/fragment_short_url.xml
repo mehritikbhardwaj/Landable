@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_margin="@dimen/_10sdp"
+           android:orientation="vertical">
+
+
+           <TextView
+               style="@style/filterTextSearchUI"
+               android:text="@string/base_url" />
+
+
+           <TextView
+               android:text="https://www.landable.in/sl_"
+               android:id="@+id/edBaseUrl"
+               style="@style/editText_EditProfile"/>
+
+           <TextView
+               style="@style/filterTextSearchUI"
+               android:text="@string/url_name" />
+
+
+           <EditText
+               android:id="@+id/edUrlName"
+               style="@style/editText_EditProfile"/>
+
+           <TextView
+               style="@style/filterTextSearchUI"
+               android:text="@string/redirect_to" />
+
+           <EditText
+               android:id="@+id/edRedirectTo"
+               style="@style/editText_EditProfile"/>
+
+           <Button
+               android:id="@+id/buttonSaveUrl"
+               style="@style/buttons_login_signup"
+               android:layout_marginTop="@dimen/_25sdp"
+               android:layout_marginBottom="@dimen/_20sdp"
+               android:padding="@dimen/_6sdp"
+               android:text="@string/save" />
+
+       </LinearLayout>
+
+     <View
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/_8sdp"
+         android:background="@color/grey"/>
+
+
+       <TextView
+           android:layout_marginLeft="@dimen/_10sdp"
+           style="@style/filterTextSearchUI"
+           android:text="@string/short_url"/>
+
+       <androidx.recyclerview.widget.RecyclerView
+           android:layout_marginLeft="@dimen/_5sdp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:id="@+id/rvShortUrls"/>
+
+   </LinearLayout>
+</layout>

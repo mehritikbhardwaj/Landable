@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/_5sdp"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.95"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:text="Work"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colour_app"
+                android:textSize="@dimen/_12ssp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_1sdp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageView style="@style/LocationIcon" />
+
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:text="uttam nagar, New delhi"
+                    android:maxLength="70"
+                    android:maxLines="1"
+                    style="@style/locationTextStyle"
+                    android:layout_weight="0.9"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            style="@style/distanceTellingLayoutDetailPage"
+            android:layout_weight="0.05"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvDistance"
+                style="@style/tenSspTextBoldStyle"
+                android:gravity="center"
+                android:text="5.2232"
+                android:maxLength="3"
+                android:padding="@dimen/_2sdp"
+                android:textColor="@color/colour_app" />
+
+            <TextView
+                style="@style/tenSspTextBoldStyle"
+                android:gravity="center"
+                android:text=" KM"
+                android:maxLength="3"
+                android:padding="@dimen/_2sdp"
+                android:textColor="@color/colour_app" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

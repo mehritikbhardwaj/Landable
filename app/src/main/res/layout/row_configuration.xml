@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/tvUnitType"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10ssp"
+            android:background="@drawable/configuration_outline"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp"
+            android:text="2 BHK" />
+
+        <TextView
+            android:id="@+id/tvUnitSize"
+            android:layout_width="0dp"
+            android:textColor="@color/black"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_weight="1"
+            android:textSize="@dimen/_10ssp"
+            android:background="@drawable/configuration_outline"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp"
+            android:text="2 BHK" />
+
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10ssp"
+            android:background="@drawable/configuration_outline"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp"
+            android:text="2 BHK" />
+
+       <LinearLayout
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:gravity="center"
+           android:background="@drawable/configuration_outline"
+           android:layout_weight="1">
+
+           <ImageView
+               android:id="@+id/ivImage"
+               android:layout_width="@dimen/_40sdp"
+               android:src="@drawable/banner"
+               android:layout_height="@dimen/_40sdp"/>
+       </LinearLayout>
+    </LinearLayout>
+</layout>

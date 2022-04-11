@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="IndividualSignUpViewModel"
+            type="com.landable.app.ui.home.signUp.IndividualSignUpViewModel" />
+    </data>
+
+    <ScrollView
+        android:id="@+id/outerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        tools:context=".ui.home.signUp.IndividualSignUpFragment">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <EditText
+                style="@style/editText_outline"
+                android:autofillHints="name"
+                android:cursorVisible="true"
+                android:hint="@string/name"
+                android:inputType="textCapWords"
+                android:maxLength="25"
+                android:maxLines="1"
+                android:text="@={IndividualSignUpViewModel.name}" />
+
+            <EditText
+                style="@style/editText_outline"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:autofillHints="emailAddress"
+                android:cursorVisible="true"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:text="@={IndividualSignUpViewModel.email}" />
+
+            <EditText
+                android:id="@+id/edEmail"
+                style="@style/editText_outline"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:autofillHints="phone"
+                android:cursorVisible="true"
+                android:hint="@string/mobile_number"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:text="@={IndividualSignUpViewModel.phone}" />
+
+            <EditText
+                style="@style/editText_outline"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:autofillHints="password"
+                android:cursorVisible="true"
+                android:hint="@string/password"
+                android:visibility="gone"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:text="@={IndividualSignUpViewModel.password}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkboxSubscribe"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+                <TextView
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="I want to recieve important updates"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textSize="@dimen/_10ssp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkboxTMC"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:text="I agree to Landable T&amp;C &amp; privacy policy "
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textSize="@dimen/_10ssp" />
+
+
+            </LinearLayout>
+
+            <Button
+                style="@style/buttons_login_signup"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:onClick="@{IndividualSignUpViewModel::onSignUpButtonClick}"
+                android:padding="@dimen/_5sdp"
+                android:text="@string/sign_up_text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingRight="@dimen/_12sdp"
+                    android:text="Or"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/outline_colour" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/black" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:baselineAligned="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_2sdp"
+                    android:text="@string/already_have_an_account"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{IndividualSignUpViewModel::onLoginButtonClick}"
+                    android:padding="@dimen/_2sdp"
+                    android:text="@string/login_button"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colour_app" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

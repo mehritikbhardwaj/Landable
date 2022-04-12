@@ -327,13 +327,13 @@ private fun loadPostPropertyPageTwo(id: Int, propertyid: String) {
         bundle.putSerializable("propertyRaw", propertyData)
     }
 
-    val postPropertyLocationFragment = PostPropertyUploadImage.newInstance()
+    val postPropertyLocationFragment = PostPropertyLocationFragment.newInstance()
     postPropertyLocationFragment.arguments = bundle
     FragmentHelper().replaceFragmentAddToBackstack(
         requireActivity().supportFragmentManager,
         (activity as HomeActivity).getHomePageContainerId(),
         postPropertyLocationFragment,
-        PostPropertyUploadImage::class.java.name
+        PostPropertyLocationFragment::class.java.name
 
     )
 }

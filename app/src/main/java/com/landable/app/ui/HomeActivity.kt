@@ -31,6 +31,7 @@ import com.landable.app.ui.home.login.OTPLoginFragment
 import com.landable.app.ui.home.myActivity.MyActivityFragment
 import com.landable.app.ui.home.profile.ProfileFragment
 import com.landable.app.ui.home.splash.SplashFragment
+import com.landable.app.ui.home.supergroups.AddSuperGroupFragment
 
 class HomeActivity : AppCompatActivity(),
     CustomConfirmationDialog.ICustomConfirmationDialogListener {
@@ -45,7 +46,6 @@ class HomeActivity : AppCompatActivity(),
     var propertyID: String = ""
     var contactType: String = ""
     var agentID: Int = 0
-    var url: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,10 +55,12 @@ class HomeActivity : AppCompatActivity(),
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         //load Splash fragment
-        loadSplashFragment()
 
-        if (intent.hasExtra("url"))
-            url = intent.getStringExtra("url").toString()
+        if (intent.hasExtra("url")) {
+            loadAddSupergroupFragment()
+        } else {
+            loadSplashFragment()
+        }
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
@@ -87,7 +89,7 @@ class HomeActivity : AppCompatActivity(),
             initializeFCM()
         else LandableConstants.fcmToken = AppInfo.getFCMToken()
 
-       // Toast.makeText(this,LandableConstants.fcmToken,Toast.LENGTH_LONG).show()
+        // Toast.makeText(this,LandableConstants.fcmToken,Toast.LENGTH_LONG).show()
         binding.ivBack.setOnClickListener {
             FragmentHelper().popBackStackImmediate(this@HomeActivity)
         }
@@ -176,10 +178,6 @@ class HomeActivity : AppCompatActivity(),
 
     fun getfeaturePropertyList(): ArrayList<FeaturePropertiesDataModel> {
         return featurePropertyList
-    }
-
-    fun getURLFromBrowser(): String {
-        return url
     }
 
     fun updatefeaturePropertyList(featurePropertyList: ArrayList<FeaturePropertiesDataModel>) {
@@ -272,6 +270,15 @@ class HomeActivity : AppCompatActivity(),
             getHomePageContainerId(),
             FavoritesFragment.newInstance(),
             FavoritesFragment::class.java.name
+        )
+    }
+
+    private fun loadAddSupergroupFragment() {
+        FragmentHelper().replaceFragment(
+            supportFragmentManager,
+            getHomePageContainerId(),
+            AddSuperGroupFragment.newInstance(),
+            AddSuperGroupFragment::class.java.name
         )
     }
 

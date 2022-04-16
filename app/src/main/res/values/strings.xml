@@ -241,5 +241,7 @@
     <string name="rera">Rera</string>
     <string name="add_agent">Add Agent</string>
     <string name="unit_price">Unit Price</string>
+    <string name="attached_bathroom">Attached Bathroom</string>
+    <string name="any_construction">Any Construction</string>
 
 </resources>

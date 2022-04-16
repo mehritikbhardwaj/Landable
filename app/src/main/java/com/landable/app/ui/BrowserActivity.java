@@ -45,7 +45,7 @@ public class BrowserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null)
@@ -60,9 +60,9 @@ public class BrowserActivity extends AppCompatActivity {
         uid = AppInfo.INSTANCE.getUserId();
         scode = AppInfo.INSTANCE.getSCode();
 
-        webView = (WebView) findViewById(R.id.webView);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        coordinatorLayout = (RelativeLayout) findViewById(R.id.main_content);
+        webView = findViewById(R.id.webView);
+        progressBar = findViewById(R.id.progressBar);
+        coordinatorLayout = findViewById(R.id.main_content);
 
         initWebView();
 
@@ -147,9 +147,10 @@ public class BrowserActivity extends AppCompatActivity {
                     intent.putExtra("url", url);
                     startActivity(intent);
                 } else if (url.contains("addthreads.aspx")) {
-                    Intent intent = new Intent(mContext, ChatActivity.class);
+                    Intent intent = new Intent(mContext, HomeActivity.class);
                     intent.putExtra("url", "");
                     startActivity(intent);
+                    finish();
                 }
 
             }

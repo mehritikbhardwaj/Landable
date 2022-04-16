@@ -119,15 +119,52 @@
                 style="@style/editText_EditProfile"
                 android:hint="@string/maintenance_charges_p_m" />
 
-            <TextView
-                style="@style/filterTextSearchUI"
-                android:text="@string/security_deposit" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-            <EditText
-                android:id="@+id/securityDeposit"
-                android:inputType="numberDecimal"
-                style="@style/editText_EditProfile"
-                android:hint="@string/security_deposit" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="@string/security_deposit" />
+
+                    <EditText
+                        android:id="@+id/securityDeposit"
+                        android:inputType="numberDecimal"
+                        style="@style/editText_EditProfile"
+                        android:hint="@string/security_deposit" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="@string/attached_bathroom" />
+
+                    <EditText
+                        android:id="@+id/attachedBathroom"
+                        android:inputType="numberDecimal"
+                        android:maxLength="1"
+                        style="@style/editText_EditProfile"
+                        android:hint="@string/attached_bathroom" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
 
             <LinearLayout
@@ -207,30 +244,67 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                style="@style/filterTextSearchUI"
-                android:text="@string/parking" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:boxStrokeColor="@color/outline_colour"
-                app:endIconTint="@color/outline_colour">
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-                <!-- Inside text input layout add
-                      an auto complete text view
-                        and make its input type to none-->
-                <AutoCompleteTextView
-                    android:id="@+id/spinnerParking"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:padding="@dimen/_8sdp"
-                    android:text="Select Parking"
-                    android:textSize="@dimen/_12ssp" />
+                    android:layout_weight="1"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:orientation="vertical">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="@string/parking" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:boxStrokeColor="@color/outline_colour"
+                        app:endIconTint="@color/outline_colour">
+
+                        <!-- Inside text input layout add
+                              an auto complete text view
+                                and make its input type to none-->
+                        <AutoCompleteTextView
+                            android:id="@+id/spinnerParking"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:padding="@dimen/_8sdp"
+                            android:text="Select Parking"
+                            android:textSize="@dimen/_12ssp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/filterTextSearchUI"
+                        android:text="@string/any_construction" />
+
+                    <EditText
+                        android:id="@+id/construction"
+                        android:inputType="numberDecimal"
+                        style="@style/editText_EditProfile"
+                        android:hint="@string/any_construction" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
 
 
             <TextView

@@ -46,8 +46,8 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
     private var propertyData: PropertyDetailsModel? = null
     private var yesNoArray = ArrayList<MonthsDataModel>()
     private var corneredArray = ArrayList<MonthsDataModel>()
-    private var isGatedColony: String = ""
-    private var cornered: String = ""
+    private var isGatedColony: String = "YES"
+    private var cornered: String = "YES"
 
     companion object {
         fun newInstance() = PostPropertyAdditionalDetailsFragment()
@@ -103,13 +103,13 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
                         binding.edMaintenanceCharge.text.toString().toInt(),
                         binding.securityDeposit.text.toString().toInt(),
                         bathromCount,
-                        bathromCount,
+                        binding.attachedBathroom.text.toString().toInt(),
                         balconyCount,
                         parkingCount,
                         cornered,
                         0,
                         openSidesCount,
-                        "",
+                        binding.construction.text.toString(),
                         "",
                         "",
                         isGatedColony,

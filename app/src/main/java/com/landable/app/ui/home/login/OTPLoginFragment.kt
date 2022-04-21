@@ -140,7 +140,7 @@ class OTPLoginFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
         binding.tvResendOtp.setTextColor(resources.getColor(R.color.progressBarBgColor))
 
         // call timer function
-        countDownTimer = MyCountDownTimer(10000, 1000, binding.tvTimer, this)
+        countDownTimer = MyCountDownTimer(30000, 1000, binding.tvTimer, this)
         countDownTimer!!.start()
     }
 
@@ -220,6 +220,7 @@ class OTPLoginFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
                             AppInfo.setSCode(scode)
                             AppInfo.setUserId(userid.toString())
                             AppInfo.setCustomerType(customertype)
+                            countDownTimer!!.cancel()
                             callHomeFragment()
                         } else {
                             Toast.makeText(

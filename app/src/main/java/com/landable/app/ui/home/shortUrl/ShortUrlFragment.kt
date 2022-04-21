@@ -116,11 +116,12 @@ class ShortUrlFragment : Fragment(), ShortURLClickListener {
             } else {
                 try {
                     if (it.toString() != "null") {
-                        if (it == "succes") {
+                        if (it == "success") {
                             getShortUrlList()
                         } else if (it == "exists") {
                             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT)
                                 .show()
+                            getShortUrlList()
                         }
                     }
                 } catch (e: Exception) {

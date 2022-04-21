@@ -74,7 +74,7 @@ class VerifyOtpFragment : Fragment(), IListener, MyCountDownTimer.ICompleteTimer
         binding.tvResendOtp.setTextColor(resources.getColor(R.color.progressBarBgColor))
 
         // call timer function
-        countDownTimer = MyCountDownTimer(10000, 1000, binding.tvTimer, this@VerifyOtpFragment)
+        countDownTimer = MyCountDownTimer(15000, 1000, binding.tvTimer, this@VerifyOtpFragment)
         countDownTimer!!.start()
     }
 

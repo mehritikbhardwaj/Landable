@@ -13,10 +13,13 @@ import com.landable.app.common.FragmentHelper
 import com.landable.app.common.LandableConstants
 import com.landable.app.common.PropertyDetailListener
 import com.landable.app.data.repositories.RegisterRepository
+import com.landable.app.data.responses.ParseResponse
 import com.landable.app.databinding.FragmentPostedPropertyBinding
 import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.dialog.CustomAlertDialog
+import com.landable.app.ui.dialog.CustomProgressDialog
 import com.landable.app.ui.home.dataModels.FeaturePropertiesDataModel
+import com.landable.app.ui.home.dataModels.ListingDataModel
 import com.landable.app.ui.home.postProjectProperty.PostProjectPropertyFragment
 import com.landable.app.ui.home.property.PropertyDetailFragment
 
@@ -24,7 +27,8 @@ class PostedPropertyFragment : Fragment(), PropertyDetailListener {
 
     private lateinit var binding: FragmentPostedPropertyBinding
     private var propertyList = ArrayList<FeaturePropertiesDataModel>()
-
+    private var progressDialog: CustomProgressDialog? = null
+    private var listingData: ListingDataModel? = null
 
     companion object {
         fun newInstance() = PostedPropertyFragment()
@@ -53,12 +57,16 @@ class PostedPropertyFragment : Fragment(), PropertyDetailListener {
         if (propertyList.size == 0) {
             binding.tvNoResult.visibility = View.VISIBLE
         } else {
-            binding.rvPostedProperty.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            binding.rvPostedProperty.adapter = PostedPropertyAdapter(propertyList, this)
-
+            updateUI()
         }
         return binding.root
+    }
+
+    private fun updateUI(){
+        binding.rvPostedProperty.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvPostedProperty.adapter = PostedPropertyAdapter(propertyList, this)
+
     }
 
     override fun onPropertyClick(
@@ -91,9 +99,11 @@ class PostedPropertyFragment : Fragment(), PropertyDetailListener {
                 ).show()
             } else {
                 try {
-                    if (it.toString() != "null") {
-                        if (it == "success") {
-                            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+                    if (it != "null") {
+                        if (it.contains("success")) {
+                            propertyList.clear()
+                            getMyListing()
+                         //   Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
                         } else {
                             Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
                         }
@@ -134,4 +144,28 @@ class PostedPropertyFragment : Fragment(), PropertyDetailListener {
             PropertyDetailFragment::class.java.name
         )
     }
+
+    private fun getMyListing() {
+        // Show progress bar
+        progressDialog = CustomProgressDialog(requireContext())
+        progressDialog!!.show()
+        val dashboardResponse = RegisterRepository().getMyListingData()
+        dashboardResponse.observe(viewLifecycleOwner) {
+            // hide progress bar
+            progressDialog!!.cancelProgress()
+            // parse dashboard info
+            if (it.toString() != "null") {
+                try {
+                    listingData = ParseResponse.parseMyListingResponse(it.toString())
+                    propertyList = listingData!!.featuredproperties
+                    updateUI()
+                } catch (
+                    e: Exception
+                ) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
 }

@@ -20,8 +20,6 @@ class ChatActivity : AppCompatActivity() {
             loadAddPostFragment()
         }else loadChatFragment()
 
-
-
     }
 
     private fun loadChatFragment() {

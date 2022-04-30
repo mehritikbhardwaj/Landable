@@ -7,12 +7,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.landable.app.R
 import com.landable.app.common.AgentProfileListener
+import com.landable.app.common.SupergroupClickListener
 import com.landable.app.databinding.RowSuperGroupsBinding
 import com.landable.app.ui.home.dataModels.SuperGroupsDataModelItem
 
 class SuperGroupsAdapter(
     private val superGroupsArray: ArrayList<SuperGroupsDataModelItem>,
-    private val supergroupListener:AgentProfileListener
+    private val supergroupListener: SupergroupClickListener
 ) :
     RecyclerView.Adapter<NewsHolder>() {
 
@@ -42,7 +43,10 @@ class SuperGroupsAdapter(
         holder.supergroupsBinding.tvTime.text = superGroups.postedsince
 
         holder.supergroupsBinding.deleteSupergroup.setOnClickListener {
-            supergroupListener.onAgentClick("deleteSupergroup",superGroups.id)
+            supergroupListener.onClickSuperGroup("deleteSupergroup",superGroups)
+        }
+        holder.supergroupsBinding.chatThread.setOnClickListener {
+            supergroupListener.onClickSuperGroup("chatSupergroup",superGroups)
         }
 
     }

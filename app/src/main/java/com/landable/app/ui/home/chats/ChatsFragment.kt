@@ -63,10 +63,12 @@ class ChatsFragment : Fragment() {
 
 
         if(isComingfromChat){
+            chatUsersDataModel = requireArguments().getSerializable("chatUsersDataModel") as ChatUsersDataModel?
             chatUsersDataModel =
                 requireArguments().getSerializable("chatUsersDataModel") as ChatUsersDataModel
             binding.ivProfileImage.load(LandableConstants.Image_URL + chatUsersDataModel!!.logo)
             binding.tvName.text = chatUsersDataModel!!.name
+            touSerID = chatUsersDataModel!!.id
         }
 
         binding.ivBack.setOnClickListener {

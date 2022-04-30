@@ -846,7 +846,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                     dialogFragment.show(fm, "")
                 }
             }
-            "ViewAgencyProfile"->{
+            "ViewAgencyProfile" -> {
                 if (AppInfo.getSCode() == "" || AppInfo.getSCode() == "0") {
                     (activity as HomeActivity).askForLogin()
                     contactOwner(featurePropertiesDataModel!!)

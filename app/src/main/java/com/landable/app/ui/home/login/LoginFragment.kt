@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.*
 import com.landable.app.databinding.FragmentLoginBinding
@@ -41,6 +42,8 @@ class LoginFragment : Fragment(), IListener {
         // hide Top Navigation & bottom navigation
         (activity as HomeActivity).hideTopbar()
         (activity as HomeActivity).hideBottomNavigation()
+
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Login Fragment", null);
 
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
 

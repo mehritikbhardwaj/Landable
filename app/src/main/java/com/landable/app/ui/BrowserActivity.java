@@ -4,9 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,9 +25,12 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.landable.app.R;
 import com.landable.app.common.AppInfo;
 import com.landable.app.ui.home.browser.ChatActivity;
+
+import java.net.URLEncoder;
 
 public class BrowserActivity extends AppCompatActivity {
 
@@ -55,7 +61,11 @@ public class BrowserActivity extends AppCompatActivity {
         url = getIntent().getStringExtra("url");
         ActivityTitle = getIntent().getStringExtra("title");
         localtitle = getIntent().getStringExtra("localtitle");
-        getSupportActionBar().setTitle(ActivityTitle);
+        getSupportActionBar().setTitle("Landable");
+
+        FirebaseAnalytics.getInstance(this).setCurrentScreen(this,
+                ActivityTitle, null);
+
 
         uid = AppInfo.INSTANCE.getUserId();
         scode = AppInfo.INSTANCE.getSCode();
@@ -143,14 +153,28 @@ public class BrowserActivity extends AppCompatActivity {
                 Log.e("onPageStarted", url);
 
                 if (url.contains("gotochat.aspx?")) {
+                    if (pd.isShowing()) {
+                        pd.dismiss();
+                        pd = null;
+                    }
                     Intent intent = new Intent(mContext, ChatActivity.class);
                     intent.putExtra("url", url);
                     startActivity(intent);
                 } else if (url.contains("addthreads.aspx")) {
+                    if (pd.isShowing()) {
+                        pd.dismiss();
+                        pd = null;
+                    }
                     Intent intent = new Intent(mContext, HomeActivity.class);
                     intent.putExtra("url", "");
                     startActivity(intent);
                     finish();
+                } else if (url.contains(".pdf")) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }else if(url.contains("api.whatsapp.com")){
+                   webView.goBack();
                 }
 
             }
@@ -201,4 +225,5 @@ public class BrowserActivity extends AppCompatActivity {
             this.context = context;
         }
     }
+
 }

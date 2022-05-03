@@ -22,6 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.maps.android.SphericalUtil
 import com.landable.app.R
 import com.landable.app.common.*
@@ -63,6 +64,9 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
     private val imageArrayList = ArrayList<Propertyimage>()
     private val floorArrayList = ArrayList<Propertyimage>()
     private val documentArrayList = ArrayList<Propertyimage>()
+    private var profileData = UserDetailDataModel()
+    private var agentNumber: String = ""
+    private var agentMail: String = ""
 
     companion object {
         fun newInstance() = PropertyDetailFragment()
@@ -84,6 +88,9 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
         (activity as HomeActivity).hideBottomNavigation()
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_property_detail, container, false)
+
+        FirebaseAnalytics.getInstance((activity as HomeActivity))
+            .setCurrentScreen((activity as HomeActivity), "Property Detail Fragment", null)
 
         binding.llOwnerPRofile.setOnClickListener {
             if (AppInfo.getSCode() == "" || AppInfo.getSCode() == "0") {
@@ -155,9 +162,9 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
             } else {
                 val fm = requireActivity().supportFragmentManager
                 val dialogFragment = ContactOwnerDialogFragment(
-                    propertyDetailInfoModel!!.addedbyid,
-                    propertyDetailInfoModel!!.name
-                )
+                    agentNumber,
+                    propertyDetailInfoModel!!.name, agentMail
+                ,propertyDetailInfoModel!!.addedbyid)
                 dialogFragment.show(fm, "")
             }
         }
@@ -169,6 +176,8 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
         )
 
         updatePropertyDetailsUI()
+
+        getAgencyProfileDetails(propertyDetailInfoModel!!.addedbyid)
 
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.googleMap) as SupportMapFragment
@@ -204,6 +213,32 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
         }
 
         return binding.root
+    }
+
+    private fun getAgencyProfileDetails(id: Int) {
+        val propertyResponse = RegisterRepository().getUserDetails(id)
+        propertyResponse.observe(viewLifecycleOwner) {
+
+            if (it == LandableConstants.noInternetErrorMessage) {
+                //print NoInternet Error Message
+                CustomAlertDialog(
+                    requireContext(),
+                    LandableConstants.noInternetErrorTitle,
+                    it
+                ).show()
+            } else {
+                try {
+                    profileData = ParseResponse.parseContactOwnerDetails(it.toString())
+                    agentNumber = profileData.profile.mobile
+                    agentMail = profileData.profile.email
+                } catch (
+                    e: Exception
+                ) {
+
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -523,7 +558,10 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
     override fun onImageClick(action: String, propertyimage: Propertyimage) {
         when (action) {
             "imageClick" -> {
-                (activity as HomeActivity).callBrowserActivity(LandableConstants.Image_URL + propertyimage.imagepath)
+                (activity as HomeActivity).callBrowserActivity(
+                    LandableConstants.Image_URL + propertyimage.imagepath,
+                    "Property Images Page"
+                )
             }
         }
     }
@@ -566,7 +604,7 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
     }
 
 
-    override fun onLocationAdded(title: String,address:String, latlong: LatLng) {
+    override fun onLocationAdded(title: String, address: String, latlong: LatLng) {
         var distance = SphericalUtil.computeDistanceBetween(
             latlong,
             getLocationFromAddress(propertyDetailInfoModel!!.address)

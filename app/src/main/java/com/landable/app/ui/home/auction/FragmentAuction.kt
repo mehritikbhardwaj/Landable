@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.slider.RangeSlider
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.*
 import com.landable.app.data.repositories.RegisterRepository
@@ -84,6 +85,8 @@ class FragmentAuction : Fragment(),
 
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
 
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Auction Search Fragment", null);
+
         getFiltersList()
         updatePriceUnitDopDown()
         updateStatusUnitDopDown()
@@ -119,7 +122,7 @@ class FragmentAuction : Fragment(),
             var url = "https://www.landable.in/auctionmap.aspx?key=&ct=0&st=0&" +
                     "city=,status=Active,locality=,locality=,beforedate=,bankname=," +
                     "borrower=,costfrom=0,costto=0,areafrom=0,areato=300000,emddate="
-            (activity as HomeActivity).callBrowserActivity(url)
+            (activity as HomeActivity).callBrowserActivity(url,"Search Map")
         }
 
         binding.layoutFilter.buttonSearch.setOnClickListener {

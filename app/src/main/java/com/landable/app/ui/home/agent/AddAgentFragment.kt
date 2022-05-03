@@ -19,6 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.*
 import com.landable.app.data.repositories.RegisterRepository
@@ -78,6 +79,8 @@ class AddAgentFragment : Fragment(), UploadImageDialogFragment.IUploadImageListe
         (activity as HomeActivity).showTopBar()
         (activity as HomeActivity).enableBackButton("Add Agent")
         (activity as HomeActivity).hideBottomNavigation()
+
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Add Agent Fragment", null);
 
         getFilterInfo()
 

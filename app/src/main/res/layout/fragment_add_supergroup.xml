@@ -161,10 +161,10 @@
             <EditText
                 android:id="@+id/tvDescription"
                 style="@style/editText_EditProfile"
-                android:layout_height="@dimen/_35sdp"
+                android:layout_height="@dimen/_80sdp"
                 android:gravity="start"
                 android:hint="@string/description"
-                android:inputType="textCapSentences"
+                android:inputType="textMultiLine"
                 android:maxLength="100"
                 android:maxLines="10" />
 

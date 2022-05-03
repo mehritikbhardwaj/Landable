@@ -85,8 +85,8 @@ class ViewAllPropertyFragment : Fragment(), PropertyDetailListener {
                 } else {
                     val fm = requireActivity().supportFragmentManager
                     val dialogFragment = ContactOwnerDialogFragment(
-                        featurePropertiesDataModel!!.addedbyid,
-                        featurePropertiesDataModel.name
+                        "",
+                        featurePropertiesDataModel!!.name, "", featurePropertiesDataModel.addedbyid
                     )
                     dialogFragment.show(fm, "")
                 }

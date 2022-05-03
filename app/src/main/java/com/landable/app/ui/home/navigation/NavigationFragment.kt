@@ -105,7 +105,7 @@ class NavigationFragment : Fragment(), IListener {
                 } else {
                     val url =
                         LandableConstants.Image_URL + "app/threadsearch.aspx?uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
-                    (activity as HomeActivity).callBrowserActivity(url)
+                    (activity as HomeActivity).callBrowserActivity(url,"Supergroups Fragment")
                 }
 
             }
@@ -139,7 +139,7 @@ class NavigationFragment : Fragment(), IListener {
                 } else {
                     val url =
                         LandableConstants.Image_URL + "app/powerbi.aspx?uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
-                    (activity as HomeActivity).callBrowserActivity(url)
+                    (activity as HomeActivity).callBrowserActivity(url,"PropertyRegistrationLookup Page")
                 }
             }
             "onAnalyzeTrendsClick" -> {
@@ -148,7 +148,7 @@ class NavigationFragment : Fragment(), IListener {
                 } else {
                     val url =
                         LandableConstants.Image_URL + "app/analyse-trends.aspx?uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
-                    (activity as HomeActivity).callBrowserActivity(url)
+                    (activity as HomeActivity).callBrowserActivity(url,"AnalyzeTrends Page")
                 }
             }
             "onNewsClick" -> {
@@ -172,7 +172,7 @@ class NavigationFragment : Fragment(), IListener {
                 val url = "https://www.landable.in/auctionmap.aspx?key=&ct=0&st=0&" +
                         "city=,status=Active,locality=,locality=,beforedate=,bankname=," +
                         "borrower=,costfrom=0,costto=0,areafrom=0,areato=10000000,emddate="
-                (activity as HomeActivity).callBrowserActivity(url)
+                (activity as HomeActivity).callBrowserActivity(url,"Search Map Page")
             }
 
         }

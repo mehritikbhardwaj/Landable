@@ -16,6 +16,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.*
 import com.landable.app.data.repositories.RegisterRepository
@@ -68,6 +69,8 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
             DataBindingUtil.inflate(inflater, R.layout.fragment_add_supergroup, container, false)
 
         getFilterInfo()
+
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Add Supergroup Fragment", null);
 
         binding.buttonContinue.setOnClickListener {
             if (binding.edTitle.text.toString().isNullOrEmpty() ||

@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.*
 import com.landable.app.data.repositories.RegisterRepository
@@ -46,10 +47,6 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
     private var dashBoardData: DashBoardDataModel? = null
     private var progressDialog: CustomProgressDialog? = null
     private var whyLandableVisiblePosition: Int = 0
-    private var featuredVisiblePosition: Int = 0
-    private var recentVisiblePosition: Int = 0
-    private var projectVisiblePosition: Int = 0
-
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -74,6 +71,8 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
         (activity as HomeActivity).showBottomNavigation()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Dashboard", null);
+
         binding.ivSideNavigation.setOnClickListener {
             (activity as HomeActivity).openDrawer()
         }
@@ -92,35 +91,6 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
                 binding.rightScrollLandable.visibility = View.GONE
             }
         }
-
-        binding.rightScrollFeatured.setOnClickListener {
-            binding.leftScrollFeature.visibility = View.VISIBLE
-            featuredVisiblePosition = getLastVisiblePosition(binding.rvFeaturedProperties)-1
-            scrollRightRecyclerView(binding.rvFeaturedProperties)
-            if (featuredVisiblePosition >= featurePropertyList.size - 2) {
-                binding.rightScrollFeatured.visibility = View.GONE
-            }
-        }
-
-        binding.rightScrollRecent.setOnClickListener {
-            binding.leftScrollRecent.visibility = View.VISIBLE
-            recentVisiblePosition = getLastVisiblePosition(binding.rvRecentProperties)-1
-            scrollRightRecyclerView(binding.rvRecentProperties)
-            if (recentVisiblePosition >= recentPropertyList.size - 2) {
-                binding.rightScrollRecent.visibility = View.GONE
-            }
-        }
-        binding.rightScrollProject.setOnClickListener {
-            binding.leftScrollProject.visibility = View.VISIBLE
-            projectVisiblePosition = getLastVisiblePosition(binding.rvFeaturesProjects)-1
-            scrollRightRecyclerView(binding.rvFeaturesProjects)
-            if (projectVisiblePosition >= projectsList.size - 2) {
-                binding.rightScrollProject.visibility = View.GONE
-            }
-        }
-
-
-
         binding.leftScrollLandable.setOnClickListener {
             binding.rightScrollLandable.visibility = View.VISIBLE
             whyLandableVisiblePosition = getLastVisiblePosition(binding.rvWhyLandable) - 1
@@ -134,47 +104,6 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
             }
         }
 
-        binding.leftScrollFeature.setOnClickListener {
-            binding.rightScrollFeatured.visibility = View.VISIBLE
-            featuredVisiblePosition = getLastVisiblePosition(binding.rvFeaturedProperties)
-            if (featuredVisiblePosition >= 3) {
-                scrollLeftRecyclerView(binding.rvFeaturedProperties)
-            } else if(featuredVisiblePosition ==2){
-                binding.rvFeaturedProperties.smoothScrollToPosition(0)
-                binding.leftScrollFeature.visibility = View.GONE
-                featuredVisiblePosition = 0
-            }else{
-                binding.leftScrollFeature.visibility = View.GONE
-            }
-        }
-
-        binding.leftScrollRecent.setOnClickListener {
-            binding.rightScrollRecent.visibility = View.VISIBLE
-            recentVisiblePosition = getLastVisiblePosition(binding.rvRecentProperties)
-            if (recentVisiblePosition >= 3) {
-                scrollLeftRecyclerView(binding.rvRecentProperties)
-            } else if(recentVisiblePosition ==2){
-                binding.rvRecentProperties.smoothScrollToPosition(0)
-                binding.leftScrollRecent.visibility = View.GONE
-                recentVisiblePosition = 0
-            }else{
-                binding.leftScrollRecent.visibility = View.GONE
-            }
-        }
-
-        binding.leftScrollProject.setOnClickListener {
-            binding.rightScrollProject.visibility = View.VISIBLE
-            projectVisiblePosition = getLastVisiblePosition(binding.rvFeaturesProjects)
-            if (projectVisiblePosition >= 3) {
-                scrollLeftRecyclerView(binding.rvFeaturesProjects)
-            } else if(projectVisiblePosition ==2){
-                binding.rvFeaturesProjects.smoothScrollToPosition(0)
-                binding.leftScrollProject.visibility = View.GONE
-                projectVisiblePosition = 0
-            }else{
-                binding.leftScrollProject.visibility = View.GONE
-            }
-        }
 
         binding.editText.setOnClickListener {
             loadSearchFragment()
@@ -464,12 +393,15 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
         when (action) {
             "itemClicked" -> {
                 if (whyLandableDataModel!!.pages == "Registration Lookup") {
+
+                    FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Chats Fragment", null);
+
                     if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
                         (activity as HomeActivity).askForLogin()
                     } else {
                         val url =
                             LandableConstants.Image_URL + "app/powerbi.aspx?uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
-                        (activity as HomeActivity).callBrowserActivity(url)
+                        (activity as HomeActivity).callBrowserActivity(url,"Registration Lookup")
                     }
                 } else if (whyLandableDataModel.pages == "Supergroups") {
                     if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
@@ -477,7 +409,7 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
                     } else {
                         val url =
                             LandableConstants.Image_URL + "app/threadsearch.aspx?uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
-                        (activity as HomeActivity).callBrowserActivity(url)
+                        (activity as HomeActivity).callBrowserActivity(url, "Supergroups Page")
                     }
                 } else if (whyLandableDataModel.pages == "Auction") {
                     loadAuctionFragment()
@@ -487,7 +419,7 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
                     } else {
                         val url =
                             LandableConstants.Image_URL + "app/analyse-trends.aspx?uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
-                        (activity as HomeActivity).callBrowserActivity(url)
+                        (activity as HomeActivity).callBrowserActivity(url, "Data Analytics Page")
                     }
                 } else if (whyLandableDataModel.pages == "Free Listing") {
                     if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {

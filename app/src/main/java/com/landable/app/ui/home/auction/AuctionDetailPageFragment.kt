@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.AdvertisementClickListener
 import com.landable.app.common.AuctionDocumentClickListener
@@ -56,6 +57,8 @@ class AuctionDetailPageFragment : Fragment(), AdvertisementClickListener,
         (activity as HomeActivity).hideBottomNavigation()
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_auction_detail, container, false)
+
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Auction Detail Fragment", null);
 
         binding.ivProfilePicture.load(LandableConstants.Image_URL + previousAuctionData!!.image1)
         binding.tvAuctionName.text = previousAuctionData!!.title

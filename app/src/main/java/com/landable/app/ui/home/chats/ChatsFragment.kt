@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
-import com.landable.app.common.AppInfo
 import com.landable.app.common.FragmentHelper
 import com.landable.app.common.LandableConstants
 import com.landable.app.data.repositories.RegisterRepository
@@ -30,9 +30,9 @@ class ChatsFragment : Fragment() {
     private var chats: ChatsDataModel? = null
     private var chatUsersDataModel: ChatUsersDataModel? = null
     private var type: String = ""
-    private var _Id:Int = 0
-    private var touSerID:Int = 0
-    private var isComingfromChat:Boolean = false
+    private var _Id: Int = 0
+    private var touSerID: Int = 0
+    private var isComingfromChat: Boolean = false
     private var chatsAdapter: ChatsAdapter? = null
 
     // private var file: File? = null
@@ -45,8 +45,8 @@ class ChatsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         isComingfromChat = requireArguments().getBoolean("comingfromchat")
         type = requireArguments().getString("type")!!
-        _Id  = requireArguments().getInt("id")
-        touSerID  = requireArguments().getInt("toUserID")
+        _Id = requireArguments().getInt("id")
+        touSerID = requireArguments().getInt("toUserID")
 
     }
 
@@ -61,9 +61,13 @@ class ChatsFragment : Fragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_content_chats, container, false)
 
+        FirebaseAnalytics.getInstance((activity as HomeActivity))
+            .setCurrentScreen((activity as HomeActivity), "Chats Fragment", null)
 
-        if(isComingfromChat){
-            chatUsersDataModel = requireArguments().getSerializable("chatUsersDataModel") as ChatUsersDataModel?
+
+        if (isComingfromChat) {
+            chatUsersDataModel =
+                requireArguments().getSerializable("chatUsersDataModel") as ChatUsersDataModel?
             chatUsersDataModel =
                 requireArguments().getSerializable("chatUsersDataModel") as ChatUsersDataModel
             binding.ivProfileImage.load(LandableConstants.Image_URL + chatUsersDataModel!!.logo)
@@ -75,22 +79,17 @@ class ChatsFragment : Fragment() {
             FragmentHelper().popBackStackImmediate((activity as HomeActivity))
         }
 
-
-/*
-        binding.ivSideNavigation.load(LandableConstants.Image_URL + chatUsersDataModel!!.logo)
-        binding.tvName.text = chatUsersDataModel!!.name
-*/
-
-        if(chatUsersDataModel==null){
+        if (chatUsersDataModel == null) {
             getChatsList(_Id, touSerID, type)
-        }else   getChatsList(_Id, touSerID, type)
+        } else getChatsList(_Id, touSerID, type)
 
         binding.ivSendChat.setOnClickListener {
             RegisterRepository().post_Addchat(
                 _Id,
                 binding.etChat.text.toString(), touSerID, type
             )
-            getChatsList(_Id,touSerID, type)
+            chatsList.clear()
+            getChatsList(_Id, touSerID, type)
             binding.etChat.text.clear()
         }
         return binding.root
@@ -126,6 +125,7 @@ class ChatsFragment : Fragment() {
         binding.rvChats.itemAnimator = DefaultItemAnimator()
         chatsAdapter = ChatsAdapter(chatsList, requireContext())
         binding.rvChats.adapter = chatsAdapter
+        binding.rvChats.smoothScrollToPosition(chatsList.size - 1)
         binding.ivProfileImage.load(LandableConstants.Image_URL + chats!!.logo)
         binding.tvName.text = chats!!.name
     }

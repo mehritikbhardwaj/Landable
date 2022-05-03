@@ -18,6 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.*
 import com.landable.app.data.repositories.RegisterRepository
@@ -92,6 +93,8 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
             )
 
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.llPostPropertyLayout1)
+
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Post Property Fragment", null);
 
         if (isComingForWhichEditType == "PropertyEdit") {
             propertyInfo =

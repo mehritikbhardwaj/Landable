@@ -7,17 +7,22 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import coil.load
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.LandableConstants
 import com.landable.app.data.repositories.RegisterRepository
 import com.landable.app.data.responses.ParseResponse
 import com.landable.app.databinding.DialogContactOwnerBinding
+import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.dialog.CustomAlertDialog
 import com.landable.app.ui.dialog.CustomProgressDialog
 import com.landable.app.ui.home.dataModels.UserDetailDataModel
 
 class ContactOwnerDialogFragment(
-    private var ownerID: Int, private var agentName: String
+    private var agentNumber: String,
+    private var agentName: String,
+    private var agentMail: String,
+    private var agentID: Int
 ) : DialogFragment() {
 
     private var binding: DialogContactOwnerBinding? = null
@@ -45,28 +50,31 @@ class ContactOwnerDialogFragment(
         binding = DataBindingUtil.inflate(inflater, R.layout.dialog_contact_owner, container, false)
 
 
+        FirebaseAnalytics.getInstance((activity as HomeActivity))
+            .setCurrentScreen((activity as HomeActivity), "Contact Agent Fragment", null)
+
         binding!!.closeButton.setOnClickListener {
             dismiss()
         }
 
         binding!!.tvName.text = agentName
 
+        getAgencyProfileDetails(agentID)
+
         binding!!.buttonCall.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL)
-            intent.data = Uri.parse("tel: " + profileData.profile.mobile)
+            intent.data = Uri.parse("tel: $agentNumber")
             startActivity(intent)
         }
 
         binding!!.buttonMail.setOnClickListener {
-
             val intent =
-                Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + profileData.profile.email))
+                Intent(Intent.ACTION_VIEW, Uri.parse("mailto:$agentMail"))
             intent.putExtra(Intent.EXTRA_SUBJECT, "email_subject")
             intent.putExtra(Intent.EXTRA_TEXT, "email_body")
             startActivity(intent)
         }
 
-        getAgencyProfileDetails(ownerID)
 
         return binding!!.root
     }
@@ -88,11 +96,12 @@ class ContactOwnerDialogFragment(
             } else {
                 try {
                     profileData = ParseResponse.parseContactOwnerDetails(it.toString())
+                    agentNumber = profileData.profile.mobile
+                    agentMail = profileData.profile.email
                     updateUIData()
                 } catch (
                     e: Exception
                 ) {
-
                     e.printStackTrace()
                 }
             }
@@ -101,7 +110,9 @@ class ContactOwnerDialogFragment(
 
     private fun updateUIData() {
         binding!!.ivProfileImage.load(LandableConstants.Image_URL + profileData.profile.profilepic)
-        binding!!.tvAgency.text = profileData.profile.agencyname
+        if(profileData.profile.agencyname.isEmpty()){
+            binding!!.tvAgency.text = "Individual"
+        }else binding!!.tvAgency.text = profileData.profile.agencyname
     }
 
 }

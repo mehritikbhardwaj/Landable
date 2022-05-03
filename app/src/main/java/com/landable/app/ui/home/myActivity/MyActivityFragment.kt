@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.ActivityClickListener
 import com.landable.app.common.LandableConstants
@@ -42,6 +43,8 @@ class MyActivityFragment : Fragment(), ActivityClickListener {
         (activity as HomeActivity).hideBottomNavigation()
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_posted_property, container, false)
+
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Activity Fragment", null);
 
         getActivityList()
         return binding.root

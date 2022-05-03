@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.FragmentHelper
 import com.landable.app.common.IListener
@@ -40,6 +41,8 @@ class IndividualSignUpFragment : Fragment(), IListener {
     ): View {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_indiviual_sign_up, container, false)
+
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Individual Signup Fragment", null);
 
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
 

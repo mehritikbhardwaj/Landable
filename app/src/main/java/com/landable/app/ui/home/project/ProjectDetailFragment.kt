@@ -22,6 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.maps.android.SphericalUtil
 import com.landable.app.R
 import com.landable.app.common.*
@@ -72,6 +73,9 @@ class ProjectDetailFragment : Fragment(), ProjectDetailListener, AdvertisementCl
     private var lon: Double = 0.0
     private var mediaUrl: String = ""
     private var documentUrl: String = ""
+    private var profileData = UserDetailDataModel()
+    private var agentNumber: String = ""
+    private var agentMail: String = ""
 
     companion object {
         fun newInstance() = ProjectDetailFragment()
@@ -97,13 +101,21 @@ class ProjectDetailFragment : Fragment(), ProjectDetailListener, AdvertisementCl
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_project_detail, container, false)
 
+        FirebaseAnalytics.getInstance((activity as HomeActivity))
+            .setCurrentScreen((activity as HomeActivity), "Project Detail Fragment", null)
+
         updateProjectDetailUI()
 
 
         getProjectDetails(projectDetailInfoModel!!.id, projectDetailInfoModel!!.projectid)
 
+        getAgencyProfileDetails(projectDetailInfoModel!!.addedbyid)
+
         binding.llMedia.setOnClickListener {
-            (activity as HomeActivity).callBrowserActivity(LandableConstants.Image_URL + mediaUrl)
+            (activity as HomeActivity).callBrowserActivity(
+                LandableConstants.Image_URL + mediaUrl,
+                "Project Images"
+            )
         }
 
         binding.addLocation.setOnClickListener {
@@ -115,7 +127,10 @@ class ProjectDetailFragment : Fragment(), ProjectDetailListener, AdvertisementCl
         }
 
         binding.llDocument.setOnClickListener {
-            (activity as HomeActivity).callBrowserActivity(LandableConstants.Image_URL + documentUrl)
+            (activity as HomeActivity).callBrowserActivity(
+                LandableConstants.Image_URL + documentUrl,
+                "Project Documents Page"
+            )
         }
         binding.shortURl.setOnClickListener {
             loadShortUrlFragment()
@@ -163,6 +178,7 @@ class ProjectDetailFragment : Fragment(), ProjectDetailListener, AdvertisementCl
         }
 
 
+
         binding.llContactOwner.setOnClickListener {
             if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
                 (activity as HomeActivity).askForLogin()
@@ -170,8 +186,8 @@ class ProjectDetailFragment : Fragment(), ProjectDetailListener, AdvertisementCl
             } else {
                 val fm = requireActivity().supportFragmentManager
                 val dialogFragment = ContactOwnerDialogFragment(
-                    projectDetailInfoModel!!.addedbyid,
-                    projectDetailInfoModel!!.name
+                    agentNumber,
+                    projectDetailInfoModel!!.name, agentMail, projectDetailInfoModel!!.addedbyid
                 )
                 dialogFragment.show(fm, "")
             }
@@ -234,6 +250,32 @@ class ProjectDetailFragment : Fragment(), ProjectDetailListener, AdvertisementCl
         mMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
         mMap!!.uiSettings.isCompassEnabled = true
         updateLocation(LatLng(lat, lon), "")
+    }
+
+    private fun getAgencyProfileDetails(id: Int) {
+        val propertyResponse = RegisterRepository().getUserDetails(id)
+        propertyResponse.observe(viewLifecycleOwner) {
+
+            if (it == LandableConstants.noInternetErrorMessage) {
+                //print NoInternet Error Message
+                CustomAlertDialog(
+                    requireContext(),
+                    LandableConstants.noInternetErrorTitle,
+                    it
+                ).show()
+            } else {
+                try {
+                    profileData = ParseResponse.parseContactOwnerDetails(it.toString())
+                    agentNumber = profileData.profile.mobile
+                    agentMail = profileData.profile.email
+                } catch (
+                    e: Exception
+                ) {
+
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 
 
@@ -602,7 +644,10 @@ class ProjectDetailFragment : Fragment(), ProjectDetailListener, AdvertisementCl
     override fun onImageClick(action: String, configuration: Projectconfiguration?) {
         when (action) {
             "imageClick" -> {
-                (activity as HomeActivity).callBrowserActivity(LandableConstants.Image_URL + configuration!!.uimage)
+                (activity as HomeActivity).callBrowserActivity(
+                    LandableConstants.Image_URL + configuration!!.uimage,
+                    "Project Images Page"
+                )
             }
         }
     }
@@ -610,7 +655,10 @@ class ProjectDetailFragment : Fragment(), ProjectDetailListener, AdvertisementCl
     override fun onImageClick(action: String, propertyimage: Propertyimage) {
         when (action) {
             "imageClick" -> {
-                (activity as HomeActivity).callBrowserActivity(LandableConstants.Image_URL + propertyimage.imagepath)
+                (activity as HomeActivity).callBrowserActivity(
+                    LandableConstants.Image_URL + propertyimage.imagepath,
+                    "Project Images Page"
+                )
             }
         }
     }
@@ -646,7 +694,7 @@ class ProjectDetailFragment : Fragment(), ProjectDetailListener, AdvertisementCl
     }
 
 
-    override fun onLocationAdded(title: String,address:String, latlong: LatLng) {
+    override fun onLocationAdded(title: String, address: String, latlong: LatLng) {
         var distance = SphericalUtil.computeDistanceBetween(
             latlong,
             getLocationFromAddress(projectDetailInfoModel!!.Fulladdress)
@@ -675,7 +723,7 @@ class ProjectDetailFragment : Fragment(), ProjectDetailListener, AdvertisementCl
             } else {
                 try {
                     if (it.toString() != "null") {
-                        Toast.makeText(requireContext(),it.toString(),Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
                         getProjectDetails(
                             projectDetailInfoModel!!.id,
                             projectDetailInfoModel!!.projectid

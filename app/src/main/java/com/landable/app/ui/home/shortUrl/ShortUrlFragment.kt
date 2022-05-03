@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.LandableConstants
 import com.landable.app.common.ShortURLClickListener
@@ -18,7 +19,6 @@ import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.dialog.CustomAlertDialog
 import com.landable.app.ui.dialog.CustomProgressDialog
 import com.landable.app.ui.home.dataModels.ShortUrlDataModelItem
-import com.landable.app.ui.home.property.PostReviewDialogFragment
 
 class ShortUrlFragment : Fragment(), ShortURLClickListener {
 
@@ -42,10 +42,19 @@ class ShortUrlFragment : Fragment(), ShortURLClickListener {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_short_url, container, false)
 
+        FirebaseAnalytics.getInstance((activity as HomeActivity))
+            .setCurrentScreen((activity as HomeActivity), "Short URL Fragment", null)
+
         getShortUrlList()
 
         binding.buttonSaveUrl.setOnClickListener {
-            postShortURL(PostShortURL(0, binding.edRedirectTo.text.toString(), binding.edUrlName.text.toString()))
+            postShortURL(
+                PostShortURL(
+                    0,
+                    binding.edRedirectTo.text.toString(),
+                    binding.edUrlName.text.toString()
+                )
+            )
         }
 
         return binding.root
@@ -116,13 +125,11 @@ class ShortUrlFragment : Fragment(), ShortURLClickListener {
             } else {
                 try {
                     if (it.toString() != "null") {
-                        if (it == "success") {
-                            getShortUrlList()
-                        } else if (it == "exists") {
-                            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT)
-                                .show()
-                            getShortUrlList()
-                        }
+                        binding.edUrlName.text.clear()
+                        binding.edRedirectTo.text.clear()
+                        shortUrlList.clear()
+                        getShortUrlList()
+                        Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -146,11 +153,14 @@ class ShortUrlFragment : Fragment(), ShortURLClickListener {
             } else {
                 try {
                     if (it.toString() != "null") {
-                        if (it == "success") {
-                            getShortUrlList()
-                        } else {
-                            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
-                        }
+                        /* if (it == "success") {
+                             getShortUrlList()
+                         } else {
+                             Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+                         }*/
+                        getShortUrlList()
+                        Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.ChatBoxClickListener
 import com.landable.app.common.FragmentHelper
@@ -39,6 +40,7 @@ class ChatBoxListFragment : Fragment(), ChatBoxClickListener {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_super_groups, container, false)
 
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "ChatBox List Fragment", null);
 
         getChatBoxList()
         return binding.root

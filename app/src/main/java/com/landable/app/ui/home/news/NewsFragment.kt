@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.NewsClickListener
 import com.landable.app.common.Utility
@@ -42,6 +43,8 @@ class NewsFragment : Fragment(), NewsClickListener {
         (activity as HomeActivity).enableBackButton("News")
         (activity as HomeActivity).hideBottomNavigation()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_news, container, false)
+
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "News Fragment", null);
 
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
 
@@ -115,7 +118,7 @@ class NewsFragment : Fragment(), NewsClickListener {
     override fun onNewsClick(action: String, newsDataModel: NewsDataModelItem) {
         when (action) {
             "newsClick" -> {
-                (activity as HomeActivity).callBrowserActivity(newsDataModel.link)
+                (activity as HomeActivity).callBrowserActivity(newsDataModel.link,"News Page")
             }
         }
     }

@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.slider.RangeSlider
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.*
 import com.landable.app.data.repositories.RegisterRepository
@@ -91,6 +92,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         (activity as HomeActivity).enableBackButton("Search")
         (activity as HomeActivity).hideBottomNavigation()
 
+
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
 
@@ -100,7 +102,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                     "&key=&ct=&st=&stype=0&ps=0&cfrom=0&cto=0&bed=&bath=0&bal=0&furnished=&parking" +
                     "=0&amenities=&postedon=0&floor=&lat=0&lon=0&sort=New&areafrom=0&areato=100000#."
 
-            (activity as HomeActivity).callBrowserActivity(url)
+            (activity as HomeActivity).callBrowserActivity(url,"Search Map Page")
         }
 
         binding.ivSaveResult.setOnClickListener {
@@ -294,6 +296,9 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
 
     //function to change text color and hit api on the basis of text selected
     private fun changeSelectedTextColourAndCallAPi(selectedText: String) {
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity),
+            "Search $selectedText Fragment", null);
+
         selectedHighlightedText = selectedText
         binding.tvProperty.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
         binding.tvProjects.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
@@ -840,8 +845,10 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 } else {
                     val fm = requireActivity().supportFragmentManager
                     val dialogFragment = ContactOwnerDialogFragment(
-                        featurePropertiesDataModel!!.addedbyid,
-                        featurePropertiesDataModel.name
+                        "",
+                        featurePropertiesDataModel!!.name,
+                        "", featurePropertiesDataModel.addedbyid
+
                     )
                     dialogFragment.show(fm, "")
                 }

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.BlogsClickListener
 import com.landable.app.data.repositories.RegisterRepository
@@ -37,6 +38,8 @@ class BlogFragment : Fragment(), BlogsClickListener {
         (activity as HomeActivity).enableBackButton("Blogs")
         (activity as HomeActivity).hideBottomNavigation()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_blogs, container, false)
+
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Blogs Fragment", null);
 
         getBlogsList()
         
@@ -75,7 +78,7 @@ class BlogFragment : Fragment(), BlogsClickListener {
     override fun onBlogClick(action: String, blogsDataModel: BlogDataModel) {
         when (action) {
             "blogClick" -> {
-                (activity as HomeActivity).callBrowserActivity(blogsDataModel.link)
+                (activity as HomeActivity).callBrowserActivity(blogsDataModel.link,"Blogs")
 
             }
         }

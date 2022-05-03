@@ -11,6 +11,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.landable.app.R
@@ -46,6 +50,8 @@ class HomeActivity : AppCompatActivity(),
     var propertyID: String = ""
     var contactType: String = ""
     var agentID: Int = 0
+    private var appUpdateManager: AppUpdateManager? = null
+    private val REQUEST_CODE = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,11 +62,18 @@ class HomeActivity : AppCompatActivity(),
 
         //load Splash fragment
 
+        appUpdateManager = AppUpdateManagerFactory.create(this)
+
         if (intent.hasExtra("url")) {
             loadAddSupergroupFragment()
         } else {
             loadSplashFragment()
         }
+
+        checkUpdate()
+
+
+        // Creates instance of the manager.
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
@@ -101,6 +114,39 @@ class HomeActivity : AppCompatActivity(),
             //NavigationMenuDialog(this@HomeActivity, this@HomeActivity).show()
         }
         binding.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        inProgressUpdate()
+    }
+
+    private fun inProgressUpdate() {
+        appUpdateManager?.appUpdateInfo?.addOnSuccessListener { updateInfo ->
+            if (updateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                appUpdateManager?.startUpdateFlowForResult(
+                    updateInfo,
+                    AppUpdateType.IMMEDIATE,
+                    this,
+                    REQUEST_CODE
+                )
+            }
+        }
+    }
+
+    private fun checkUpdate() {
+        appUpdateManager?.appUpdateInfo?.addOnSuccessListener { updateInfo ->
+            if (updateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                && updateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+            ) {
+                appUpdateManager?.startUpdateFlowForResult(
+                    updateInfo,
+                    AppUpdateType.IMMEDIATE,
+                    this,
+                    REQUEST_CODE
+                )
+            }
+        }
     }
 
     private fun initializeFCM() {
@@ -337,10 +383,10 @@ class HomeActivity : AppCompatActivity(),
         return userData
     }
 
-    fun callBrowserActivity(url: String) {
+    fun callBrowserActivity(url: String, title: String) {
         val intent = Intent(this, BrowserActivity::class.java)
         intent.putExtra("url", url)
-        intent.putExtra("title", "Landable")
+        intent.putExtra("title", title)
         startActivity(intent)
     }
 

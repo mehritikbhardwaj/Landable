@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.AgentProfileListener
 import com.landable.app.common.FragmentHelper
@@ -44,6 +45,7 @@ class AgentsFragment : Fragment(), AgentProfileListener {
             DataBindingUtil.inflate(inflater, R.layout.fragment_agents, container, false)
 
         getAgentsListData()
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Agents List Fragment", null);
 
         binding.ivAddAgent.setOnClickListener {
             loadAddAgentFragment(0)

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.AppInfo
 import com.landable.app.common.FragmentHelper
@@ -54,6 +55,8 @@ class ProfileFragment : Fragment(), IListener {
         (activity as HomeActivity).showTopBar()
         (activity as HomeActivity).enableBackButton("Profile")
         (activity as HomeActivity).hideBottomNavigation()
+
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Profile Fragment", null);
 
         if (AppInfo.getCustomerType() == "Individual") {
             binding.llAgents.visibility = View.GONE

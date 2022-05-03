@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.*
 import com.landable.app.data.repositories.RegisterRepository
@@ -64,6 +65,8 @@ class AgencyProfileFragment : Fragment(), PropertyDetailListener, ProjectDetailL
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_agency_profile, container, false)
 
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Agency Profile Fragment", null);
+
         getAgencyProfileDetails(agentID)
 
         binding.viewALlPRoperties.setOnClickListener {
@@ -84,7 +87,8 @@ class AgencyProfileFragment : Fragment(), PropertyDetailListener, ProjectDetailL
 
         binding.ivContact.setOnClickListener {
             val fm = requireActivity().supportFragmentManager
-            val dialogFragment = ContactOwnerDialogFragment(agentID,profileData.profile.name)
+            val dialogFragment = ContactOwnerDialogFragment(
+                profileData.profile.mobile,profileData.profile.name,profileData.profile.email,profileData.profile.userid)
             dialogFragment.show(fm, "")
         }
         return binding.root

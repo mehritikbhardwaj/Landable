@@ -39,6 +39,7 @@ class OTPLoginFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
         (activity as HomeActivity).hideTopbar()
         (activity as HomeActivity).hideBottomNavigation()
 
+
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
 
         binding.skip.setOnClickListener {

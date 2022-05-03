@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.FragmentHelper
 import com.landable.app.common.PropertyDetailListener
@@ -47,6 +48,8 @@ class FavoritePropertyFragment : Fragment(), PropertyDetailListener {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_posted_property, container, false)
 
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Favourite Property Fragment", null);
+
         if(propertyList.size == 0){
             binding.tvNoResult.visibility = View.VISIBLE
         }else {
@@ -68,8 +71,9 @@ class FavoritePropertyFragment : Fragment(), PropertyDetailListener {
             "contactOwner" -> {
                 val fm = requireActivity().supportFragmentManager
                 val dialogFragment = ContactOwnerDialogFragment(
-                    featurePropertiesDataModel!!.addedbyid,
-                    featurePropertiesDataModel.name
+                    "",
+                    featurePropertiesDataModel!!.name,
+                    "", featurePropertiesDataModel.addedbyid
                 )
                 dialogFragment.show(fm, "")
 

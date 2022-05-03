@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.FragmentHelper
 import com.landable.app.common.LandableConstants
@@ -47,6 +48,8 @@ class PostedProjectFragment : Fragment(), ProjectDetailListener {
         (activity as HomeActivity).hideBottomNavigation()
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_posted_project, container, false)
+
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Posted Project Fragment", null);
 
         if (projectList.size == 0) {
             binding.tvNoResult.visibility = View.VISIBLE

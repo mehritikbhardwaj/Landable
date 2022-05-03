@@ -1377,6 +1377,7 @@ object ParseResponse {
         val jsonArray = JSONArray(response)
         for (i in 0 until jsonArray.length()) {
             val lead = LeadsDataModel()
+            lead.Image1 = jsonArray.getJSONObject(i).getString("Image1")
             lead.userid = jsonArray.getJSONObject(i).getString("userid")
             lead.type = jsonArray.getJSONObject(i).getString("type")
             lead.title = jsonArray.getJSONObject(i).getString("title")
@@ -1392,7 +1393,6 @@ object ParseResponse {
             lead.customer_link = jsonArray.getJSONObject(i).getString("customer_link")
             lead.badgecodes = jsonArray.getJSONObject(i).getString("badgecodes")
             lead.agencyname = jsonArray.getJSONObject(i).getString("agencyname")
-            lead.Image1 = jsonArray.getJSONObject(i).getString("Image1")
             lead.badges = jsonArray.getJSONObject(i).getString("badges")
             lead.addedbyid = jsonArray.getJSONObject(i).getInt("addedbyid")
 

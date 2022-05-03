@@ -3,7 +3,7 @@ package com.landable.app.ui.home.dataModels
 import java.io.Serializable
 
 class LeadsDataModel:Serializable{
-    var Image1: String=""
+    var Image1: String= ""
     var addedbyid: Int=0
     var agencyname: String=""
     var badgecodes: String=""

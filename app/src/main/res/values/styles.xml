@@ -282,9 +282,9 @@
     <style name="propertyDetailLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginRight">@dimen/_10sdp</item>
+        <item name="android:layout_marginRight">@dimen/_5sdp</item>
         <item name="android:layout_marginTop">@dimen/_5sdp</item>
-        <item name="android:layout_marginLeft">@dimen/_10sdp</item>
+        <item name="android:layout_marginLeft">@dimen/_5sdp</item>
         <item name="android:orientation">vertical</item>
     </style>
 

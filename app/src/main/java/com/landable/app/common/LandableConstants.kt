@@ -75,5 +75,6 @@ object LandableConstants {
     const val Post_Addsavedsearch = "Post_Addsavedsearch"
     const val GetPropertyforeditByID = "GetPropertyforeditByID"
     const val GetDeleteSupergroup = "GetDeleteSupergroup"
+    const val Get_Unreadmsg ="Get_Unreadmsg"
 }
    

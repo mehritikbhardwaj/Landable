@@ -1,6 +1,7 @@
 package com.landable.app.ui.home.homeUI
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,7 @@ import com.landable.app.ui.home.property.PropertyDetailFragment
 import com.landable.app.ui.home.property.ViewAllPropertyFragment
 import com.landable.app.ui.home.property.adapters.FeaturePropertiesAdapter
 import com.landable.app.ui.home.search.SearchFragment
+
 
 class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
     WhyLandableClickListener {

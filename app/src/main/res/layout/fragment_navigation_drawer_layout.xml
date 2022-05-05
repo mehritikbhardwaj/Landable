@@ -268,6 +268,16 @@
                             <TextView
                                 style="@style/myProfileTextView"
                                 android:text="@string/chat" />
+
+                            <TextView
+                                android:visibility="gone"
+                                android:id="@+id/newMessagesCounter"
+                                android:textColor="@color/white"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:background="@color/colour_app"
+                                style="@style/myProfileTextView"
+                                android:text="3 new messages" />
+
                         </LinearLayout>
 
                         <LinearLayout style="@style/llSideNavigationHeaderStyle">

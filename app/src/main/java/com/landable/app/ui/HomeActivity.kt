@@ -392,6 +392,7 @@ class HomeActivity : AppCompatActivity(),
 
     override fun onPressedCustomDialogButton(pressedButtonName: String?, action: String?) {
         if (pressedButtonName == "ok") {
+            userData.clear()
             loadLoginFragment()
         }
     }

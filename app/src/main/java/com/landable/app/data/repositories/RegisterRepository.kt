@@ -322,6 +322,31 @@ class RegisterRepository : SafeApiRequest() {
         return apiResponse
     }
 
+    fun get_Unreadmsg(): LiveData<String> {
+        val apiResponse = MutableLiveData<String>()
+
+        MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).get_Unreadmsg(
+            getRegisterUserHeaderMap()
+        )
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        apiResponse.value = response.body()!!.string()
+                    } else {
+                        apiResponse.value = response.errorBody()!!.string()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    apiResponse.value = t.message
+                }
+            })
+        return apiResponse
+    }
+
     fun getNotification(): LiveData<String> {
         val apiResponse = MutableLiveData<String>()
 

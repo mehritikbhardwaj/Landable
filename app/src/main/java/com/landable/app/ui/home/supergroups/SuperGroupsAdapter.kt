@@ -49,6 +49,12 @@ class SuperGroupsAdapter(
             supergroupListener.onClickSuperGroup("chatSupergroup",superGroups)
         }
 
+        holder.supergroupsBinding.llChatBox.setOnClickListener {
+            supergroupListener.onClickSuperGroup("detail",superGroups)
+
+        }
+
+
     }
 
     override fun getItemCount(): Int {

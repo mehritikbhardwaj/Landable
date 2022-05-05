@@ -51,7 +51,7 @@ class LeadsListAdapter(private val leadsList: ArrayList<LeadsDataModel>,
         holder.leadsRowBinding.circleImageView.load(LandableConstants.Image_URL + leads.logo)
 
         holder.leadsRowBinding.llChat.setOnClickListener {
-          //  leadsClickListener.onLeadsClick("chat",leads)
+            leadsClickListener.onLeadsClick("chat",leads)
         }
 
         holder.leadsRowBinding.llLeads.setOnClickListener {

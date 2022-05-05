@@ -86,7 +86,7 @@ class LeadFragment : Fragment(), LeadsClickListener {
     override fun onLeadsClick(action: String, leadsDataModel: LeadsDataModel) {
         when (action) {
             "chat" -> {
-                // loadChatsFragment(leadsDataModel)
+                 loadChatsFragment(leadsDataModel)
             }
             "call" -> {
                 val intent = Intent(Intent.ACTION_DIAL)
@@ -107,7 +107,7 @@ class LeadFragment : Fragment(), LeadsClickListener {
     ) {
         val bundle = Bundle()
         bundle.putString("type", leadsDataModel.type)
-        // bundle.putInt("id", leadsDataModel.propertyid)
+         bundle.putInt("id", leadsDataModel.chatid)
         bundle.putInt("toUserID", leadsDataModel.userid.toInt())
         bundle.putBoolean("comingfromchat", false)
 

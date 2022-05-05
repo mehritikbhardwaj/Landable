@@ -100,6 +100,10 @@ interface MyApi {
     fun getDashboardInfo(@HeaderMap headers: Map<String, String>): Call<ResponseBody>
 
     @Headers("Content-Type: application/json")
+    @GET(LandableConstants.Get_Unreadmsg)
+    fun get_Unreadmsg(@HeaderMap headers: Map<String, String>): Call<ResponseBody>
+
+    @Headers("Content-Type: application/json")
     @GET(LandableConstants.Getnotification)
     fun getNotification(@HeaderMap headers: Map<String, String>): Call<ResponseBody>
 

@@ -1395,7 +1395,7 @@ object ParseResponse {
             lead.agencyname = jsonArray.getJSONObject(i).getString("agencyname")
             lead.badges = jsonArray.getJSONObject(i).getString("badges")
             lead.addedbyid = jsonArray.getJSONObject(i).getInt("addedbyid")
-
+            lead.chatid = jsonArray.getJSONObject(i).getInt("chatid")
             leadsArray.add(lead)
         }
         return leadsArray

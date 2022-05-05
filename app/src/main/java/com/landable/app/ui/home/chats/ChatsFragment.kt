@@ -1,6 +1,7 @@
 package com.landable.app.ui.home.chats
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,11 @@ class ChatsFragment : Fragment() {
     private var isComingfromChat: Boolean = false
     private var chatsAdapter: ChatsAdapter? = null
 
+
+    var handler: Handler = Handler()
+    var runnable: Runnable? = null
+    var delay = 20000
+
     // private var file: File? = null
 
     companion object {
@@ -64,6 +70,12 @@ class ChatsFragment : Fragment() {
         FirebaseAnalytics.getInstance((activity as HomeActivity))
             .setCurrentScreen((activity as HomeActivity), "Chats Fragment", null)
 
+        handler.postDelayed(Runnable {
+            handler.postDelayed(runnable!!, delay.toLong())
+            //chatsList.clear()
+            refreshChats(_Id, touSerID, type)
+        }.also { runnable = it }, delay.toLong())
+
 
         if (isComingfromChat) {
             chatUsersDataModel =
@@ -88,7 +100,7 @@ class ChatsFragment : Fragment() {
                 _Id,
                 binding.etChat.text.toString(), touSerID, type
             )
-            chatsList.clear()
+            // chatsList.clear()
             getChatsList(_Id, touSerID, type)
             binding.etChat.text.clear()
         }
@@ -119,13 +131,37 @@ class ChatsFragment : Fragment() {
         }
     }
 
+
+    private fun refreshChats(id: Int, toUserId: Int, type: String) {
+        // Show progress bar
+        val dashboardResponse = RegisterRepository().getchatcommentlist(id, toUserId, type)
+        dashboardResponse.observe(viewLifecycleOwner) {
+            // hide progress bar
+            // parse dashboard info
+            if (it.toString() != "null") {
+                try {
+                    chats = ParseResponse.parseChatsResponse(it.toString())
+                    chatsList = chats!!.chat
+                    updateChatsUI()
+
+                } catch (
+                    e: Exception
+                ) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+
     private fun updateChatsUI() {
+        binding.rvChats.smoothScrollToPosition(chatsList.size)
         binding.rvChats.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvChats.itemAnimator = DefaultItemAnimator()
         chatsAdapter = ChatsAdapter(chatsList, requireContext())
         binding.rvChats.adapter = chatsAdapter
-        binding.rvChats.smoothScrollToPosition(chatsList.size - 1)
+        binding.rvChats.smoothScrollToPosition(chatsList.size)
         binding.ivProfileImage.load(LandableConstants.Image_URL + chats!!.logo)
         binding.tvName.text = chats!!.name
     }

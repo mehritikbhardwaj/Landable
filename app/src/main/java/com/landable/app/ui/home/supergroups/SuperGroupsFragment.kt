@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,7 +45,8 @@ class SuperGroupsFragment : Fragment(), SupergroupClickListener {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_posted_project, container, false)
 
-        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "My Supergroups Fragment", null);
+        FirebaseAnalytics.getInstance((activity as HomeActivity))
+            .setCurrentScreen((activity as HomeActivity), "My Supergroups Fragment", null)
 
         getMySuperGroups()
 
@@ -95,6 +97,7 @@ class SuperGroupsFragment : Fragment(), SupergroupClickListener {
                     if (it.toString() != "null") {
                         superGroupsList.clear()
                         getMySuperGroups()
+                        Toast.makeText((activity as HomeActivity), it, Toast.LENGTH_LONG).show()
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -114,6 +117,12 @@ class SuperGroupsFragment : Fragment(), SupergroupClickListener {
             }
             "chatSupergroup" -> {
                 loadChatsFragment(superGroupsDataModelItem)
+            }
+            "detail" -> {
+                (activity as HomeActivity).callBrowserActivity(
+                    superGroupsDataModelItem.link, "Supergroup Detail " +
+                            "Page"
+                )
             }
         }
     }

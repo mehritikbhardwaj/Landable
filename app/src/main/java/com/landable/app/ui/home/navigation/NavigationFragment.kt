@@ -19,6 +19,7 @@ import com.landable.app.data.repositories.RegisterRepository
 import com.landable.app.data.responses.ParseResponse
 import com.landable.app.databinding.FragmentNavigationDrawerLayoutBinding
 import com.landable.app.ui.HomeActivity
+import com.landable.app.ui.dialog.CustomAlertDialog
 import com.landable.app.ui.home.auction.FragmentAuction
 import com.landable.app.ui.home.blogs.BlogFragment
 import com.landable.app.ui.home.chats.ChatBoxListFragment
@@ -29,6 +30,7 @@ import com.landable.app.ui.home.profile.ProfileFragment
 import com.landable.app.ui.home.search.SearchFragment
 import com.landable.app.ui.home.supergroups.AddSuperGroupFragment
 import com.landable.app.ui.home.supergroups.SuperGroupsFragment
+import org.json.JSONObject
 
 class NavigationFragment : Fragment(), IListener {
 
@@ -64,6 +66,7 @@ class NavigationFragment : Fragment(), IListener {
 
     override fun onResume() {
         super.onResume()
+        getUnreadMessage()
         userData = (activity as HomeActivity).getUserData()
         if (userData.isNotEmpty()) {
             updatedUserInfo()
@@ -85,13 +88,13 @@ class NavigationFragment : Fragment(), IListener {
     }
 
     override fun onStarted(action: String) {
-        TODO("Not yet implemented")
     }
 
     override fun onSuccess(response: LiveData<String>, action: String) {
         (activity as HomeActivity).hideDrawer()
         when (action) {
             "onDashboardClick" -> {
+
             }
             "onSearchPropertyClick" -> {
                 loadSearchFragment()
@@ -105,11 +108,9 @@ class NavigationFragment : Fragment(), IListener {
                 } else {
                     val url =
                         LandableConstants.Image_URL + "app/threadsearch.aspx?uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
-                    (activity as HomeActivity).callBrowserActivity(url,"Supergroups Fragment")
+                    (activity as HomeActivity).callBrowserActivity(url, "Supergroups Fragment")
                 }
-
             }
-
             "onAddPosts" -> {
                 if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
                     (activity as HomeActivity).askForLogin()
@@ -139,7 +140,10 @@ class NavigationFragment : Fragment(), IListener {
                 } else {
                     val url =
                         LandableConstants.Image_URL + "app/powerbi.aspx?uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
-                    (activity as HomeActivity).callBrowserActivity(url,"PropertyRegistrationLookup Page")
+                    (activity as HomeActivity).callBrowserActivity(
+                        url,
+                        "PropertyRegistrationLookup Page"
+                    )
                 }
             }
             "onAnalyzeTrendsClick" -> {
@@ -148,7 +152,7 @@ class NavigationFragment : Fragment(), IListener {
                 } else {
                     val url =
                         LandableConstants.Image_URL + "app/analyse-trends.aspx?uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
-                    (activity as HomeActivity).callBrowserActivity(url,"AnalyzeTrends Page")
+                    (activity as HomeActivity).callBrowserActivity(url, "AnalyzeTrends Page")
                 }
             }
             "onNewsClick" -> {
@@ -172,7 +176,7 @@ class NavigationFragment : Fragment(), IListener {
                 val url = "https://www.landable.in/auctionmap.aspx?key=&ct=0&st=0&" +
                         "city=,status=Active,locality=,locality=,beforedate=,bankname=," +
                         "borrower=,costfrom=0,costto=0,areafrom=0,areato=10000000,emddate="
-                (activity as HomeActivity).callBrowserActivity(url,"Search Map Page")
+                (activity as HomeActivity).callBrowserActivity(url, "Search Map Page")
             }
 
         }
@@ -300,6 +304,37 @@ class NavigationFragment : Fragment(), IListener {
             SuperGroupsFragment.newInstance(),
             SuperGroupsFragment::class.java.name
         )
+    }
+
+
+    private fun getUnreadMessage() {
+        val response = RegisterRepository().get_Unreadmsg()
+        response.observe(viewLifecycleOwner) {
+
+            if (it == LandableConstants.noInternetErrorMessage) {
+                //print NoInternet Error Message
+                CustomAlertDialog(
+                    requireContext(),
+                    LandableConstants.noInternetErrorTitle,
+                    it
+                ).show()
+            } else {
+                try {
+                    if (it.toString() != "null") {
+                        val jsonObj = JSONObject(it)
+                        val unread = jsonObj.getInt("unread")
+                        if (unread > 0) {
+                            binding.newMessagesCounter.visibility = View.VISIBLE
+                            binding.newMessagesCounter.text = "$unread new messages"
+                        }
+
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+            }
+        }
     }
 
 }

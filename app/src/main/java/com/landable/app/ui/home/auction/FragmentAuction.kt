@@ -87,6 +87,16 @@ class FragmentAuction : Fragment(),
 
         FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Auction Search Fragment", null);
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Search auction page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            )
+        )
         getFiltersList()
         updatePriceUnitDopDown()
         updateStatusUnitDopDown()

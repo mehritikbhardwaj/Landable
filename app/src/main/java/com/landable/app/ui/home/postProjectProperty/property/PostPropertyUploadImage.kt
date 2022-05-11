@@ -58,6 +58,17 @@ class PostPropertyUploadImage : Fragment(), UploadImageDialogFragment.IUploadIma
                 false
             )
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Post property Upload image page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            )
+        )
+
         binding.uploadImage.setOnClickListener {
             val fm = requireActivity().supportFragmentManager
             val dialogFragment =

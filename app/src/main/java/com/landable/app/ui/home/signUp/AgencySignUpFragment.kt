@@ -44,6 +44,17 @@ class AgencySignUpFragment : Fragment(), IListener {
 
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Agency signup page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            )
+        )
+
         binding.checkboxSubscribe.setOnCheckedChangeListener { _, b ->
             if (viewModel != null) {
                 if (b) {

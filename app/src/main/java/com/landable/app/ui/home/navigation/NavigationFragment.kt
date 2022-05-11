@@ -53,6 +53,7 @@ class NavigationFragment : Fragment(), IListener {
             container,
             false
         )
+
         AppInfo.setContext(requireContext())
         binding.tvName.text = AppInfo.getName()
         binding.tvCustomerType.text = AppInfo.getCustomerType()
@@ -326,6 +327,8 @@ class NavigationFragment : Fragment(), IListener {
                         if (unread > 0) {
                             binding.newMessagesCounter.visibility = View.VISIBLE
                             binding.newMessagesCounter.text = "$unread new messages"
+                        }else{
+                            binding.newMessagesCounter.visibility = View.GONE
                         }
 
                     }

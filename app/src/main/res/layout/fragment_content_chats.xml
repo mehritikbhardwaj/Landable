@@ -85,6 +85,11 @@
                     android:layout_marginTop="5dp"
                     android:orientation="vertical"
                     android:scrollbars="none" />
+                <TextView
+                    android:id="@+id/tvDummy"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
             <LinearLayout

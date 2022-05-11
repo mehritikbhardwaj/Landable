@@ -79,6 +79,17 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
         progressDialog = CustomProgressDialog(requireContext())
         progressDialog!!.cancelProgress()
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Post property additional page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            )
+        )
+
         getFilterInfo()
         if (isComingForEdit) {
             getPropertyAdditionalDetails(_id, propertyId)

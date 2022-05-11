@@ -47,6 +47,16 @@ class LoginFragment : Fragment(), IListener {
 
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Login page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            )
+        )
         binding.loginWithOTP.setOnClickListener {
             openLoginOTPFragment()
         }

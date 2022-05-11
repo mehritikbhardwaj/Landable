@@ -112,18 +112,48 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
         }
 
         binding.viewAllFeaturedProperties.setOnClickListener {
+            (activity as HomeActivity).postUserTrackingModel(
+                HomeActivity.PostUserTrackingModel(
+                    "View all featured property page",
+                    "Visit",
+                    "Visit",
+                    "Visit",
+                    "",
+                    ""
+                )
+            )
             if (featurePropertyList.size != 0) {
                 loadViewAllFeaturedProperties(featurePropertyList)
             }
         }
 
         binding.viewAllProjects.setOnClickListener {
+            (activity as HomeActivity).postUserTrackingModel(
+                HomeActivity.PostUserTrackingModel(
+                    "View all project page",
+                    "Visit",
+                    "Visit",
+                    "Visit",
+                    "",
+                    ""
+                )
+            )
             if (projectsList.size != 0) {
                 loadViewAllProjects()
             }
         }
 
         binding.viewAllRecentProperties.setOnClickListener {
+            (activity as HomeActivity).postUserTrackingModel(
+                HomeActivity.PostUserTrackingModel(
+                    "View all recent page",
+                    "Visit",
+                    "Visit",
+                    "Visit",
+                    "",
+                    ""
+                )
+            )
             if (recentPropertyList.size != 0) {
                 loadViewAllFeaturedProperties(recentPropertyList)
             }

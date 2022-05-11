@@ -58,6 +58,16 @@ class ProfileFragment : Fragment(), IListener {
 
         FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Profile Fragment", null);
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Profile page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            )
+        )
         if (AppInfo.getCustomerType() == "Individual") {
             binding.llAgents.visibility = View.GONE
             binding.tvPostProperty.text = "Post Property"
@@ -175,7 +185,6 @@ class ProfileFragment : Fragment(), IListener {
     }
 
     override fun onStarted(action: String) {
-        TODO("Not yet implemented")
     }
 
     override fun onSuccess(response: LiveData<String>, action: String) {
@@ -219,7 +228,6 @@ class ProfileFragment : Fragment(), IListener {
     }
 
     override fun onFailure(message: String, action: String) {
-        TODO("Not yet implemented")
     }
 
     private fun loadShortlistedFragment() {

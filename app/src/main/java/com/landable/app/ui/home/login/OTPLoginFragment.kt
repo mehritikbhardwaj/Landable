@@ -39,6 +39,16 @@ class OTPLoginFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
         (activity as HomeActivity).hideTopbar()
         (activity as HomeActivity).hideBottomNavigation()
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Otp verification page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            )
+        )
 
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
 

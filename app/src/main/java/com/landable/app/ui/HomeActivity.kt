@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.gms.tasks.OnCompleteListener
@@ -22,7 +23,9 @@ import com.landable.app.common.AppInfo
 import com.landable.app.common.FragmentHelper
 import com.landable.app.common.LandableConstants
 import com.landable.app.common.ScreenTagManager
+import com.landable.app.data.repositories.RegisterRepository
 import com.landable.app.databinding.ActivityHomeBinding
+import com.landable.app.ui.dialog.CustomAlertDialog
 import com.landable.app.ui.dialog.CustomConfirmationDialog
 import com.landable.app.ui.home.chats.ChatsFragment
 import com.landable.app.ui.home.dataModels.FeaturePropertiesDataModel
@@ -34,6 +37,7 @@ import com.landable.app.ui.home.homeUI.HomeFragment
 import com.landable.app.ui.home.login.OTPLoginFragment
 import com.landable.app.ui.home.myActivity.MyActivityFragment
 import com.landable.app.ui.home.profile.ProfileFragment
+import com.landable.app.ui.home.property.PropertyDetailFragment
 import com.landable.app.ui.home.splash.SplashFragment
 import com.landable.app.ui.home.supergroups.AddSuperGroupFragment
 
@@ -395,5 +399,46 @@ class HomeActivity : AppCompatActivity(),
             userData.clear()
             loadLoginFragment()
         }
+    }
+
+     fun postUserTrackingModel(dataModel: PostUserTrackingModel) {
+        val postaddLocationResponse = RegisterRepository().post_usertracking(dataModel)
+        postaddLocationResponse.observe(this) {
+
+            if (it == LandableConstants.noInternetErrorMessage) {
+                //print NoInternet Error Message
+                CustomAlertDialog(this,
+                    LandableConstants.noInternetErrorTitle,
+                    it
+                ).show()
+            } else {
+                try {
+                    if (it.toString() != "null") {
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+            }
+        }
+    }
+
+
+    class PostUserTrackingModel(
+        page: String,
+        action: String,
+        actionnon: String,
+        message: String,
+        referenceid1: String,
+        referenceid2: String,
+
+        ) {
+        private var page: String = page
+        private var action: String = action
+        private var message: String = message
+        private var actionnon: String = actionnon
+        private var referenceid1: String = referenceid1
+        private var referenceid2: String = referenceid2
+
     }
 }

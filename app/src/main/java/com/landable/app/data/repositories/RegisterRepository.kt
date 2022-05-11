@@ -7,6 +7,7 @@ import com.landable.app.common.IUploadImageListener
 import com.landable.app.data.network.MyApi
 import com.landable.app.data.network.NetworkConnectionInterceptor
 import com.landable.app.data.network.SafeApiRequest
+import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.home.agent.AddAgentFragment
 import com.landable.app.ui.home.auction.FragmentAuction
 import com.landable.app.ui.home.browser.AddSuperGroupWebFragment
@@ -910,6 +911,32 @@ class RegisterRepository : SafeApiRequest() {
         return apiResponse
     }
 
+    fun post_usertracking(body: HomeActivity.PostUserTrackingModel): LiveData<String> {
+        val apiResponse = MutableLiveData<String>()
+
+        MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).post_usertracking(
+            body,
+            getRegisterUserHeaderMap()
+        )
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        apiResponse.value = response.body()?.string()
+                    } else {
+                        apiResponse.value = response.errorBody()?.string()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    apiResponse.value = t.message
+                }
+            })
+        return apiResponse
+    }
+
     fun postPropertyAdditionalDetailsInfo(body: PostPropertyAdditionalDetailsFragment.PostPropertyAdditionalInfo): LiveData<String> {
         val apiResponse = MutableLiveData<String>()
 
@@ -1103,6 +1130,7 @@ class RegisterRepository : SafeApiRequest() {
             })
         return apiResponse
     }
+
     fun getPropertyforeditByID(id: Int): LiveData<String> {
         val apiResponse = MutableLiveData<String>()
 
@@ -1285,6 +1313,7 @@ class RegisterRepository : SafeApiRequest() {
             })
         return apiResponse
     }
+
     fun postUserProfileUpdate(body: EditProfileFragment.UserProfileUpdate): LiveData<String> {
         val apiResponse = MutableLiveData<String>()
 
@@ -1310,6 +1339,7 @@ class RegisterRepository : SafeApiRequest() {
 
         return apiResponse
     }
+
     fun postPropertyImage(
         listener: IUploadImageListener,
         id: Int,

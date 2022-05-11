@@ -67,6 +67,16 @@ class PostPropertyLocationFragment : Fragment() {
                 false
             )
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Post property location page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            )
+        )
         getFilterInfo()
         binding.autoCompleteTextViewForState.setText("Delhi NCR")
         if (isComingForEdit){

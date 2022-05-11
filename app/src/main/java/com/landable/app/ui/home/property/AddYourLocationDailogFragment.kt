@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.gms.maps.model.LatLng
 import com.landable.app.R
 import com.landable.app.databinding.DialogAddLocationBinding
+import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.dialog.CustomAlertDialog
 import com.landable.app.ui.dialog.CustomProgressDialog
 import java.io.IOException
@@ -43,6 +44,17 @@ class AddYourLocationDailogFragment(
         binding!!.closeButton.setOnClickListener {
             dismiss()
         }
+
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Add location page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            )
+        )
 
         binding!!.buttonPostReview.setOnClickListener {
             if(binding!!.edAddress.text.toString().isNullOrEmpty()){

@@ -96,6 +96,17 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Search page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            )
+        )
+
         binding.ivSearchMap.setOnClickListener {
 
             val url = "https://www.landable.in/property-list.aspx?city=37" +

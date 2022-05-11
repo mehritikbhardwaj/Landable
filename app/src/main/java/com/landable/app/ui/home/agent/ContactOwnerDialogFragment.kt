@@ -53,6 +53,16 @@ class ContactOwnerDialogFragment(
         FirebaseAnalytics.getInstance((activity as HomeActivity))
             .setCurrentScreen((activity as HomeActivity), "Contact Agent Fragment", null)
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Contact owner page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            )
+        )
         binding!!.closeButton.setOnClickListener {
             dismiss()
         }

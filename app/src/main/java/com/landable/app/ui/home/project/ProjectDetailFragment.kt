@@ -104,6 +104,7 @@ class ProjectDetailFragment : Fragment(), ProjectDetailListener, AdvertisementCl
         FirebaseAnalytics.getInstance((activity as HomeActivity))
             .setCurrentScreen((activity as HomeActivity), "Project Detail Fragment", null)
 
+
         updateProjectDetailUI()
 
 

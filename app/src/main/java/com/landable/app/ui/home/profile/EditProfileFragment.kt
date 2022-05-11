@@ -84,6 +84,17 @@ class EditProfileFragment : Fragment(), UploadImageDialogFragment.IUploadImageLi
 
         getFilterInfo()
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Edit profile page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            )
+        )
+
         Glide.with(binding.ivProfileImage.context)
             .load(AppInfo.getUserImage())
             .placeholder(R.drawable.user_circle)

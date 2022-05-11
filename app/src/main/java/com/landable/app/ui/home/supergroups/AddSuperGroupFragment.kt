@@ -72,6 +72,17 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
 
         FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Add Supergroup Fragment", null);
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Add thread page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            )
+        )
+
         binding.buttonContinue.setOnClickListener {
             if (binding.edTitle.text.toString().isNullOrEmpty() ||
                 binding.edAddress.text.toString()

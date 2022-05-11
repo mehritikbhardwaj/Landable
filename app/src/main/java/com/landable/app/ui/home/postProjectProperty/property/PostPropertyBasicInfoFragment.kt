@@ -92,6 +92,17 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
                 false
             )
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Post property basic info page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            )
+        )
+
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.llPostPropertyLayout1)
 
         FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Post Property Fragment", null);

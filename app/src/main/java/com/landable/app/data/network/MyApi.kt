@@ -1,6 +1,7 @@
 package com.landable.app.data.network
 
 import com.landable.app.common.LandableConstants
+import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.home.agent.AddAgentFragment
 import com.landable.app.ui.home.auction.FragmentAuction
 import com.landable.app.ui.home.browser.AddSuperGroupWebFragment
@@ -439,6 +440,13 @@ interface MyApi {
     fun getDeleteSupergroup(
         @HeaderMap headers: Map<String, String>,
         @Query("threadid") threadid: Int
+    ): Call<ResponseBody>
+
+    @Headers("Content-Type: application/json")
+    @POST(LandableConstants.Post_usertracking)
+    fun post_usertracking(
+        @Body raw: HomeActivity.PostUserTrackingModel,
+        @HeaderMap headers: Map<String, String>
     ): Call<ResponseBody>
 
     companion object {

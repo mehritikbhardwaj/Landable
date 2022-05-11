@@ -5,6 +5,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -14,6 +15,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.FragmentHelper
 import com.landable.app.common.LandableConstants
+import com.landable.app.common.MyCountDownTimer
 import com.landable.app.data.repositories.RegisterRepository
 import com.landable.app.data.responses.ParseResponse
 import com.landable.app.databinding.FragmentContentChatsBinding
@@ -23,7 +25,7 @@ import com.landable.app.ui.home.dataModels.Chat
 import com.landable.app.ui.home.dataModels.ChatUsersDataModel
 import com.landable.app.ui.home.dataModels.ChatsDataModel
 
-class ChatsFragment : Fragment() {
+class ChatsFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
 
     private lateinit var binding: FragmentContentChatsBinding
     private var progressDialog: CustomProgressDialog? = null
@@ -36,6 +38,7 @@ class ChatsFragment : Fragment() {
     private var isComingfromChat: Boolean = false
     private var chatsAdapter: ChatsAdapter? = null
 
+    private var countDownTimer: MyCountDownTimer? = null
 
     var handler: Handler = Handler()
     var runnable: Runnable? = null
@@ -53,6 +56,16 @@ class ChatsFragment : Fragment() {
         type = requireArguments().getString("type")!!
         _Id = requireArguments().getInt("id")
         touSerID = requireArguments().getInt("toUserID")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        countDownTimer!!.cancel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startTimerAndUpdateUi()
 
     }
 
@@ -69,13 +82,6 @@ class ChatsFragment : Fragment() {
 
         FirebaseAnalytics.getInstance((activity as HomeActivity))
             .setCurrentScreen((activity as HomeActivity), "Chats Fragment", null)
-
-        handler.postDelayed(Runnable {
-            handler.postDelayed(runnable!!, delay.toLong())
-            //chatsList.clear()
-            refreshChats(_Id, touSerID, type)
-        }.also { runnable = it }, delay.toLong())
-
 
         if (isComingfromChat) {
             chatUsersDataModel =
@@ -100,12 +106,13 @@ class ChatsFragment : Fragment() {
                 _Id,
                 binding.etChat.text.toString(), touSerID, type
             )
-            // chatsList.clear()
-            getChatsList(_Id, touSerID, type)
+           /*  chatsList.clear()
+            getChatsList(_Id, touSerID, type)*/
             binding.etChat.text.clear()
         }
         return binding.root
     }
+
 
     private fun getChatsList(id: Int, toUserId: Int, type: String) {
         // Show progress bar
@@ -143,7 +150,6 @@ class ChatsFragment : Fragment() {
                     chats = ParseResponse.parseChatsResponse(it.toString())
                     chatsList = chats!!.chat
                     updateChatsUI()
-
                 } catch (
                     e: Exception
                 ) {
@@ -165,6 +171,18 @@ class ChatsFragment : Fragment() {
         binding.ivProfileImage.load(LandableConstants.Image_URL + chats!!.logo)
         binding.tvName.text = chats!!.name
     }
+
+    override fun onCompleteTimer(action: String) {
+        chatsList.clear()
+        refreshChats(_Id, touSerID, type)
+        startTimerAndUpdateUi()
+    }
+
+    private fun startTimerAndUpdateUi() {
+        countDownTimer = MyCountDownTimer(200000, 1000, binding.tvDummy, this)
+        countDownTimer!!.start()
+    }
+
 
 }
 

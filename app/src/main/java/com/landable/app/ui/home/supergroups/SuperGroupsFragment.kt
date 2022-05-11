@@ -113,7 +113,7 @@ class SuperGroupsFragment : Fragment(), SupergroupClickListener {
     ) {
         when (action) {
             "deleteSupergroup" -> {
-                deleteSupergroup(id)
+                deleteSupergroup(superGroupsDataModelItem.id)
             }
             "chatSupergroup" -> {
                 loadChatsFragment(superGroupsDataModelItem)

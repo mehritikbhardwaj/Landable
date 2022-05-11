@@ -11,6 +11,7 @@ import com.landable.app.common.AppInfo
 import com.landable.app.common.LandableConstants
 import com.landable.app.data.repositories.RegisterRepository
 import com.landable.app.databinding.DialogPostReviewBinding
+import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.dialog.CustomAlertDialog
 import com.landable.app.ui.dialog.CustomProgressDialog
 
@@ -46,6 +47,17 @@ class PostReviewDialogFragment(
         binding!!.closeButton.setOnClickListener {
             dismiss()
         }
+
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Post review page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            )
+        )
 
         binding!!.buttonPostReview.setOnClickListener {
             postPropertyReview(

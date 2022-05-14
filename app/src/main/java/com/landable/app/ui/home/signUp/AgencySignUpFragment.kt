@@ -26,10 +26,18 @@ class AgencySignUpFragment : Fragment(), IListener {
 
     private lateinit var binding: FragmentAgencySignUpBinding
     private var progressDialog: CustomProgressDialog? = null
+    private var number: String? = null
 
     companion object {
         fun newInstance() = AgencySignUpFragment()
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        number = arguments?.getString("number")
+
+    }
+
 
     private var viewModel: AgencySignUpViewModel? = null
 
@@ -43,6 +51,8 @@ class AgencySignUpFragment : Fragment(), IListener {
         FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Agency Signup Fragment", null);
 
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
+
+        binding.edEmail.setText(number)
 
         (activity as HomeActivity).postUserTrackingModel(
             HomeActivity.PostUserTrackingModel(
@@ -82,6 +92,7 @@ class AgencySignUpFragment : Fragment(), IListener {
         viewModel = ViewModelProvider(this).get(AgencySignUpViewModel::class.java)
         binding.agencySignUpViewModel = viewModel
         viewModel!!.listener = this
+        viewModel!!.phone = number
     }
 
     override fun onStarted(action: String) {

@@ -15,6 +15,7 @@ import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.dialog.CustomAlertDialog
 import com.landable.app.ui.home.homeUI.HomeFragment
 import com.landable.app.ui.home.signUp.SignUpFragment
+import com.landable.app.ui.home.verifyOTP.VerifyOtpFragment
 import org.json.JSONObject
 
 class OTPLoginFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
@@ -41,7 +42,7 @@ class OTPLoginFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
 
         (activity as HomeActivity).postUserTrackingModel(
             HomeActivity.PostUserTrackingModel(
-                "Otp verification page",
+                "Login page",
                 "Visit",
                 "Visit",
                 "Visit",
@@ -62,7 +63,7 @@ class OTPLoginFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
         binding.tvResendOtp.setTextColor(resources.getColor(R.color.progressBarBgColor))
 
         binding.signUpButton.setOnClickListener {
-            openSignUpFragment()
+            openSignUpFragment("")
         }
 
 /*binding.loginWithPassword.setOnClickListener {
@@ -85,6 +86,16 @@ class OTPLoginFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
                         binding.edMobile.text.toString(),
                         LandableConstants.fcmToken,
                         LandableConstants.deviceType
+                    )
+                )
+                (activity as HomeActivity).postUserTrackingModel(
+                    HomeActivity.PostUserTrackingModel(
+                        "Otp verification page",
+                        "Visit",
+                        "Visit",
+                        "Visit",
+                        "",
+                        ""
                     )
                 )
             }
@@ -134,12 +145,17 @@ class OTPLoginFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
         return binding.root
     }
 
-    private fun openSignUpFragment() {
+    private fun openSignUpFragment(number: String) {
+        val bundle = Bundle()
+        bundle.putString("number", number)
+        val signupFragment = SignUpFragment.newInstance()
+        signupFragment.arguments = bundle
+
         activity?.let {
             FragmentHelper().replaceFragmentAddToBackstack(
                 it.supportFragmentManager,
                 (activity as HomeActivity).getHomePageContainerId(),
-                SignUpFragment.newInstance(),
+                signupFragment,
                 SignUpFragment::class.java.name
             )
         }
@@ -191,9 +207,10 @@ class OTPLoginFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
                         } else if (status == "not exists") {
                             Toast.makeText(
                                 requireContext(),
-                                "User not exists please Signup",
+                                "Not a valid user.",
                                 Toast.LENGTH_LONG
                             ).show()
+                            openSignUpFragment(binding.edMobile.text.toString())
                         } else {
                             Toast.makeText(requireContext(), status, Toast.LENGTH_LONG).show()
                         }

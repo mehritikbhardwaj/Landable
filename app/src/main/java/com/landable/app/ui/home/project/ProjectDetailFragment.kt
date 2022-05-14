@@ -120,11 +120,15 @@ class ProjectDetailFragment : Fragment(), ProjectDetailListener, AdvertisementCl
         }
 
         binding.addLocation.setOnClickListener {
-            val fm = requireActivity().supportFragmentManager
-            val dialogFragment = AddYourLocationDailogFragment(
-                this
-            )
-            dialogFragment.show(fm, "")
+            if (AppInfo.getSCode() == "" || AppInfo.getSCode() == "0") {
+                (activity as HomeActivity).askForLogin()
+            }else {
+                val fm = requireActivity().supportFragmentManager
+                val dialogFragment = AddYourLocationDailogFragment(
+                    this
+                )
+                dialogFragment.show(fm, "")
+            }
         }
 
         binding.llDocument.setOnClickListener {

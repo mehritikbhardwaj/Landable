@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
+import com.landable.app.common.AppInfo
 import com.landable.app.common.FragmentHelper
 import com.landable.app.common.LandableConstants
 import com.landable.app.common.MyCountDownTimer
@@ -36,7 +37,7 @@ class ChatsFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
     private var _Id: Int = 0
     private var touSerID: Int = 0
     private var isComingfromChat: Boolean = false
-    private var chatsAdapter: ChatsAdapter? = null
+    private var chatsAdapter:ChatsAdapter? = null
 
     private var countDownTimer: MyCountDownTimer? = null
 
@@ -106,8 +107,8 @@ class ChatsFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
                 _Id,
                 binding.etChat.text.toString(), touSerID, type
             )
-           /*  chatsList.clear()
-            getChatsList(_Id, touSerID, type)*/
+             chatsList.clear()
+            getChatsList(_Id, touSerID, type)
             binding.etChat.text.clear()
         }
         return binding.root
@@ -161,6 +162,7 @@ class ChatsFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
 
 
     private fun updateChatsUI() {
+
         binding.rvChats.smoothScrollToPosition(chatsList.size)
         binding.rvChats.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

@@ -3,6 +3,8 @@ package com.landable.app.ui.home.supergroups
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,6 +85,19 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
             )
         )
 
+        binding.tvCOst.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if(binding.tvCOst.text.toString().isEmpty()){
+                    binding.tvPriceIndicator.text = "\u20B9 0"
+                }else setPriceText(binding.tvCOst.text.toString())
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                // set oid value now
+
+            }
+        })
+
         binding.buttonContinue.setOnClickListener {
             if (binding.edTitle.text.toString().isNullOrEmpty() ||
                 binding.edAddress.text.toString()
@@ -125,6 +140,57 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
             }
         }
         return binding.root
+    }
+
+    private fun setPriceText(priceInWords:String){
+        val first = priceInWords[0]
+
+        when {
+            priceInWords.length<4 -> {
+                binding.tvPriceIndicator.text = "\u20B9 $priceInWords"
+            }
+            priceInWords.length==4 -> {
+                val second = priceInWords[1]
+                binding.tvPriceIndicator.text = "\u20B9 $first.$second k"
+            }
+            priceInWords.length==5 -> {
+                val second = priceInWords[1]
+                val third = priceInWords[2]
+                binding.tvPriceIndicator.text = "\u20B9 $first$second.$third k"
+            }
+            priceInWords.length==6 -> {
+                val second = priceInWords[1]
+                val third = priceInWords[2]
+                binding.tvPriceIndicator.text = "\u20B9 $first.$second$third L"
+            }priceInWords.length==7 -> {
+                val second = priceInWords[1]
+                val third = priceInWords[2]
+                binding.tvPriceIndicator.text = "\u20B9 $first$second.$third L"
+            }
+            priceInWords.length==8 -> {
+                val second = priceInWords[1]
+                val third = priceInWords[2]
+                binding.tvPriceIndicator.text = "\u20B9 $first.$second$third Cr"
+            }
+            priceInWords.length==9 -> {
+                val second = priceInWords[1]
+                val third = priceInWords[2]
+                binding.tvPriceIndicator.text = "\u20B9 $first$second.$third Cr"
+            }
+            priceInWords.length==10 -> {
+                val second = priceInWords[1]
+                val third = priceInWords[2]
+                val fourth = priceInWords[3]
+                binding.tvPriceIndicator.text = "\u20B9 $first$second$third.$fourth Cr"
+            }
+            priceInWords.length==11 -> {
+                val second = priceInWords[1]
+                val third = priceInWords[2]
+                val fourth = priceInWords[3]
+                val fifth = priceInWords[4]
+                binding.tvPriceIndicator.text = "\u20B9 $first$second$third$fourth.$fifth Cr"
+            }
+        }
     }
 
     private fun loadPostSuperGroupMediaUpload(id: Int, projectid: String, comingFromMedia: String) {

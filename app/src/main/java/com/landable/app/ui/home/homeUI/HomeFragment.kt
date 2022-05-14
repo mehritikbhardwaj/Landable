@@ -18,6 +18,7 @@ import com.landable.app.data.responses.ParseResponse
 import com.landable.app.databinding.FragmentHomeBinding
 import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.dialog.CustomProgressDialog
+import com.landable.app.ui.dialog.PostTypeDialog
 import com.landable.app.ui.home.agent.AgencyProfileFragment
 import com.landable.app.ui.home.auction.FragmentAuction
 import com.landable.app.ui.home.blogs.BlogFragment
@@ -36,10 +37,11 @@ import com.landable.app.ui.home.property.PropertyDetailFragment
 import com.landable.app.ui.home.property.ViewAllPropertyFragment
 import com.landable.app.ui.home.property.adapters.FeaturePropertiesAdapter
 import com.landable.app.ui.home.search.SearchFragment
+import com.landable.app.ui.home.supergroups.AddSuperGroupFragment
 
 
 class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
-    WhyLandableClickListener {
+    WhyLandableClickListener, PostTypeDialog.UploadTypeListener {
 
     private lateinit var binding: FragmentHomeBinding
     private var whyLandableList = ArrayList<WhyLandableDataModel>()
@@ -162,7 +164,9 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
         binding.llPostProperty.setOnClickListener {
             if (AppInfo.getSCode() == "" || AppInfo.getSCode() == "0") {
                 (activity as HomeActivity).askForLogin()
-            } else loadPostPropertyFragment()
+            } else {
+                PostTypeDialog(requireActivity(), this).show()
+            }
         }
 
         if (featurePropertyList.size == 0 || recentPropertyList.size == 0 || projectsList.size == 0) {
@@ -514,6 +518,26 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
             (activity as HomeActivity).getHomePageContainerId(),
             NotificationsFragment.newInstance(),
             NotificationsFragment::class.java.name
+        )
+    }
+
+    override fun onClickButtonForUploadType(typeOfUpload: String) {
+        when(typeOfUpload){
+            "llPostProperty"->{
+                loadPostPropertyFragment()
+            }
+            "llPostSupergroup"->{
+                loadAddPostFragment()
+            }
+        }
+    }
+
+    private fun loadAddPostFragment() {
+        FragmentHelper().replaceFragmentAddToBackstack(
+            requireActivity().supportFragmentManager,
+            (activity as HomeActivity).getHomePageContainerId(),
+            AddSuperGroupFragment.newInstance(),
+            AddSuperGroupFragment::class.java.name
         )
     }
 

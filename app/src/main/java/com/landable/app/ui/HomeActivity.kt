@@ -108,7 +108,10 @@ class HomeActivity : AppCompatActivity(),
 
         // Toast.makeText(this,LandableConstants.fcmToken,Toast.LENGTH_LONG).show()
         binding.ivBack.setOnClickListener {
-            FragmentHelper().popBackStackImmediate(this@HomeActivity)
+            if (intent.hasExtra("url")){
+                intent.removeExtra("url");
+                loadHomeFragment()
+                }else FragmentHelper().popBackStackImmediate(this@HomeActivity)
         }
 
         binding.ivSideNavigation.setOnClickListener {

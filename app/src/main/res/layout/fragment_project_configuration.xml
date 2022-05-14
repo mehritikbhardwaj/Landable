@@ -129,6 +129,16 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/tvPriceIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:textColor="@color/colour_app"
+                    android:maxLines="1"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:text="\u20B9 0" />
+
             </LinearLayout>
 
             <LinearLayout

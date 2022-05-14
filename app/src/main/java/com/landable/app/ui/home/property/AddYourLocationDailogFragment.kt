@@ -45,6 +45,7 @@ class AddYourLocationDailogFragment(
             dismiss()
         }
 
+
         (activity as HomeActivity).postUserTrackingModel(
             HomeActivity.PostUserTrackingModel(
                 "Add location page",

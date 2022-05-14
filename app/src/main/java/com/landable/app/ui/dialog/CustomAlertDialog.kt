@@ -41,7 +41,7 @@ class CustomAlertDialog(context: Context, private var title: String, private var
 
         binding.tvOk.setOnClickListener { dismiss() }
 
-        this.setCancelable(false)
-        this.setCanceledOnTouchOutside(false)
+        this.setCancelable(true)
+        this.setCanceledOnTouchOutside(true)
     }
 }

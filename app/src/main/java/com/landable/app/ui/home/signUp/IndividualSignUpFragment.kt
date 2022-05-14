@@ -28,10 +28,17 @@ class IndividualSignUpFragment : Fragment(), IListener {
     private lateinit var binding: FragmentIndiviualSignUpBinding
     private var progressDialog: CustomProgressDialog? = null
     private var viewModel: IndividualSignUpViewModel? = null
+    private var number: String? = null
 
 
     companion object {
         fun newInstance() = IndividualSignUpFragment()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        number = arguments?.getString("number")
+
     }
 
 
@@ -45,6 +52,8 @@ class IndividualSignUpFragment : Fragment(), IListener {
         FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Individual Signup Fragment", null);
 
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
+
+        binding.edEmail.setText(number)
 
         (activity as HomeActivity).postUserTrackingModel(
             HomeActivity.PostUserTrackingModel(
@@ -80,6 +89,7 @@ class IndividualSignUpFragment : Fragment(), IListener {
         viewModel = ViewModelProvider(this).get(IndividualSignUpViewModel::class.java)
         binding.individualSignUpViewModel = viewModel
         viewModel!!.listener = this
+        viewModel!!.phone = number
     }
 
     override fun onStarted(action: String) {

@@ -62,8 +62,8 @@ class CustomConfirmationDialog(
             dismiss()
         }
 
-        this.setCancelable(false)
-        this.setCanceledOnTouchOutside(false)
+        this.setCancelable(true)
+        this.setCanceledOnTouchOutside(true)
     }
 
     interface ICustomConfirmationDialogListener {

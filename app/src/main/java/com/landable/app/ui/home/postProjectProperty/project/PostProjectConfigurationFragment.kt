@@ -2,6 +2,8 @@ package com.landable.app.ui.home.postProjectProperty.project
 
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -74,8 +76,21 @@ class PostProjectConfigurationFragment : Fragment(),
                     ConfigurationAdapter(projectData!!.projectconfiguration, this)
 
             }
-
         }
+
+        binding.edPrice.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if(binding.edPrice.text.toString().isEmpty()){
+                    binding.tvPriceIndicator.text = "\u20B9 0"
+                }else setPriceText(binding.edPrice.text.toString())
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                // set oid value now
+
+            }
+        })
+
         binding.uploadImage.setOnClickListener {
             val fm = requireActivity().supportFragmentManager
             val dialogFragment =
@@ -114,6 +129,58 @@ class PostProjectConfigurationFragment : Fragment(),
 
         return binding.root
     }
+
+    private fun setPriceText(priceInWords:String){
+        val first = priceInWords[0]
+
+        when {
+            priceInWords.length<4 -> {
+                binding.tvPriceIndicator.text = "\u20B9 $priceInWords"
+            }
+            priceInWords.length==4 -> {
+                val second = priceInWords[1]
+                binding.tvPriceIndicator.text = "\u20B9 $first.$second k"
+            }
+            priceInWords.length==5 -> {
+                val second = priceInWords[1]
+                val third = priceInWords[2]
+                binding.tvPriceIndicator.text = "\u20B9 $first$second.$third k"
+            }
+            priceInWords.length==6 -> {
+                val second = priceInWords[1]
+                val third = priceInWords[2]
+                binding.tvPriceIndicator.text = "\u20B9 $first.$second$third L"
+            }priceInWords.length==7 -> {
+            val second = priceInWords[1]
+            val third = priceInWords[2]
+            binding.tvPriceIndicator.text = "\u20B9 $first$second.$third L"
+        }
+            priceInWords.length==8 -> {
+                val second = priceInWords[1]
+                val third = priceInWords[2]
+                binding.tvPriceIndicator.text = "\u20B9 $first.$second$third Cr"
+            }
+            priceInWords.length==9 -> {
+                val second = priceInWords[1]
+                val third = priceInWords[2]
+                binding.tvPriceIndicator.text = "\u20B9 $first$second.$third Cr"
+            }
+            priceInWords.length==10 -> {
+                val second = priceInWords[1]
+                val third = priceInWords[2]
+                val fourth = priceInWords[3]
+                binding.tvPriceIndicator.text = "\u20B9 $first$second$third.$fourth Cr"
+            }
+            priceInWords.length==11 -> {
+                val second = priceInWords[1]
+                val third = priceInWords[2]
+                val fourth = priceInWords[3]
+                val fifth = priceInWords[4]
+                binding.tvPriceIndicator.text = "\u20B9 $first$second$third$fourth.$fifth Cr"
+            }
+        }
+    }
+
 
     private fun updateSelectedImageBitmap(uri: Uri) {
         this.uri = uri

@@ -21,6 +21,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -45,6 +46,8 @@ public class BrowserActivity extends AppCompatActivity {
     private View mCustomView;
     private MyWebChromeClient myWebChromeClient;
     private long mBackPressed;
+    ProgressDialog pd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,9 @@ public class BrowserActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mContext = this;
+        pd = new ProgressDialog(BrowserActivity.this);
+        pd.setMessage("Loading...");
+        pd.show();
         url = getIntent().getStringExtra("url");
         ActivityTitle = getIntent().getStringExtra("title");
         localtitle = getIntent().getStringExtra("localtitle");
@@ -75,6 +81,7 @@ public class BrowserActivity extends AppCompatActivity {
         coordinatorLayout = findViewById(R.id.main_content);
 
         initWebView();
+        webView.loadUrl(url);
 
         myWebChromeClient = new MyWebChromeClient(mContext);
         webView.setWebChromeClient(new MyWebChromeClient(mContext));
@@ -89,7 +96,6 @@ public class BrowserActivity extends AppCompatActivity {
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDisplayZoomControls(false);
-        webView.loadUrl(url);
     }
 
     @Override
@@ -97,6 +103,10 @@ public class BrowserActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (webView.canGoBack()) {
+                    if (pd != null) {
+                        pd.setMessage("Loading...");
+                        pd.show();
+                    }
                     webView.goBack();
                 } else finish();
                 break;
@@ -138,14 +148,12 @@ public class BrowserActivity extends AppCompatActivity {
     private void initWebView() {
         webView.setWebChromeClient(new MyWebChromeClient(this));
         webView.setWebViewClient(new WebViewClient() {
-            ProgressDialog pd;
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 // progressBar.setVisibility(View.VISIBLE);
-                if (pd == null) {
-                    pd = new ProgressDialog(BrowserActivity.this);
+                if (pd != null) {
                     pd.setMessage("Loading...");
                     pd.show();
                 }
@@ -155,7 +163,6 @@ public class BrowserActivity extends AppCompatActivity {
                 if (url.contains("gotochat.aspx?")) {
                     if (pd.isShowing()) {
                         pd.dismiss();
-                        pd = null;
                     }
                     Intent intent = new Intent(mContext, ChatActivity.class);
                     intent.putExtra("url", url);
@@ -163,10 +170,10 @@ public class BrowserActivity extends AppCompatActivity {
                 } else if (url.contains("addthreads.aspx")) {
                     if (pd.isShowing()) {
                         pd.dismiss();
-                        pd = null;
                     }
+                  //  webView.goBack();
                     Intent intent = new Intent(mContext, HomeActivity.class);
-                    intent.putExtra("url", "");
+                    intent.putExtra("url", "Supergroup");
                     startActivity(intent);
                     finish();
                 } else if (url.contains(".pdf")) {
@@ -193,10 +200,12 @@ public class BrowserActivity extends AppCompatActivity {
                 try {
                     if (pd.isShowing()) {
                         pd.dismiss();
-                        pd = null;
                     }
-                    if (url.contains("gotochat.aspx?") || url.contains("addthreads.aspx")) {
+                    if (url.contains("gotochat.aspx?")) {
+                        // Toast.makeText(mContext, "back", Toast.LENGTH_SHORT).show();
                         webView.goBack();
+                      //  webView.loadUrl(url);
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

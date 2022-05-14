@@ -102,11 +102,15 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
         }
 
         binding.addLocation.setOnClickListener {
-            val fm = requireActivity().supportFragmentManager
-            val dialogFragment = AddYourLocationDailogFragment(
-                this
-            )
-            dialogFragment.show(fm, "")
+            if (AppInfo.getSCode() == "" || AppInfo.getSCode() == "0") {
+                (activity as HomeActivity).askForLogin()
+            }else {
+                val fm = requireActivity().supportFragmentManager
+                val dialogFragment = AddYourLocationDailogFragment(
+                    this
+                )
+                dialogFragment.show(fm, "")
+            }
         }
 
         if (propertyDetailInfoModel!!.addedbyid.toString() == AppInfo.getUserId()) {

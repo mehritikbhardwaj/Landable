@@ -2712,9 +2712,24 @@ object ParseResponse {
         for (i in 0 until chatArray.length()) {
             val chat = Chat()
 
-            chat.id = chatArray.getJSONObject(i).getInt("id")
+            chat.agencyname = chatArray.getJSONObject(i).getString("agencyname")
+            chat.chatreferenceid = chatArray.getJSONObject(i).getInt("chatreferenceid")
             chat.comment = chatArray.getJSONObject(i).getString("comment")
+            chat.deleteoption = chatArray.getJSONObject(i).getString("deleteoption")
+            chat.disliked = chatArray.getJSONObject(i).getString("disliked")
+            chat.filesname = chatArray.getJSONObject(i).getString("filesname")
+            chat.id = chatArray.getJSONObject(i).getInt("id")
+            chat.touserid = chatArray.getJSONObject(i).getInt("touserid")
             chat.postedsince = chatArray.getJSONObject(i).getString("postedsince")
+            chat.userid = chatArray.getJSONObject(i).getInt("userid")
+            chat.viewed = chatArray.getJSONObject(i).getString("viewed")
+            chat.logo = chatArray.getJSONObject(i).getString("logo")
+            chat.type = chatArray.getJSONObject(i).getString("type")
+            chat.rating = chatArray.getJSONObject(i).getInt("rating")
+            chat.filespath = chatArray.getJSONObject(i).getString("filespath")
+            chat.filestype = chatArray.getJSONObject(i).getString("filestype")
+            chat.liked = chatArray.getJSONObject(i).getString("liked")
+            chat.loginstatus = chatArray.getJSONObject(i).getString("loginstatus")
 
             chatmasterArray.add(chat)
         }

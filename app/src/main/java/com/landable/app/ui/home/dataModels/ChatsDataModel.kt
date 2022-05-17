@@ -10,4 +10,5 @@ class ChatsDataModel:Serializable {
     var agencyname:String = ""
     var logo:String = ""
 
+
 }

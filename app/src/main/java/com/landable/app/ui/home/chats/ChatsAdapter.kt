@@ -19,14 +19,14 @@ class ChatsAdapter(private val chatsList: ArrayList<Chat>, private var context: 
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == 1) {
+        return if (viewType == 1) {
             val view =
                 LayoutInflater.from(context).inflate(R.layout.list_row_chat_left, parent, false)
-            return RecieveViewHolder(view)
+            RecieveViewHolder(view)
         } else {
             val view =
                 LayoutInflater.from(context).inflate(R.layout.list_row_chat_right, parent, false)
-            return SentViewHolder(view)
+            SentViewHolder(view)
         }
 
     }

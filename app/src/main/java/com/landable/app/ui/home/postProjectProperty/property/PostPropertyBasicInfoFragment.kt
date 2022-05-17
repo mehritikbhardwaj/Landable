@@ -69,6 +69,16 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
     private var propertyFullId: String = ""
     private var carpetArea: Double = 0.0
 
+
+    var description = ""
+    var cost = 0.0
+    var title = ""
+    var totalFloor = 0
+    var totalArea = 0.0
+    var address = ""
+    var buildUpArea=  0.0
+    var tvFloor=""
+
     companion object {
         fun newInstance() = PostPropertyBasicInfoFragment()
     }
@@ -107,7 +117,8 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
 
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.llPostPropertyLayout1)
 
-        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Post Property Fragment", null);
+        FirebaseAnalytics.getInstance((activity as HomeActivity))
+            .setCurrentScreen((activity as HomeActivity), "Post Property Fragment", null)
 
         if (isComingForWhichEditType == "PropertyEdit") {
             propertyInfo =
@@ -153,63 +164,67 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
         } else carpetArea = binding.carpetArea.text.toString().toDouble()
 
         binding.buttonContinue.setOnClickListener {
-
             /*   //PROP22222602
                //88715
                loadPostPropertyPageTwo(88715,"PROP22222602")*/
-            if (binding.tvCOst.text.toString().isEmpty()
-                || binding.edTitle.text.toString().isEmpty() ||
-                binding.edTotalArea.text.toString().isEmpty() || binding.edAddress.text.toString()
-                    .isEmpty() ||
-                binding.buildUpArea.text.toString()
-                    .isEmpty() || binding.tvFloor.text.toString()
-                    .isEmpty() || binding.tvTotalFloor.text.toString().isEmpty()
-            ) {
-                Toast.makeText(requireContext(), "Please fill all the columns", Toast.LENGTH_LONG)
-                    .show()
-            } else {
-                postPropertyStep1(
-                    PostPropertyBasicInfo(
-                        propertyId,
-                        propertyFullId,
-                        "",
-                        categoryID,
-                        subCategoryID,
-                        saleType,
-                        possetionType,
-                        bedsCOunt,
-                        binding.tvDescription.text.toString(),
-                        binding.tvCOst.text.toString().toDouble(),
-                        binding.edTitle.text.toString(),
-                        binding.tvTotalFloor.text.toString().toInt(),
-                        binding.edTotalArea.text.toString().toDouble(),
-                        binding.edAddress.text.toString(),
-                        lat.toDouble(),
-                        lon.toDouble(),
-                        binding.buildUpArea.text.toString().toDouble(),
-                        carpetArea,
-                        builtYear,
-                        availableMonth,
-                        availableYear,
-                        binding.tvFloor.text.toString()
-                    )
-                )
+             description = binding.tvDescription.text.toString()
+            if(binding.tvCOst.text.toString().isNotEmpty()){
+                cost = binding.tvCOst.text.toString().toDouble()
             }
+             title = binding.edTitle.text.toString()
+            if(binding.tvTotalFloor.text.toString().isNotEmpty()){
+                totalFloor = binding.tvTotalFloor.text.toString().toInt()
+            }
+            if(binding.edTotalArea.text.toString().isNotEmpty()){
+                totalArea = binding.edTotalArea.text.toString().toDouble()
+            }
+             address = binding.edAddress.text.toString()
+            if(binding.buildUpArea.text.toString().isNotEmpty()){
+                buildUpArea=  binding.buildUpArea.text.toString().toDouble()
+            }
+             tvFloor=  binding.tvFloor.text.toString()
+            postPropertyStep1(
+                PostPropertyBasicInfo(
+                    propertyId,
+                    propertyFullId,
+                    "",
+                    categoryID,
+                    subCategoryID,
+                    saleType,
+                    possetionType,
+                    bedsCOunt,
+                    description,
+                    cost,
+                    title,
+                    totalFloor,
+                    totalArea,
+                    address,
+                    lat.toDouble(),
+                    lon.toDouble(),
+                    buildUpArea,
+                    carpetArea,
+                    builtYear,
+                    availableMonth,
+                    availableYear,
+                    tvFloor
+                )
+            )
+    }
 
+    binding.tvCOst.addTextChangedListener(
+    object : TextWatcher {
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            if (binding.tvCOst.text.toString().isEmpty()) {
+                binding.tvPriceIndicator.text = "\u20B9 0"
+            } else setPriceText(binding.tvCOst.text.toString())
         }
 
-        binding.tvCOst.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if(binding.tvCOst.text.toString().isEmpty()){
-                    binding.tvPriceIndicator.text = "\u20B9 0"
-                }else setPriceText(binding.tvCOst.text.toString())
-            }
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                // set oid value now
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+        override fun afterTextChanged(s: Editable) {
+            // set oid value now
 
-            }
-        })
+        }
+    })
 
     val mapFragment =
         childFragmentManager.findFragmentById(R.id.googleMap) as SupportMapFragment
@@ -231,62 +246,63 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
     return binding.root
 }
 
-    private fun setPriceText(priceInWords:String){
-        val first = priceInWords[0]
+private fun setPriceText(priceInWords: String) {
+    val first = priceInWords[0]
 
-        when {
-            priceInWords.length<4 -> {
-                binding.tvPriceIndicator.text = "\u20B9 $priceInWords"
-            }
-            priceInWords.length==4 -> {
-                val second = priceInWords[1]
-                binding.tvPriceIndicator.text = "\u20B9 $first.$second k"
-            }
-            priceInWords.length==5 -> {
-                val second = priceInWords[1]
-                val third = priceInWords[2]
-                binding.tvPriceIndicator.text = "\u20B9 $first$second.$third k"
-            }
-            priceInWords.length==6 -> {
-                val second = priceInWords[1]
-                val third = priceInWords[2]
-                binding.tvPriceIndicator.text = "\u20B9 $first.$second$third L"
-            }priceInWords.length==7 -> {
+    when {
+        priceInWords.length < 4 -> {
+            binding.tvPriceIndicator.text = "\u20B9 $priceInWords"
+        }
+        priceInWords.length == 4 -> {
+            val second = priceInWords[1]
+            binding.tvPriceIndicator.text = "\u20B9 $first.$second k"
+        }
+        priceInWords.length == 5 -> {
+            val second = priceInWords[1]
+            val third = priceInWords[2]
+            binding.tvPriceIndicator.text = "\u20B9 $first$second.$third k"
+        }
+        priceInWords.length == 6 -> {
+            val second = priceInWords[1]
+            val third = priceInWords[2]
+            binding.tvPriceIndicator.text = "\u20B9 $first.$second$third L"
+        }
+        priceInWords.length == 7 -> {
             val second = priceInWords[1]
             val third = priceInWords[2]
             binding.tvPriceIndicator.text = "\u20B9 $first$second.$third L"
         }
-            priceInWords.length==8 -> {
-                val second = priceInWords[1]
-                val third = priceInWords[2]
-                binding.tvPriceIndicator.text = "\u20B9 $first.$second$third Cr"
-            }
-            priceInWords.length==9 -> {
-                val second = priceInWords[1]
-                val third = priceInWords[2]
-                binding.tvPriceIndicator.text = "\u20B9 $first$second.$third Cr"
-            }
-            priceInWords.length==10 -> {
-                val second = priceInWords[1]
-                val third = priceInWords[2]
-                val fourth = priceInWords[3]
-                binding.tvPriceIndicator.text = "\u20B9 $first$second$third.$fourth Cr"
-            }
-            priceInWords.length==11 -> {
-                val second = priceInWords[1]
-                val third = priceInWords[2]
-                val fourth = priceInWords[3]
-                val fifth = priceInWords[4]
-                binding.tvPriceIndicator.text = "\u20B9 $first$second$third$fourth.$fifth Cr"
-            }
+        priceInWords.length == 8 -> {
+            val second = priceInWords[1]
+            val third = priceInWords[2]
+            binding.tvPriceIndicator.text = "\u20B9 $first.$second$third Cr"
+        }
+        priceInWords.length == 9 -> {
+            val second = priceInWords[1]
+            val third = priceInWords[2]
+            binding.tvPriceIndicator.text = "\u20B9 $first$second.$third Cr"
+        }
+        priceInWords.length == 10 -> {
+            val second = priceInWords[1]
+            val third = priceInWords[2]
+            val fourth = priceInWords[3]
+            binding.tvPriceIndicator.text = "\u20B9 $first$second$third.$fourth Cr"
+        }
+        priceInWords.length == 11 -> {
+            val second = priceInWords[1]
+            val third = priceInWords[2]
+            val fourth = priceInWords[3]
+            val fifth = priceInWords[4]
+            binding.tvPriceIndicator.text = "\u20B9 $first$second$third$fourth.$fifth Cr"
         }
     }
+}
 
 
-    private fun updateDataForEdit() {
+private fun updateDataForEdit() {
     binding.edTitle.setText(propertyInfo!!.title)
     binding.edTotalArea.setText(propertyInfo!!.totalarea)
-    binding.tvCOst.setText(propertyData!!.propertyraw[0].cost.toString())
+    binding.tvCOst.setText(propertyData!!.propertyraw[0].cost.toInt().toString())
     binding.edAddress.setText(propertyInfo!!.address)
     binding.edLatitude.text = propertyInfo!!.lat
     binding.edLongitude.text = propertyInfo!!.lon

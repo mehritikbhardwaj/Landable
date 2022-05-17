@@ -77,6 +77,7 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
 
         FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Dashboard", null);
 
+        updateFCM()
         binding.ivSideNavigation.setOnClickListener {
             (activity as HomeActivity).openDrawer()
         }
@@ -540,6 +541,18 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
             AddSuperGroupFragment::class.java.name
         )
     }
+
+
+    private fun updateFCM() {
+        val response = RegisterRepository().updateFCM()
+        response.observe(viewLifecycleOwner) {
+            // hide progress bar
+            // parse dashboard info
+            if (it != "null") {
+            }
+        }
+    }
+
 
 
 }

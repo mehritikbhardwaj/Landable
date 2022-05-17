@@ -77,5 +77,6 @@ object LandableConstants {
     const val GetDeleteSupergroup = "GetDeleteSupergroup"
     const val Get_Unreadmsg ="Get_Unreadmsg"
     const val Post_usertracking = "Post_usertracking"
+    const val UpdateFCM = "UpdateFCM"
 }
    

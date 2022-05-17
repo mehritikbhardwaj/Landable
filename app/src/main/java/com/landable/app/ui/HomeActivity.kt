@@ -68,6 +68,9 @@ class HomeActivity : AppCompatActivity(),
 
         appUpdateManager = AppUpdateManagerFactory.create(this)
 
+        if(intent.hasExtra("isComingFromNotification")){
+            loadActivityFragment()
+        }
         if (intent.hasExtra("url")) {
             loadAddSupergroupFragment()
         } else {

@@ -329,6 +329,10 @@ interface MyApi {
     fun getMyactivity(@HeaderMap headers: Map<String, String>): Call<ResponseBody>
 
     @Headers("Content-Type: application/json")
+    @GET(LandableConstants.UpdateFCM)
+    fun updateFCM(@HeaderMap headers: Map<String, String>): Call<ResponseBody>
+
+    @Headers("Content-Type: application/json")
     @GET(LandableConstants.Getchatbox)
     fun getChatbox(@HeaderMap headers: Map<String, String>): Call<ResponseBody>
 

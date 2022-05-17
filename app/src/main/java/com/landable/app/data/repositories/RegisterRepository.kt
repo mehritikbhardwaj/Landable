@@ -1642,12 +1642,49 @@ class RegisterRepository : SafeApiRequest() {
         return apiResponse
     }
 
+    fun updateFCM(): LiveData<String> {
+        val apiResponse = MutableLiveData<String>()
+
+        MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).updateFCM(
+            getFCMUserHeaderMap()
+        )
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        apiResponse.value = response.body()!!.string()
+                    } else {
+                        apiResponse.value = response.errorBody()!!.string()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    apiResponse.value = t.message
+                }
+            })
+        return apiResponse
+    }
+
+
     private fun getRegisterUserHeaderMap(): Map<String, String> {
         val headerMap = mutableMapOf<String, String>()
         headerMap["apiusername"] = "lbus8830082tree"
         headerMap["apipassword"] = "NDU0dDctZmRhajcta2Zkc2ozLWZkYXNr"
         headerMap["uid"] = AppInfo.getUserId() /*"18981"*/
         headerMap["scode"] = AppInfo.getSCode() /*"F0CE309C-0845-4753-8FAC-D5E36E06ECAF"*/
+        return headerMap
+    }
+
+    private fun getFCMUserHeaderMap(): Map<String, String> {
+        val headerMap = mutableMapOf<String, String>()
+        headerMap["apiusername"] = "lbus8830082tree"
+        headerMap["apipassword"] = "NDU0dDctZmRhajcta2Zkc2ozLWZkYXNr"
+        headerMap["uid"] = AppInfo.getUserId() /*"18981"*/
+        headerMap["scode"] = AppInfo.getSCode()/*"F0CE309C-0845-4753-8FAC-D5E36E06ECAF"*/
+        headerMap["fcmid"] = AppInfo.getFCMToken()
+        headerMap["device"] = "Android"
         return headerMap
     }
 

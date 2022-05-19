@@ -33,7 +33,7 @@ class PostedPropertyAdapter(
         val property = propertiesList[position]
 
         holder.propertiesBinding.ivPropertyImage.load(LandableConstants.Image_URL + property.image1)
-        holder.propertiesBinding.tvBathroomCount.text = property.bathroom
+        holder.propertiesBinding.tvBathroomCount.text = property.bathroom.toString()
         holder.propertiesBinding.tvBedroomCount.text = property.bedroom
         holder.propertiesBinding.tvCategoryName.text = property.categoryname
         holder.propertiesBinding.tvPrice.text = "\u20B9 "+ property.costinword

@@ -297,10 +297,19 @@
                 android:id="@+id/buttonContinue"
                 style="@style/buttons_login_signup"
                 android:layout_below="@+id/llPin"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:padding="@dimen/_7sdp"
                 android:text="Continue" />
+
+            <Button
+                android:id="@+id/buttonExit"
+                android:layout_below="@+id/buttonContinue"
+                style="@style/buttons_login_signup"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:padding="@dimen/_7sdp"
+                android:text="Save &amp; Exit" />
         </RelativeLayout>
     </ScrollView>
 </layout>

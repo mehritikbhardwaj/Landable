@@ -7,12 +7,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.landable.app.R
+import com.landable.app.common.AgentProfileListener
 import com.landable.app.common.LandableConstants
 import com.landable.app.databinding.RowSelectedPropertyImageBinding
 import com.landable.app.ui.home.dataModels.Propertyimage
 
 class AvailablePropertyImagesAdapter (
-    private val imagesList: ArrayList<Propertyimage>
+    private val imagesList: ArrayList<Propertyimage>,
+    private val deleteListener:AgentProfileListener
 ) :
     RecyclerView.Adapter<ImagesHolder>() {
 
@@ -31,6 +33,9 @@ class AvailablePropertyImagesAdapter (
         val images = imagesList[position]
 
         holder.imageBinding.ivSelectedImage.load(LandableConstants.Image_URL + images.imagepath)
+        holder.imageBinding.ivDelete.setOnClickListener {
+            deleteListener.onAgentClick("delete",images.id)
+        }
     }
 
     override fun getItemCount(): Int {

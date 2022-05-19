@@ -78,5 +78,7 @@ object LandableConstants {
     const val Get_Unreadmsg ="Get_Unreadmsg"
     const val Post_usertracking = "Post_usertracking"
     const val UpdateFCM = "UpdateFCM"
+    const val GetDeletesavedsearch = "GetDeletesavedsearch"
+    const val GetDeletePropertymedia = "GetDeletePropertymedia"
 }
    

@@ -149,7 +149,17 @@
                 android:layout_marginEnd="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_15sdp"
                 android:padding="@dimen/_5sdp"
-                android:text="Upload" />
+                android:text="Upload &amp; Continue" />
+
+            <Button
+                android:id="@+id/buttonExit"
+                style="@style/buttons_login_signup"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:padding="@dimen/_5sdp"
+                android:text="Upload &amp; Exit" />
 
 
         </LinearLayout>

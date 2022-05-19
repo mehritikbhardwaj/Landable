@@ -21,6 +21,7 @@ import com.landable.app.ui.home.dataModels.Citymaster
 import com.landable.app.ui.home.dataModels.FilterMasterDataModel
 import com.landable.app.ui.home.dataModels.PropertyRawDataModel
 import com.landable.app.ui.home.dataModels.Statemaster
+import com.landable.app.ui.home.homeUI.HomeFragment
 import com.landable.app.ui.home.profile.CityAdapter
 import com.landable.app.ui.home.profile.StateAdapter
 import org.json.JSONObject
@@ -91,6 +92,23 @@ class PostPropertyLocationFragment : Fragment() {
             cityId = propertyData!!.propertyraw[0].city
         }
 
+        binding.buttonExit.setOnClickListener {
+            if(binding.edAddress.text.toString().isNullOrEmpty()){
+                CustomAlertDialog(requireContext(),"Alert", "Please fill all the fields").show()
+            }else{
+                postPropertyLocationUpdate(
+                    PostPropertyLocationInfo(
+                        _id,
+                        propertyId,
+                        stateId,
+                        cityId,
+                        binding.edAddress.text.toString(),
+                        binding.edLandmark.text.toString(),
+                        binding.edPin.text.toString()
+                    ),true
+                )
+            }
+        }
         binding.buttonContinue.setOnClickListener {
             if(binding.edAddress.text.toString().isNullOrEmpty()){
                 CustomAlertDialog(requireContext(),"Alert", "Please fill all the fields").show()
@@ -104,7 +122,7 @@ class PostPropertyLocationFragment : Fragment() {
                         binding.edAddress.text.toString(),
                         binding.edLandmark.text.toString(),
                         binding.edPin.text.toString()
-                    )
+                    ),false
                 )
             }
 
@@ -113,8 +131,16 @@ class PostPropertyLocationFragment : Fragment() {
         return binding.root
     }
 
+    private fun loadHomeFragment() {
+        FragmentHelper().replaceFragment(
+            requireActivity().supportFragmentManager,
+            (activity as HomeActivity).getHomePageContainerId(),
+            HomeFragment.newInstance(),
+            HomeFragment::class.java.name
+        )
+    }
 
-    private fun postPropertyLocationUpdate(dataModel: PostPropertyLocationInfo) {
+    private fun postPropertyLocationUpdate(dataModel: PostPropertyLocationInfo,forExit:Boolean) {
         progressDialog = CustomProgressDialog(requireContext())
         progressDialog!!.show()
         val postPropertyStep1Response = RegisterRepository().postPropertyLocationInfo(dataModel)
@@ -138,7 +164,9 @@ class PostPropertyLocationFragment : Fragment() {
                         val id = jsonObj.getInt("id")
                         if (status == "updated") {
                             Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
-                            loadPostPropertyPageThree(id, propertyid)
+                            if(forExit){
+                                loadHomeFragment()
+                            }else loadPostPropertyPageThree(id, propertyid)
                         }
                         else{
                             Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()

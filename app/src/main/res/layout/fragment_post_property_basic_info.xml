@@ -330,7 +330,7 @@
                             android:layout_margin="@dimen/_3sdp"
                             android:layout_weight="0.7"
                             android:background="@color/white"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
                             android:padding="@dimen/_3sdp" />
 
                         <LinearLayout
@@ -659,9 +659,17 @@
                 android:id="@+id/buttonContinue"
                 style="@style/buttons_login_signup"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:padding="@dimen/_7sdp"
                 android:text="Continue" />
+
+            <Button
+                android:id="@+id/buttonExit"
+                style="@style/buttons_login_signup"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:padding="@dimen/_7sdp"
+                android:text="Save &amp; Exit" />
         </LinearLayout>
 
     </ScrollView>

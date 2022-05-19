@@ -1131,6 +1131,58 @@ class RegisterRepository : SafeApiRequest() {
         return apiResponse
     }
 
+    fun getDeletesavedsearch(id: Int): LiveData<String> {
+        val apiResponse = MutableLiveData<String>()
+
+        MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).getDeletesavedsearch(
+            getRegisterUserHeaderMap(),
+            id
+        )
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        apiResponse.value = response.body()?.string()
+                    } else {
+                        apiResponse.value = response.errorBody()?.string()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    apiResponse.value = t.message
+                }
+            })
+        return apiResponse
+    }
+
+    fun GetDeletePropertymedia(id: Int): LiveData<String> {
+        val apiResponse = MutableLiveData<String>()
+
+        MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).GetDeletePropertymedia(
+            getRegisterUserHeaderMap(),
+            id
+        )
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        apiResponse.value = response.body()?.string()
+                    } else {
+                        apiResponse.value = response.errorBody()?.string()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    apiResponse.value = t.message
+                }
+            })
+        return apiResponse
+    }
+
     fun getPropertyforeditByID(id: Int): LiveData<String> {
         val apiResponse = MutableLiveData<String>()
 

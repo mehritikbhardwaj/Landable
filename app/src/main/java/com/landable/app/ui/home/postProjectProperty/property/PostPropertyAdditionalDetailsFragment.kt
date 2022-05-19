@@ -43,7 +43,7 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
     private var openSidesCount: Int = 0
     private var amenitiesArray = ArrayList<Amenitiesmaster>()
     private var isComingForEdit: Boolean = false
-    private var propertyData: PropertyDetailsModel? = null
+    private var propertyData: PropertyRawDataModel? = null
     private var yesNoArray = ArrayList<MonthsDataModel>()
     private var corneredArray = ArrayList<MonthsDataModel>()
     private var isGatedColony: String = "YES"
@@ -92,7 +92,7 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
 
         getFilterInfo()
         if (isComingForEdit) {
-            getPropertyAdditionalDetails(_id, propertyId)
+            getPropertyDetails(_id)
         }
         updateIsCertifiedDropDown()
         updateIsCornerdDropDown()
@@ -107,14 +107,20 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
             ) {
                 CustomAlertDialog(requireContext(), "Alert", "Please fill all the columns.").show()
             } else {
+
+                val maintenancecharge =
+                    binding.edMaintenanceCharge.text.toString().toDouble().toInt()
+                val securityDeposit = binding.securityDeposit.text.toString().toDouble().toInt()
+                val attachedbathroom = binding.attachedBathroom.text.toString().toInt()
+
                 postPropertyAdditionalDetailsUpdate(
                     PostPropertyAdditionalInfo(
                         _id,
                         propertyId,
-                        binding.edMaintenanceCharge.text.toString().toInt(),
-                        binding.securityDeposit.text.toString().toInt(),
+                        maintenancecharge,
+                        securityDeposit,
                         bathromCount,
-                        binding.attachedBathroom.text.toString().toInt(),
+                        attachedbathroom,
                         balconyCount,
                         parkingCount,
                         cornered,
@@ -179,6 +185,7 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
             }
     }
 
+/*
     private fun getPropertyAdditionalDetails(id: Int, propertyid: String) {
         val propertyResponse = RegisterRepository().getPropertyDetails(id, propertyid)
         propertyResponse.observe(viewLifecycleOwner) {
@@ -201,17 +208,54 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
             }
         }
     }
+*/
+
+    private fun getPropertyDetails(id: Int) {
+        val propertyResponse = RegisterRepository().getPropertyforeditByID(id)
+        propertyResponse.observe(viewLifecycleOwner) {
+
+            if (it == LandableConstants.noInternetErrorMessage) {
+                //print NoInternet Error Message
+                CustomAlertDialog(
+                    requireContext(),
+                    LandableConstants.noInternetErrorTitle,
+                    it
+                ).show()
+            } else {
+                try {
+                    propertyData = ParseResponse.parsePropertyRawDataModel(it.toString())
+                    updateDataForEdit()
+                } catch (
+                    e: Exception
+                ) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
 
     private fun updateDataForEdit() {
-        binding.edMaintenanceCharge.setText(propertyData!!.additionaldetails.costperft)
-        binding.spinnerBalconey.setText(propertyData!!.additionaldetails.balcony.toString())
-        binding.spinnerParking.setText(propertyData!!.additionaldetails.parking.toString())
-        binding.poolSize.setText(propertyData!!.additionaldetails.poolsize)
-        binding.edAdditionalRooms.setText(propertyData!!.additionaldetails.Additionalroom)
-        binding.edRemodelYear.setText(propertyData!!.additionaldetails.lastremodalyear)
-        binding.spinnerBathroom.setText(propertyData!!.additionaldetails.attachedbathroom)
-        binding.isCornerd.setText(propertyData!!.additionaldetails.iscorner)
-        binding.isGatedCOlony.setText(propertyData!!.additionaldetails.isingatedcolony)
+        binding.edMaintenanceCharge.setText(propertyData!!.propertyraw[0].maintenancecharge.toString())
+        binding.securityDeposit.setText(propertyData!!.propertyraw[0].securitydeposite.toString())
+        binding.attachedBathroom.setText(propertyData!!.propertyraw[0].attachedbathroom.toString())
+        binding.spinnerBalconey.setText(propertyData!!.propertyraw[0].balcony.toString())
+        binding.spinnerParking.setText(propertyData!!.propertyraw[0].parking.toString())
+        binding.poolSize.setText(propertyData!!.propertyraw[0].poolsize)
+        binding.edAdditionalRooms.setText(propertyData!!.propertyraw[0].Additionalroom)
+        binding.edRemodelYear.setText(propertyData!!.propertyraw[0].lastremodalyear)
+        binding.spinnerBathroom.setText(propertyData!!.propertyraw[0].bathroom.toString())
+        binding.isCornerd.setText(propertyData!!.propertyraw[0].iscorner)
+        binding.isGatedCOlony.setText(propertyData!!.propertyraw[0].isingatedcolony)
+        binding.construction.setText(propertyData!!.propertyraw[0].anyconstruction)
+        openSidesCount = propertyData!!.propertyraw[0].openside
+        binding.spinnerOpenSides.setText(propertyData!!.propertyraw[0].openside.toString())
+        binding.edDepositPErcentage.setText(propertyData!!.propertyraw[0].depositepercentage.toString())
+        bathromCount = propertyData!!.propertyraw[0].bathroom
+
+        balconyCount = propertyData!!.propertyraw[0].balcony
+        parkingCount = propertyData!!.propertyraw[0].parking
+        furnishedType = propertyData!!.propertyraw[0].furnished
+        openSidesCount = propertyData!!.propertyraw[0].openside
     }
 
 
@@ -355,13 +399,22 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
         // set adapter to the autocomplete tv to the arrayAdapter
         binding.spinnerFurnished.setAdapter(arrayAdapter)
 
-        binding.spinnerFurnished.onItemClickListener =
-            AdapterView.OnItemClickListener { adapterView, view, pos, id ->
-                //this is the way to find selected object/item
-
-                furnishedType = filterData!!.furnishedmaster[pos].id
-
+        var furnished = ""
+        if (furnishedType != 0) {
+            for (i in 0 until filterData!!.furnishedmaster.size) {
+                if (furnishedType == filterData!!.furnishedmaster[i].id)
+                    furnished = filterData!!.furnishedmaster[i].codevalue
             }
+            binding.spinnerFurnished.setText(furnished)
+        }
+            binding.spinnerFurnished.onItemClickListener =
+                AdapterView.OnItemClickListener { adapterView, view, pos, id ->
+                    //this is the way to find selected object/item
+
+                    furnishedType = filterData!!.furnishedmaster[pos].id
+
+
+        }
     }
 
     private fun updateOpenSidesDropDown() {
@@ -407,7 +460,7 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
         private val id: Int = id
         private val propertyid: String = propertyid
         private val maintenancecharge: Int = maintenancecharge
-        private val securitydeposite: Int = maintenancecharge
+        private val securitydeposite: Int = securitydeposite
         private val bathroom: Int = bathroom
         private val attachedbathroom: Int = attachedbathroom
         private val balcony: Int = balcony

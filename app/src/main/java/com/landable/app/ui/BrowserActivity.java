@@ -4,12 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +19,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -30,8 +27,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.landable.app.R;
 import com.landable.app.common.AppInfo;
 import com.landable.app.ui.home.browser.ChatActivity;
-
-import java.net.URLEncoder;
 
 public class BrowserActivity extends AppCompatActivity {
 
@@ -103,11 +98,15 @@ public class BrowserActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (webView.canGoBack()) {
-                    if (pd != null) {
-                        pd.setMessage("Loading...");
-                        pd.show();
+                    if (url.contains("https://www.google.com/url?rct")) {
+                        finish();
+                    } else {
+                        if (pd != null) {
+                            pd.setMessage("Loading...");
+                            pd.show();
+                        }
+                        webView.goBack();
                     }
-                    webView.goBack();
                 } else finish();
                 break;
             default:
@@ -171,7 +170,7 @@ public class BrowserActivity extends AppCompatActivity {
                     if (pd.isShowing()) {
                         pd.dismiss();
                     }
-                  //  webView.goBack();
+                    //  webView.goBack();
                     Intent intent = new Intent(mContext, HomeActivity.class);
                     intent.putExtra("url", "Supergroup");
                     startActivity(intent);
@@ -180,8 +179,8 @@ public class BrowserActivity extends AppCompatActivity {
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);
-                }else if(url.contains("api.whatsapp.com")){
-                   webView.goBack();
+                } else if (url.contains("api.whatsapp.com")) {
+                    webView.goBack();
                 }
 
             }
@@ -190,6 +189,12 @@ public class BrowserActivity extends AppCompatActivity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 webView.loadUrl(url);
                 Log.e("url", url);
+                if (url.contains("tel:")) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                    return true;
+                }
                 return true;
             }
 
@@ -204,7 +209,7 @@ public class BrowserActivity extends AppCompatActivity {
                     if (url.contains("gotochat.aspx?")) {
                         // Toast.makeText(mContext, "back", Toast.LENGTH_SHORT).show();
                         webView.goBack();
-                      //  webView.loadUrl(url);
+                        //  webView.loadUrl(url);
 
                     }
                 } catch (Exception e) {

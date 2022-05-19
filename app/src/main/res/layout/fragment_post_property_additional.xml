@@ -114,7 +114,7 @@
                 android:text="@string/maintenance_charges_p_m" />
 
             <EditText
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:id="@+id/edMaintenanceCharge"
                 style="@style/editText_EditProfile"
                 android:hint="@string/maintenance_charges_p_m" />
@@ -492,6 +492,7 @@
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:padding="@dimen/_7sdp"
                 android:text="@string/post" />
+
         </LinearLayout>
     </ScrollView>
 </layout>

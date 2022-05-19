@@ -674,6 +674,7 @@ object ParseResponse {
             propertyraw.unit = propertyRawArray.getJSONObject(i).getString("unit")
             propertyraw.status = propertyRawArray.getJSONObject(i).getString("status")
             propertyraw.title = propertyRawArray.getJSONObject(i).getString("title")
+            propertyraw.totalfloor = propertyRawArray.getJSONObject(i).getInt("totalfloor")
 
             propertyRawmasterArray.add(propertyraw)
         }

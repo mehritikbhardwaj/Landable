@@ -369,6 +369,21 @@ interface MyApi {
     ): Call<ResponseBody>
 
     @Headers("Content-Type: application/json")
+    @GET(LandableConstants.GetDeletesavedsearch)
+    fun getDeletesavedsearch(
+        @HeaderMap headers: Map<String, String>,
+        @Query("id") id: Int
+    ): Call<ResponseBody>
+
+
+    @Headers("Content-Type: application/json")
+    @GET(LandableConstants.GetDeletePropertymedia)
+    fun GetDeletePropertymedia(
+        @HeaderMap headers: Map<String, String>,
+        @Query("id") id: Int
+    ): Call<ResponseBody>
+
+    @Headers("Content-Type: application/json")
     @GET(LandableConstants.GetPropertyforeditByID)
     fun getPropertyforeditByID(
         @HeaderMap headers: Map<String, String>,

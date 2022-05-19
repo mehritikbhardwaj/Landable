@@ -3,6 +3,7 @@ package com.landable.app.ui.home.postProjectProperty.project
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -152,7 +153,7 @@ class ProjectUploadDocumentsFragment : Fragment(),
 
             } else {
                 // multiple photo upload
-                progressDialog = CustomProgressDialog(requireContext())
+             /*   progressDialog = CustomProgressDialog(requireContext())
                 progressDialog!!.show()
 
                 for (i in 0 until uploadFileArrayList.size) {
@@ -180,14 +181,15 @@ class ProjectUploadDocumentsFragment : Fragment(),
                         "ProjectImageUpload", File(filePath!!), this,
                         "", _id, projectID, "Image", "", "", "", ""
                     )
-                }
-                loadHomeFragment()
-                /* if (comingFor == "supergroup") {
+                }*/
+              //  loadHomeFragment()
+                 if (comingFor == "supergroup") {
                      val intent = Intent(requireContext(), UploadService::class.java)
                      intent.putStringArrayListExtra("photoList", uploadFileArrayList)
                      intent.putExtra("_id", _id)
                      intent.putExtra("propertyId", "")
-                     intent.putExtra("type", "AddSupergroupMedia")
+                     intent.putExtra("isComingFor", "AddSupergroupMedia")
+                     intent.putExtra("type",type)
                      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                          requireContext().startForegroundService(intent)
                      } else {
@@ -198,13 +200,15 @@ class ProjectUploadDocumentsFragment : Fragment(),
                      intent.putStringArrayListExtra("photoList", uploadFileArrayList)
                      intent.putExtra("_id", _id)
                      intent.putExtra("propertyId", projectID)
-                     intent.putExtra("type", "ProjectImageUpload")
+                     intent.putExtra("isComingFor", "AddSupergroupMedia")
+                     intent.putExtra("type",type)
+
                      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                          requireContext().startForegroundService(intent)
                      } else {
                          requireContext().startService(intent)
                      }
-                 }*/
+                 }
 
             }
         }

@@ -40,8 +40,8 @@ android {
     productFlavors {
         prod {
             signingConfig signingConfigs.release
-            versionCode 21
-            versionName "1.0.19"
+            versionCode 22
+            versionName "1.0.20"
             applicationId "com.landable.app"
             dimension "tier"
             buildConfigField "String", "BASE_URL", "\"https://api.landable.in/api/v1/\""
@@ -49,8 +49,8 @@ android {
 
         dev {
             signingConfig signingConfigs.debug
-            versionCode 21
-            versionName "1.0.19"
+            versionCode 22
+            versionName "1.0.20"
             applicationId "com.landable.app"
             dimension "tier"
             buildConfigField "String", "BASE_URL", "\"https://api.landable.in/api/v1/\""

@@ -58,4 +58,5 @@ class Propertyraw : Serializable {
     var title: String = ""
     var totalarea: Double = 0.0
     var unit: String = ""
+    var totalfloor :Int = 0
 }

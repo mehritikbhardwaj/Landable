@@ -1,6 +1,8 @@
 package com.landable.app.ui.home.postProjectProperty.property
 
+import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,10 +21,12 @@ import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.dialog.CustomAlertDialog
 import com.landable.app.ui.dialog.CustomProgressDialog
 import com.landable.app.ui.home.dataModels.PropertyDetailsModel
+import com.landable.app.ui.home.homeUI.HomeFragment
 import com.landable.app.ui.home.postProjectProperty.filterAdapters.SelectedImagesAdapter
 import java.io.File
 
-class PostPropertyUploadImage : Fragment(), UploadImageDialogFragment.IUploadImageListener {
+class PostPropertyUploadImage : Fragment(), UploadImageDialogFragment.IUploadImageListener,
+    AgentProfileListener {
 
     private lateinit var binding: FragmentPostPropertUploadImageBinding
     private var propertyId: String = ""
@@ -31,6 +35,7 @@ class PostPropertyUploadImage : Fragment(), UploadImageDialogFragment.IUploadIma
     private var uploadFileArrayList = ArrayList<String>()
     private var propertyData: PropertyDetailsModel? = null
     private var isComingForEdit: Boolean = false
+    private var isClickedOnExit: Boolean = false
 
     companion object {
         fun newInstance() = PostPropertyUploadImage()
@@ -69,7 +74,15 @@ class PostPropertyUploadImage : Fragment(), UploadImageDialogFragment.IUploadIma
             )
         )
 
+        binding.buttonExit.setOnClickListener {
+            isClickedOnExit = true
+            val fm = requireActivity().supportFragmentManager
+            val dialogFragment =
+                UploadImageDialogFragment(this, LandableConstants.actionForMultipleSelection)
+            dialogFragment.show(fm, "")
+        }
         binding.uploadImage.setOnClickListener {
+            isClickedOnExit = false
             val fm = requireActivity().supportFragmentManager
             val dialogFragment =
                 UploadImageDialogFragment(this, LandableConstants.actionForMultipleSelection)
@@ -85,6 +98,15 @@ class PostPropertyUploadImage : Fragment(), UploadImageDialogFragment.IUploadIma
         }
 
         return binding.root
+    }
+
+    private fun loadHomeFragment() {
+        FragmentHelper().replaceFragment(
+            requireActivity().supportFragmentManager,
+            (activity as HomeActivity).getHomePageContainerId(),
+            HomeFragment.newInstance(),
+            HomeFragment::class.java.name
+        )
     }
 
     private fun getPropertyImages(id: Int, propertyid: String) {
@@ -106,7 +128,7 @@ class PostPropertyUploadImage : Fragment(), UploadImageDialogFragment.IUploadIma
                         binding.rvAvailableImages.layoutManager =
                             GridLayoutManager(requireContext(), 2)
                         binding.rvAvailableImages.adapter =
-                            AvailablePropertyImagesAdapter(propertyData!!.propertyimages)
+                            AvailablePropertyImagesAdapter(propertyData!!.propertyimages, this)
                     }
                 } catch (
                     e: Exception
@@ -134,35 +156,43 @@ class PostPropertyUploadImage : Fragment(), UploadImageDialogFragment.IUploadIma
                     "imageUpload", File(filePath!!), this,
                     "", _id, propertyId, "image", "", "", "", ""
                 )
-                loadPostPropertyPageFour(_id, propertyId)
             } else {
-                progressDialog = CustomProgressDialog(requireContext())
-                progressDialog!!.show()
-                for (i in 0 until uploadFileArrayList.size) {
-                    val filePath = if ("content" == Uri.parse(uploadFileArrayList[i]).scheme) {
-                        Log.e("contains", "getUri.getScheme()")
-                        ClsGlobal.getPathFromUri(context, Uri.parse(uploadFileArrayList[i]))
-                    } else {
-                        Uri.parse(uploadFileArrayList[i]).path
-                    }
-                    UploadImage(
-                        "imageUpload", File(filePath!!), this,
-                        "", _id, propertyId, "image", "", "", "", ""
-                    )
-                }
+             /*   progressDialog = CustomProgressDialog(requireContext())
+                progressDialog!!.show()*/
+                /* for (i in 0 until uploadFileArrayList.size) {
+                     val filePath = if ("content" == Uri.parse(uploadFileArrayList[i]).scheme) {
+                         Log.e("contains", "getUri.getScheme()")
+                         ClsGlobal.getPathFromUri(context, Uri.parse(uploadFileArrayList[i]))
+                     } else {
+                         Uri.parse(uploadFileArrayList[i]).path
+                     }
+                     UploadImage(
+                         "imageUpload", File(filePath!!), this,
+                         "", _id, propertyId, "image", "", "", "", ""
+                     )
+                 }*/
                 // multiple photo upload
-                /*  val intent = Intent(requireContext(), UploadService::class.java)
-                  intent.putStringArrayListExtra("photoList", uploadFileArrayList)
-                  intent.putExtra("_id", _id)
-                  intent.putExtra("propertyId", propertyId)
-                  intent.putExtra("type","imageUpload")
-                  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                      requireContext().startForegroundService(intent)
-                  } else {
-                      requireContext().startService(intent)
-                  }
-                  Toast.makeText(requireContext(),"Image will be uploaded in background.",Toast.LENGTH_LONG).show()
-           */       loadPostPropertyPageFour(_id, propertyId)
+                val intent = Intent(requireContext(), UploadService::class.java)
+                intent.putStringArrayListExtra("photoList", uploadFileArrayList)
+                intent.putExtra("_id", _id)
+                intent.putExtra("propertyId", propertyId)
+                intent.putExtra("type", "imageUpload")
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        requireContext().startForegroundService(intent)
+                    }
+                } else {
+                    requireContext().startService(intent)
+                }
+                Toast.makeText(
+                    requireContext(),
+                    "Image will be uploaded in background.",
+                    Toast.LENGTH_LONG
+                ).show()
+                if (isClickedOnExit) {
+                    loadHomeFragment()
+                } else loadPostPropertyPageFour(_id, propertyId)
+
             }
         }
     }
@@ -188,10 +218,7 @@ class PostPropertyUploadImage : Fragment(), UploadImageDialogFragment.IUploadIma
                 }
             }
         }
-
     }
-
-
 
     override fun onProgressUpdate(percentage: Int) {
         progressDialog!!.updateProgress(percentage)
@@ -206,7 +233,9 @@ class PostPropertyUploadImage : Fragment(), UploadImageDialogFragment.IUploadIma
     override fun onFinish(response: String) {
         progressDialog!!.cancelProgress()
         if (uploadFileArrayList.size == 1) {
-            loadPostPropertyPageFour(_id, propertyId)
+            if (isClickedOnExit) {
+                loadHomeFragment()
+            } else loadPostPropertyPageFour(_id, propertyId)
         }
     }
 
@@ -228,6 +257,37 @@ class PostPropertyUploadImage : Fragment(), UploadImageDialogFragment.IUploadIma
             PostPropertyAdditionalDetailsFragment::class.java.name
 
         )
+    }
+
+    override fun onAgentClick(action: String, id: Int) {
+        deletePropertyImage(id)
+    }
+
+    private fun deletePropertyImage(id: Int) {
+        progressDialog = CustomProgressDialog(requireContext())
+        progressDialog!!.show()
+        val deleteResponse = RegisterRepository().GetDeletePropertymedia(id)
+        deleteResponse.observe(viewLifecycleOwner) {
+            progressDialog!!.cancelProgress()
+
+            if (it == LandableConstants.noInternetErrorMessage) {
+                //print NoInternet Error Message
+                CustomAlertDialog(
+                    requireContext(),
+                    LandableConstants.noInternetErrorTitle,
+                    it
+                ).show()
+            } else {
+                try {
+                    if (it.toString() != "null") {
+                        getPropertyImages(_id, propertyId)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+            }
+        }
     }
 
 }

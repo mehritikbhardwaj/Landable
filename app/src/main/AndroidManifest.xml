@@ -25,7 +25,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.Landable.NoActionBar"
-        android:usesCleartextTraffic="false">
+        android:usesCleartextTraffic="true">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -52,6 +52,7 @@
             android:name=".ui.home.browser.WebViewActivity"
             android:screenOrientation="portrait" />
 
+        <service android:name=".common.UploadService"/>
 
         <service android:name=".ui.firebase.MyFirebaseMessagingService"
             android:exported="true">

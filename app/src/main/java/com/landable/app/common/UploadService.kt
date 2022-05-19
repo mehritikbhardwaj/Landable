@@ -16,7 +16,7 @@ import androidx.core.app.NotificationCompat
 import com.landable.app.R
 import java.io.File
 
-class UploadService : Service(), IUploadImageListener{
+class UploadService : Service(), IUploadImageListener {
     private var uploadFileArrayList = ArrayList<String>()
     private val TAG: String = UploadService::class.java.simpleName
     private val CHANNEL_ID = "FILE_UPLOAD"
@@ -26,7 +26,8 @@ class UploadService : Service(), IUploadImageListener{
     private var uploadedImageCount = 0
     private var _id: Int = 0
     private var propertyId: String = ""
-    private var type:String = ""
+    private var type: String = ""
+    private var isComingFor = ""
 
     @Nullable
     override fun onBind(intent: Intent?): IBinder? {
@@ -35,9 +36,10 @@ class UploadService : Service(), IUploadImageListener{
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         uploadFileArrayList = intent.getStringArrayListExtra("photoList") as ArrayList<String>
-        _id = intent.getIntExtra("_id",0)
+        _id = intent.getIntExtra("_id", 0)
         propertyId = intent.getStringExtra("propertyId")!!
         type = intent.getStringExtra("type")!!
+        isComingFor = intent.getStringExtra("isComingFor")!!
 
         if (uploadFileArrayList.size > 0) {
             if (Build.VERSION.SDK_INT >= 19) {
@@ -132,18 +134,18 @@ class UploadService : Service(), IUploadImageListener{
             //refresh photo library page if user exist in same page.
             try {
                 Toast.makeText(this, "Images are uploaded successfully.", Toast.LENGTH_LONG).show()
-               /* if (ScreenTagManager.fragmentStack.last != null) {
-                    if (ScreenTagManager.fragmentStack.last.get()!!.tag.toString()
-                            .contains("PhotoLibraryFragment")
-                    ) {
-                        val fragment: PhotoLibraryFragment =
-                            ScreenTagManager.fragmentStack.last.get()!! as PhotoLibraryFragment
-                        fragment.updatePhotoLibrary()
-                    }
-                }*/
+                /* if (ScreenTagManager.fragmentStack.last != null) {
+                     if (ScreenTagManager.fragmentStack.last.get()!!.tag.toString()
+                             .contains("PhotoLibraryFragment")
+                     ) {
+                         val fragment: PhotoLibraryFragment =
+                             ScreenTagManager.fragmentStack.last.get()!! as PhotoLibraryFragment
+                         fragment.updatePhotoLibrary()
+                     }
+                 }*/
             } catch (e: Exception) {
+                e.printStackTrace()
             }
-
             deleteNotification()
             onDestroy()
         }
@@ -152,6 +154,7 @@ class UploadService : Service(), IUploadImageListener{
     override fun uploadStart() {
         //progressDialog!!.updateProgress(0)
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -168,11 +171,20 @@ class UploadService : Service(), IUploadImageListener{
         } else {
             uri.path
         }
-
         UploadImage(
-            "imageUpload", File(filePath!!), this@UploadService,"",_id,propertyId,"Image","","","","" )
+            isComingFor,
+            File(filePath!!),
+            this@UploadService,
+            "",
+            _id,
+            propertyId,
+            type,
+            "",
+            "",
+            "",
+            ""
+        )
     }
-
 
 }
 

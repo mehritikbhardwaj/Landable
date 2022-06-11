@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:backgroundTint="@color/white"
+            android:background="@drawable/edit_outline_bg"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/_5sdp"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:id="@+id/llFAQ"
+                    android:gravity="center"
+                    style="@style/whyLandableCategoriesHomePAge"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_weight="0.5">
+
+                    <ImageView
+                        android:id="@+id/ivProfileDetailsIcon"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="right|top"
+                        android:src="@drawable/info"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/ivProfileIcon"
+                        style="@style/homePageCategoriesImage"
+                        android:layout_gravity="center"
+                        android:src="@drawable/faq" />
+
+
+                    <TextView
+                        android:id="@+id/tvProfileText"
+                        style="@style/homePageCategoriesText"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="FAQs" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llDemo"
+                    android:gravity="center"
+                    style="@style/whyLandableCategoriesHomePAge"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_weight="0.5">
+
+                    <ImageView
+                        android:id="@+id/ivBuyDetailsIcon"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="right|top"
+                        android:src="@drawable/info"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/ivBuyIcon"
+                        style="@style/homePageCategoriesImage"
+                        android:layout_gravity="center"
+                        android:src="@drawable/demo" />
+
+                    <TextView
+                        android:id="@+id/tvBuyText"
+                        style="@style/homePageCategoriesText"
+                        android:layout_height="17dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="Watch demo" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/_5sdp"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:id="@+id/llWhatsapp"
+                    android:gravity="center"
+                    style="@style/whyLandableCategoriesHomePAge"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:layout_weight="0.5">
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="right|top"
+                        android:src="@drawable/info"
+                        android:gravity="center"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        style="@style/homePageCategoriesImage"
+                        android:layout_gravity="center"
+                        android:src="@drawable/whatsapp" />
+
+
+                    <TextView
+                        style="@style/homePageCategoriesText"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="Send us a message" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llCall"
+                    android:gravity="center"
+                    style="@style/whyLandableCategoriesHomePAge"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:layout_weight="0.5">
+
+                    <ImageView
+                        android:id="@+id/ivAuctionsDetailsIcon"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="right|top"
+                        android:src="@drawable/info"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/ivAuctionsIcon"
+                        style="@style/homePageCategoriesImage"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_baseline_phone_24"
+                        app:tint="#FF9800" />
+
+
+                    <TextView
+                        android:id="@+id/tvAuctionsText"
+                        style="@style/homePageCategoriesText"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="Talk to us" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+</layout>

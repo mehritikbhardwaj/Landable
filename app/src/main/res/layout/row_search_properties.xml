@@ -81,7 +81,7 @@
                 android:text="Flat"
                 android:textAllCaps="true"
                 android:textColor="@color/colour_app"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_10ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -103,7 +103,7 @@
             android:id="@+id/tvPropertyName"
             style="@style/propertyOrProjectNameTextStyle"
             android:layout_width="wrap_content"
-            android:maxLength="20"
+            android:maxLength="55"
             android:text="@string/_2_bhk_flat_for_sale_in_akshardham" />
 
 

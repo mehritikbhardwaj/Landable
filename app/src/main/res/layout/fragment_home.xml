@@ -8,13 +8,13 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/pattern_home"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -23,16 +23,20 @@
                 <ImageView
                     android:id="@+id/ivPropertyImage"
                     style="@style/bannerImageView"
+                    android:layout_marginTop="-20dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@color/colour_app"
                     android:orientation="horizontal"
+                    android:padding="@dimen/_5sdp"
                     android:weightSum="1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -41,20 +45,28 @@
                     <ImageView
                         android:id="@+id/ivSideNavigation"
                         style="@style/sideNavigationIcon"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_2sdp"
                         android:layout_weight="0.1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
+                    <LinearLayout
                         android:id="@+id/imageView3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="0.7"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/logo"
                         app:layout_constraintStart_toEndOf="@+id/ivSideNavigation"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/logo" />
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/llPostProperty"
@@ -77,7 +89,8 @@
                             android:layout_height="wrap_content"
                             android:text="Post Property"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_8ssp" />
+                            android:textSize="@dimen/_8ssp"
+                            android:textStyle="bold" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -114,6 +127,7 @@
                     android:id="@+id/editText"
                     style="@style/searchViewOnHomePage"
                     android:layout_marginBottom="-15dp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/ivPropertyImage"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -124,6 +138,7 @@
                     style="@style/homePageHeadings"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:text="@string/why_landable"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editText" />
 
@@ -131,6 +146,7 @@
                     android:id="@+id/llWhyLandablelayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-12dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvWhyLandable">
@@ -138,66 +154,72 @@
                     <ImageView
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_30sdp"
-                        android:elevation="@dimen/_5sdp"
-                        android:visibility="gone"
                         android:layout_marginLeft="@dimen/_5sdp"
+                        android:elevation="@dimen/_5sdp"
                         android:src="@drawable/left_scroll"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvWhyLandable"
                         style="@style/homePageRecyclerViewStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
+                    <include
+                        android:id="@+id/layoutHome"
+                        layout="@layout/why_landable_home_page" />
+
                     <ImageView
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_30sdp"
-                        android:elevation="@dimen/_5sdp"
-                        android:visibility="gone"
-                        android:src="@drawable/right_scroll"
                         android:layout_marginRight="@dimen/_5sdp"
+                        android:elevation="@dimen/_5sdp"
+                        android:src="@drawable/right_scroll"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
                     android:id="@+id/llScroll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@+id/llWhyLandablelayout">
 
                     <ImageView
                         android:id="@+id/leftScrollLandable"
                         android:layout_width="@dimen/_25sdp"
                         android:layout_height="@dimen/_25sdp"
-                        android:elevation="@dimen/_5sdp"
                         android:layout_marginRight="@dimen/_5sdp"
+                        android:elevation="@dimen/_5sdp"
                         android:src="@drawable/left_scroll"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:id="@+id/rightScrollLandable"
                         android:layout_width="@dimen/_25sdp"
                         android:layout_height="@dimen/_25sdp"
-                        android:elevation="@dimen/_5sdp"
                         android:layout_marginLeft="@dimen/_5sdp"
+                        android:elevation="@dimen/_5sdp"
                         android:src="@drawable/right_scroll"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
                 </LinearLayout>
@@ -210,6 +232,7 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/pattern"
                     android:orientation="vertical"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/llScroll">
 
@@ -250,13 +273,13 @@
                             android:id="@+id/leftScrollFeature"
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
-                            android:elevation="@dimen/_5sdp"
                             android:layout_marginLeft="@dimen/_5sdp"
+                            android:elevation="@dimen/_5sdp"
                             android:src="@drawable/left_scroll"
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rvFeaturedProperties"
@@ -273,13 +296,13 @@
                             android:id="@+id/rightScrollFeatured"
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
-                            android:elevation="@dimen/_5sdp"
-                            android:visibility="gone"
-                            android:src="@drawable/right_scroll"
                             android:layout_marginRight="@dimen/_5sdp"
+                            android:elevation="@dimen/_5sdp"
+                            android:src="@drawable/right_scroll"
+                            android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                            app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 
@@ -290,6 +313,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_3sdp"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/llFeaturedRow">
 
@@ -316,6 +340,7 @@
                     android:id="@+id/llRecentPRoperties"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clRecentHeading">
@@ -324,13 +349,13 @@
                         android:id="@+id/leftScrollRecent"
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_30sdp"
-                        android:visibility="gone"
-                        android:elevation="@dimen/_5sdp"
                         android:layout_marginLeft="@dimen/_5sdp"
+                        android:elevation="@dimen/_5sdp"
                         android:src="@drawable/left_scroll"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvRecentProperties"
@@ -347,13 +372,13 @@
                         android:id="@+id/rightScrollRecent"
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_30sdp"
-                        android:elevation="@dimen/_5sdp"
-                        android:visibility="gone"
-                        android:src="@drawable/right_scroll"
                         android:layout_marginRight="@dimen/_5sdp"
+                        android:elevation="@dimen/_5sdp"
+                        android:src="@drawable/right_scroll"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -363,6 +388,7 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/pattern"
                     android:orientation="vertical"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/llRecentPRoperties">
 
@@ -394,7 +420,6 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/llPRojects"
                         android:layout_width="match_parent"
@@ -407,13 +432,13 @@
                             android:id="@+id/leftScrollProject"
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
-                            android:elevation="@dimen/_5sdp"
-                            android:visibility="gone"
                             android:layout_marginLeft="@dimen/_5sdp"
+                            android:elevation="@dimen/_5sdp"
                             android:src="@drawable/left_scroll"
+                            android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rvFeaturesProjects"
@@ -430,17 +455,19 @@
                             android:id="@+id/rightScrollProject"
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
-                            android:elevation="@dimen/_5sdp"
-                            android:visibility="gone"
-                            android:src="@drawable/right_scroll"
                             android:layout_marginRight="@dimen/_5sdp"
+                            android:elevation="@dimen/_5sdp"
+                            android:src="@drawable/right_scroll"
+                            android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                            app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </LinearLayout>
 

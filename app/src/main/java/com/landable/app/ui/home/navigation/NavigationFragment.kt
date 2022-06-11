@@ -22,6 +22,7 @@ import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.dialog.CustomAlertDialog
 import com.landable.app.ui.home.auction.FragmentAuction
 import com.landable.app.ui.home.blogs.BlogFragment
+import com.landable.app.ui.home.blogs.BlogNewsFragment
 import com.landable.app.ui.home.chats.ChatBoxListFragment
 import com.landable.app.ui.home.dataModels.UserProfileDataModel
 import com.landable.app.ui.home.news.NewsFragment
@@ -157,10 +158,10 @@ class NavigationFragment : Fragment(), IListener {
                 }
             }
             "onNewsClick" -> {
-                loadNewsFragment()
+                loadBlogsNewsFragment()
             }
             "onBlogsClick" -> {
-                loadBlogFragment()
+                loadBlogsNewsFragment()
             }
             "onNotificationsClick" -> {
                 loadNotificationsFragment()
@@ -184,6 +185,15 @@ class NavigationFragment : Fragment(), IListener {
     }
 
     override fun onFailure(message: String, action: String) {
+    }
+
+    private fun loadBlogsNewsFragment() {
+        FragmentHelper().replaceFragmentAddToBackstack(
+            requireActivity().supportFragmentManager,
+            (activity as HomeActivity).getHomePageContainerId(),
+            BlogNewsFragment.newInstance(),
+            BlogNewsFragment::class.java.name
+        )
     }
 
     fun getUserProfileData() {

@@ -59,10 +59,12 @@
 
             <TextView
                 style="@style/sub_header"
+                android:visibility="invisible"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:text="@string/login_page_subHeader" />
 
             <TextView
+                android:visibility="invisible"
                 style="@style/sub_header_sec"
                 android:text="@string/login_page_subHeader_sec" />
 

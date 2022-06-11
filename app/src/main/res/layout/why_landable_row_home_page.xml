@@ -9,9 +9,10 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
             <LinearLayout
                 android:id="@+id/llWhyLandable"
-                style="@style/whyLandableCategoriesLinearLayout"
+                style="@style/whyLandableCategoriesHomePAge"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp">
 
@@ -24,16 +25,16 @@
 
                 <ImageView
                     android:id="@+id/ivIcon"
-                    android:layout_gravity="center"
                     style="@style/homePageCategoriesImage"
+                    android:layout_gravity="center"
                     android:src="@drawable/house_user" />
 
 
                 <TextView
                     android:id="@+id/tvText"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_gravity="center"
                     style="@style/homePageCategoriesText"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:text="@string/registration_lookup" />
 
             </LinearLayout>

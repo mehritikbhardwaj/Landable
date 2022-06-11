@@ -81,7 +81,7 @@ class AddAgentFragment : Fragment(), UploadImageDialogFragment.IUploadImageListe
         (activity as HomeActivity).hideBottomNavigation()
 
         FirebaseAnalytics.getInstance((activity as HomeActivity))
-            .setCurrentScreen((activity as HomeActivity), "Add Agent Fragment", null)
+            .setCurrentScreen((activity as HomeActivity), "Add agent page", null)
 
         (activity as HomeActivity).postUserTrackingModel(
             HomeActivity.PostUserTrackingModel(

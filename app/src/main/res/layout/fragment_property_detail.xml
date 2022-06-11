@@ -1012,6 +1012,7 @@
                     android:layout_marginBottom="@dimen/_5sdp" />
 
                 <TextView
+                    android:id="@+id/tvFeatured"
                     style="@style/tenSspTextBoldStyle"
                     android:layout_gravity="left"
                     android:text="@string/featured_properties" />
@@ -1024,7 +1025,9 @@
                     android:background="@color/grey" />
 
                 <TextView
+                    android:id="@+id/tvSimilarProperties"
                     style="@style/tenSspTextBoldStyle"
+                    android:layout_height="12dp"
                     android:layout_gravity="left"
                     android:text="@string/similar_properties" />
 

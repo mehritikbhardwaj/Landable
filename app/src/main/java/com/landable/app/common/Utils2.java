@@ -8,10 +8,7 @@ import android.view.MenuItem;
 
 import androidx.core.content.ContextCompat;
 
-/**
- * Created by Ravi Tamada on 28/05/16.
- * www.androidhive.info
- */
+
 public class Utils2 {
 
     public static boolean isSameDomain(String url, String url1) {

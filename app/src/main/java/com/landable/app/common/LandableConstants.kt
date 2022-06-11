@@ -80,5 +80,8 @@ object LandableConstants {
     const val UpdateFCM = "UpdateFCM"
     const val GetDeletesavedsearch = "GetDeletesavedsearch"
     const val GetDeletePropertymedia = "GetDeletePropertymedia"
+
+    var isClickedDeepLinking = false
+    var deepLinkURL: String? = null
 }
    

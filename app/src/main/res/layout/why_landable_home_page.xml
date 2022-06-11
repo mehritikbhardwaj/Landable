@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:id="@+id/llProfile"
+                style="@style/whyLandableCategoriesHomePAge"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_weight="0.5">
+
+                <ImageView
+                    android:id="@+id/ivProfileDetailsIcon"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="right|top"
+                    android:src="@drawable/info" />
+
+                <ImageView
+                    android:id="@+id/ivProfileIcon"
+                    style="@style/homePageCategoriesImage"
+                    android:layout_gravity="center"
+                    android:src="@drawable/mode_portrait"
+                    app:tint="#6DCAF4" />
+
+
+                <TextView
+                    android:id="@+id/tvProfileText"
+                    style="@style/homePageCategoriesText"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="My profile" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llSearch"
+                style="@style/whyLandableCategoriesHomePAge"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_weight="0.5">
+
+                <ImageView
+                    android:id="@+id/ivBuyDetailsIcon"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="right|top"
+                    android:src="@drawable/info" />
+
+                <ImageView
+                    android:id="@+id/ivBuyIcon"
+                    style="@style/homePageCategoriesImage"
+                    android:layout_gravity="center"
+                    android:src="@drawable/home_home"
+                    app:tint="@color/colour_app" />
+
+
+                <TextView
+                    android:id="@+id/tvBuyText"
+                    style="@style/homePageCategoriesText"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Buy/Rent" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:id="@+id/llSellRent"
+                style="@style/whyLandableCategoriesHomePAge"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_weight="0.5">
+
+                <ImageView
+                    android:id="@+id/SellDetail"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="right|top"
+                    android:src="@drawable/info" />
+
+                <ImageView
+                    style="@style/homePageCategoriesImage"
+                    android:layout_gravity="center"
+                    android:src="@drawable/freelisting" />
+
+
+                <TextView
+                    style="@style/homePageCategoriesText"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Sell/Rent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llAuction"
+                style="@style/whyLandableCategoriesHomePAge"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_weight="0.5">
+
+                <ImageView
+                    android:id="@+id/ivAuctionsDetailsIcon"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="right|top"
+                    android:src="@drawable/info" />
+
+                <ImageView
+                    android:id="@+id/ivAuctionsIcon"
+                    style="@style/homePageCategoriesImage"
+                    android:layout_gravity="center"
+                    android:src="@drawable/auction"
+                    app:tint="#A84A2C" />
+
+
+                <TextView
+                    android:id="@+id/tvAuctionsText"
+                    style="@style/homePageCategoriesText"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Auctions" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:id="@+id/RegistrationLookup"
+                style="@style/whyLandableCategoriesHomePAge"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_weight="0.5">
+
+                <ImageView
+                    android:id="@+id/ivRegistrationDetailsIcon"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="right|top"
+                    android:src="@drawable/info" />
+
+                <ImageView
+                    android:id="@+id/ivRegistrationIcon"
+                    style="@style/homePageCategoriesImage"
+                    android:layout_width="57dp"
+                    android:layout_height="49dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/registerationlookup" />
+
+
+                <TextView
+                    android:id="@+id/tvRegistrationText"
+                    style="@style/homePageCategoriesText"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Registration Lookup" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/DataAnalytics"
+                style="@style/whyLandableCategoriesHomePAge"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_weight="0.5">
+
+                <ImageView
+                    android:id="@+id/ivDataDetailsIcon"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="right|top"
+                    android:src="@drawable/info" />
+
+                <ImageView
+                    android:id="@+id/ivDataIcon"
+                    style="@style/homePageCategoriesImage"
+                    android:layout_gravity="center"
+                    android:src="@drawable/dataanalytics" />
+
+
+                <TextView
+                    android:id="@+id/tvDataText"
+                    style="@style/homePageCategoriesText"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Data Analytics" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:id="@+id/Chat"
+                style="@style/whyLandableCategoriesHomePAge"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_weight="0.5">
+
+                <ImageView
+                    android:id="@+id/ivChatsDetailsIcon"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="right|top"
+                    android:src="@drawable/info" />
+
+                <ImageView
+                    android:id="@+id/ivChatsIcon"
+                    style="@style/homePageCategoriesImage"
+                    android:layout_gravity="center"
+                    android:src="@drawable/chat"
+                    app:tint="@color/teal_200" />
+
+
+                <TextView
+                    android:id="@+id/tvChatsText"
+                    style="@style/homePageCategoriesText"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Chats" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llBlogsNews"
+                style="@style/whyLandableCategoriesHomePAge"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_weight="0.5">
+
+                <ImageView
+                    android:id="@+id/ivBlogsDetailsIcon"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="right|top"
+                    android:src="@drawable/info" />
+
+                <ImageView
+                    android:id="@+id/ivBlogsIcon"
+                    style="@style/homePageCategoriesImage"
+                    android:layout_gravity="center"
+                    android:src="@drawable/newspaper" />
+
+
+                <TextView
+                    android:id="@+id/tvBlogsText"
+                    style="@style/homePageCategoriesText"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Blogs &amp; News" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:id="@+id/help"
+                style="@style/whyLandableCategoriesHomePAge"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_weight="0.5">
+
+                <ImageView
+                    android:id="@+id/ivHelpDetailsIcon"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="right|top"
+                    android:src="@drawable/info"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/ivHelpIcon"
+                    style="@style/homePageCategoriesImage"
+                    android:layout_gravity="center"
+                    android:src="@drawable/interrogation"
+                    app:tint="@color/purple_200" />
+
+
+                <TextView
+                    android:id="@+id/tvHelpText"
+                    style="@style/homePageCategoriesText"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Help &amp; Tutorials" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/AboutUs"
+                style="@style/whyLandableCategoriesHomePAge"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_weight="0.5">
+
+                <ImageView
+                    android:id="@+id/ivAboutDetailsIcon"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="right|top"
+                    android:src="@drawable/info"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/ivAboutIcon"
+                    style="@style/homePageCategoriesImage"
+                    android:layout_gravity="center"
+                    android:src="@drawable/information"
+                    app:tint="#F8B6CC" />
+
+
+                <TextView
+                    android:id="@+id/tvAboutText"
+                    style="@style/homePageCategoriesText"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="About Us" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

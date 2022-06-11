@@ -1,4 +1,4 @@
-package com.landable.app.ui.home.property
+package com.landable.app.ui.home.deeplink
 
 import android.content.Intent
 import android.graphics.Typeface
@@ -22,7 +22,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.maps.android.SphericalUtil
 import com.landable.app.R
 import com.landable.app.common.*
@@ -36,18 +35,21 @@ import com.landable.app.ui.home.agent.AgencyProfileFragment
 import com.landable.app.ui.home.agent.ContactOwnerDialogFragment
 import com.landable.app.ui.home.dataModels.*
 import com.landable.app.ui.home.project.adapter.AmenitiesProjectAdapter
+import com.landable.app.ui.home.property.AddYourLocationDailogFragment
+import com.landable.app.ui.home.property.PostReviewDialogFragment
+import com.landable.app.ui.home.property.PropertyDetailFragment
 import com.landable.app.ui.home.property.adapters.*
 import org.json.JSONObject
 import java.io.IOException
 import kotlin.math.roundToInt
 
-
-class PropertyDetailFragment : Fragment(), PropertyDetailListener, AdvertisementClickListener,
+class PropertyDetailDeepLinkFragment : Fragment(), PropertyDetailListener,
+    AdvertisementClickListener,
     OnMapReadyCallback, DocumentClickListener, AgentProfileListener,
     AddYourLocationDailogFragment.IAddLocation {
 
     private lateinit var binding: FragmentPropertyDetailBinding
-    private var propertyDetailInfoModel: FeaturePropertiesDataModel? = null
+
     private var propertyData: PropertyDetailsModel? = null
     private var locationList = ArrayList<Distancefromlocation>()
     private var progressDialog: CustomProgressDialog? = null
@@ -59,23 +61,33 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
     private var advertismentsList = ArrayList<Advertisment>()
     private var lat: Double = 0.0
     private var lon: Double = 0.0
-    private var latitude: String = ""
-    private var longitude: String = ""
     private val imageArrayList = ArrayList<Propertyimage>()
     private val floorArrayList = ArrayList<Propertyimage>()
     private val documentArrayList = ArrayList<Propertyimage>()
     private var profileData = UserDetailDataModel()
     private var agentNumber: String = ""
     private var agentMail: String = ""
+    private var address: String = ""
+    private var link: String = ""
+    private var title: String = ""
+    private var propertyid: String = ""
+    private var addedByid: Int = 0
+    private var name: String = ""
+    private var url: String = ""
+
 
     companion object {
-        fun newInstance() = PropertyDetailFragment()
+        fun newInstance() = PropertyDetailDeepLinkFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        propertyDetailInfoModel =
-            requireArguments().getSerializable("propertiesDetailModel") as FeaturePropertiesDataModel
+        if (LandableConstants.deepLinkURL!!.isNotEmpty()) {
+            url = LandableConstants.deepLinkURL!!
+
+            propertyid = url.substringAfter("pr-")
+
+        }
     }
 
     override fun onCreateView(
@@ -83,50 +95,25 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        (activity as HomeActivity).enableBackButton(propertyDetailInfoModel!!.title)
+        (activity as HomeActivity).enableBackButton("Detail Page")
         (activity as HomeActivity).showTopBar()
         (activity as HomeActivity).hideBottomNavigation()
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_property_detail, container, false)
 
-        FirebaseAnalytics.getInstance((activity as HomeActivity))
-            .setCurrentScreen((activity as HomeActivity), "Property Detail Fragment", null)
-
-        binding.llOwnerPRofile.setOnClickListener {
-            if (AppInfo.getSCode() == "" || AppInfo.getSCode() == "0") {
-                (activity as HomeActivity).askForLogin()
-                contactOwner()
-            } else {
-                loadAgentProfileFragment(propertyDetailInfoModel!!.addedbyid)
-            }
-        }
-
-        binding.addLocation.setOnClickListener {
-            if (AppInfo.getSCode() == "" || AppInfo.getSCode() == "0") {
-                (activity as HomeActivity).askForLogin()
-            }else {
-                val fm = requireActivity().supportFragmentManager
-                val dialogFragment = AddYourLocationDailogFragment(
-                    this
-                )
-                dialogFragment.show(fm, "")
-            }
-        }
-
-        if (propertyDetailInfoModel!!.addedbyid.toString() == AppInfo.getUserId()) {
-            binding.llPropertyStrength.visibility = View.VISIBLE
-        }
-
+        binding.rvFeaturedProperties.visibility = View.GONE
+        binding.rvSimilarProperties.visibility = View.GONE
 
         binding.viewOnMap.setOnClickListener {
-            val url = "http://maps.google.com/maps?daddr=${propertyDetailInfoModel!!.address}"
+            val url = "http://maps.google.com/maps?daddr=$address"
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             startActivity(intent)
         }
+
         binding.ivShare.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND)
-            val link = propertyDetailInfoModel!!.link
-            val name = propertyDetailInfoModel!!.title
+            val link = link
+            val name = title
 
             val shareBody = name + "\n" + LandableConstants.Image_URL + link
             intent.type = "text/plain"
@@ -144,7 +131,7 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
             } else {
                 addToFavourite(
                     AddtoFavouriteDataModel(
-                        propertyDetailInfoModel!!.propertyid,
+                        propertyid,
                         "property"
                     )
                 )
@@ -154,7 +141,7 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
         binding.postReview.setOnClickListener {
             val fm = requireActivity().supportFragmentManager
             val dialogFragment = PostReviewDialogFragment(
-                propertyDetailInfoModel!!.propertyid, this, "property"
+                propertyid, this, "property"
             )
             dialogFragment.show(fm, "")
         }
@@ -167,31 +154,24 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
                 val fm = requireActivity().supportFragmentManager
                 val dialogFragment = ContactOwnerDialogFragment(
                     agentNumber,
-                    propertyDetailInfoModel!!.name, agentMail
-                ,propertyDetailInfoModel!!.addedbyid)
+                    name, agentMail, addedByid
+                )
                 dialogFragment.show(fm, "")
             }
         }
 
         getPropertyDetails(
-            propertyDetailInfoModel!!.id,
-            propertyDetailInfoModel!!.propertyid
+            0,
+            propertyid
         )
-
-        updatePropertyDetailsUI()
-
-        getAgencyProfileDetails(propertyDetailInfoModel!!.addedbyid)
 
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.googleMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        if (propertyDetailInfoModel!!.lat.isNullOrEmpty() || propertyDetailInfoModel!!.lon.isNullOrEmpty()) {
+        if ((lat.toString().isEmpty() || lon.toString().isEmpty())) {
             lat = 28.7041
             lon = 77.1025
-        } else {
-            lat = propertyDetailInfoModel!!.lat.toDouble()
-            lon = propertyDetailInfoModel!!.lon.toDouble()
         }
 
         if (imageArrayList.size == 0) {
@@ -261,9 +241,9 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
 
 
     private fun contactOwner() {
-        (activity as HomeActivity).propertyID = propertyDetailInfoModel!!.propertyid
+        (activity as HomeActivity).propertyID = propertyid
         (activity as HomeActivity).contactType = "Property"
-        (activity as HomeActivity).agentID = propertyDetailInfoModel!!.addedbyid
+        (activity as HomeActivity).agentID = addedByid
     }
 
     private fun updatePropertiesDataAfterAPi() {
@@ -363,29 +343,29 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
 
     private fun updatePropertyDetailsUI() {
         //   binding.tvPropertyName.text = propertyDetailInfoModel!!.title
-        binding.tvPropertyHeading.text = propertyDetailInfoModel!!.title
-        binding.ivPropertyImage.load(LandableConstants.Image_URL + propertyDetailInfoModel!!.image1)
-        binding.customerType.text = propertyDetailInfoModel!!.customertype
-        binding.tvPrice.text = "\u20B9 " + propertyDetailInfoModel!!.costinword
-        binding.tvBathroomCount.text = propertyDetailInfoModel!!.bathroom
-        binding.tvBedroomCount.text = propertyDetailInfoModel!!.bedroom
-        binding.tvCategoryName.text = propertyDetailInfoModel!!.categoryname
-        binding.tvPropertyID.text = propertyDetailInfoModel!!.propertyid
-        binding.tvPropertyPrice.text = "\u20B9 " + propertyDetailInfoModel!!.costinword
-        binding.tvPropertyLocation.text = propertyDetailInfoModel!!.address
-        binding.tvSaleType.text = propertyDetailInfoModel!!.saletypename
-        binding.tvPossessionName.text = propertyDetailInfoModel!!.possessionname
-        binding.tvPropertyType.text = propertyDetailInfoModel!!.subcategoryname
-        binding.tvPossession.text = propertyDetailInfoModel!!.possessionname
-        binding.tvOwnerName.text = propertyDetailInfoModel!!.name
-        binding.tvLocation.text = propertyDetailInfoModel!!.address
-        binding.tvRating.text = propertyDetailInfoModel!!.rating.toString()
-        binding.propertyStrength.text = propertyDetailInfoModel!!.strengthmsg
-        if (propertyDetailInfoModel!!.strength > 33 && propertyDetailInfoModel!!.strength < 66) {
+        binding.tvPropertyHeading.text = title
+        binding.ivPropertyImage.load(LandableConstants.Image_URL + propertyData!!.details.image1)
+        binding.customerType.text = propertyData!!.details.customertype
+        binding.tvPrice.text = "\u20B9 " + propertyData!!.details.costinword
+        binding.tvBathroomCount.text = propertyData!!.details.bathroom
+        binding.tvBedroomCount.text = propertyData!!.details.bedroom
+        binding.tvCategoryName.text = propertyData!!.details.categoryname
+        binding.tvPropertyID.text = propertyData!!.details.propertyid
+        binding.tvPropertyPrice.text = "\u20B9 " + propertyData!!.details.costinword
+        binding.tvPropertyLocation.text = address
+        binding.tvSaleType.text = propertyData!!.details.saletypename
+        binding.tvPossessionName.text = propertyData!!.details.possessionname
+        binding.tvPropertyType.text = propertyData!!.details.subcategoryname
+        binding.tvPossession.text = propertyData!!.details.possessionname
+        binding.tvOwnerName.text = propertyData!!.details.name
+        binding.tvLocation.text = propertyData!!.details.address
+        binding.tvRating.text = propertyData!!.details.rating.toString()
+        binding.propertyStrength.text = propertyData!!.details.strengthmsg
+        if (propertyData!!.details.strength > 33 && propertyData!!.details.strength < 66) {
             binding.firstProgress.progress = 33
             binding.secondProgress.progress = 33
             binding.firstProgressImage.visibility = View.VISIBLE
-        } else if (propertyDetailInfoModel!!.strength > 66) {
+        } else if (propertyData!!.details.strength > 66) {
             binding.firstProgress.progress = 33
             binding.secondProgress.progress = 33
             binding.thirdProgress.progress = 33
@@ -395,7 +375,7 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
             binding.firstProgress.progress = 33
             binding.firstProgressImage.visibility = View.VISIBLE
         }
-        if (propertyDetailInfoModel!!.isfavourite == "true") {
+        if (propertyData!!.details.isfavourite == "true") {
             binding.ivFavourite.visibility = View.GONE
             binding.ivUnFavorite.visibility = View.VISIBLE
         } else {
@@ -403,9 +383,9 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
             binding.ivUnFavorite.visibility = View.GONE
         }
 
-        /*  binding.walkscoretext.text = propertyData!!.additionaldetails.wscore
-          binding.progressWalkScore.progress = propertyData!!.additionaldetails.wscore.toInt()
-          binding.walkStrength.text = propertyData!!.additionaldetails.wsdesc*/
+        /*   binding.walkscoretext.text = propertyData!!.additionaldetails.wscore
+           binding.progressWalkScore.progress = propertyData!!.additionaldetails.wscore.toInt()
+           binding.walkStrength.text = propertyData!!.additionaldetails.wsdesc*/
 
     }
 
@@ -423,7 +403,7 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
     private fun loadPropertyDetailFragment(propertyDataModel: FeaturePropertiesDataModel?) {
         val bundle = Bundle()
         bundle.putSerializable("propertiesDetailModel", propertyDataModel)
-        val propertyDetailFragment = newInstance()
+        val propertyDetailFragment = PropertyDetailFragment.newInstance()
         propertyDetailFragment.arguments = bundle
 
         FragmentHelper().replaceFragment(
@@ -435,7 +415,7 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
     }
 
     private fun addToFavourite(dataModel: AddtoFavouriteDataModel) {
-        val favoriteResponse = RegisterRepository().addToFavorite(dataModel)
+        val favoriteResponse = RegisterRepository().addToFavoriteDeepLink(dataModel)
         favoriteResponse.observe(viewLifecycleOwner) {
 
             if (it == LandableConstants.noInternetErrorMessage) {
@@ -466,6 +446,7 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
     private fun getPropertyDetails(id: Int, propertyid: String) {
         progressDialog = CustomProgressDialog(requireContext())
         progressDialog!!.show()
+
         val propertyResponse = RegisterRepository().getPropertyDetails(id, propertyid)
         propertyResponse.observe(viewLifecycleOwner) {
             progressDialog!!.cancelProgress()
@@ -480,11 +461,25 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
             } else {
                 try {
                     propertyData = ParseResponse.parsePropertyDetailResponse(it.toString())
+
                     binding.tvDescription.text = propertyData!!.details.description
                     locationList = propertyData!!.distancefromlocation
                     similarPropertyList = propertyData!!.similarproperty
                     featuredPropertiesList = propertyData!!.featuredproperty
                     reviewsList = propertyData!!.review
+                    title = propertyData!!.details.title
+                    (activity as HomeActivity).enableBackButton(title)
+                    addedByid = propertyData!!.details.addedbyid
+                    address = propertyData!!.details.address
+                    lat = propertyData!!.details.lat.toDouble()
+                    lon = propertyData!!.details.lon.toDouble()
+                    link = propertyData!!.details.link
+                    name = propertyData!!.details.name
+
+                    updatePropertyDetailsUI()
+
+                    getAgencyProfileDetails(addedByid)
+
                     advertismentsList = propertyData!!.advertisment
                     imagesList = propertyData!!.propertyimages
                     for (i in 0 until imagesList.size) {
@@ -513,11 +508,11 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
                 } catch (
                     e: Exception
                 ) {
-                    /*CustomAlertDialog(
+                    CustomAlertDialog(
                         requireContext(),
                         "Alert",
-                        LitConstants.InvalidResponseMessage
-                    ).show()*/
+                        e.message!!
+                    ).show()
                     e.printStackTrace()
                 }
             }
@@ -572,7 +567,7 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
     override fun onAgentClick(action: String, id: Int) {
         when (action) {
             "success" -> {
-                loadPropertyDetailFragment(propertyDetailInfoModel)
+                // loadPropertyDetailFragment(propertyDetailInfoModel)
             }
         }
     }
@@ -610,14 +605,14 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
     override fun onLocationAdded(title: String, address: String, latlong: LatLng) {
         var distance = SphericalUtil.computeDistanceBetween(
             latlong,
-            getLocationFromAddress(propertyDetailInfoModel!!.address)
+            getLocationFromAddress(address)
         )
 
         if (distance != null) {
             distance /= 1000.0.roundToInt()
             postAddLocation(
                 PostAddLocation(
-                    propertyDetailInfoModel!!.propertyid, "",
+                    propertyid, "",
                     "", address, "$distance Km", "", title, "Property"
                 )
             )
@@ -625,7 +620,7 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
     }
 
     private fun postAddLocation(dataModel: PostAddLocation) {
-        val postaddLocationResponse = RegisterRepository().postAddLocationInfo(dataModel)
+        val postaddLocationResponse = RegisterRepository().postAddLocationInfoDeepLink(dataModel)
         postaddLocationResponse.observe(viewLifecycleOwner) {
 
             if (it == LandableConstants.noInternetErrorMessage) {
@@ -639,8 +634,8 @@ class PropertyDetailFragment : Fragment(), PropertyDetailListener, Advertisement
                 try {
                     if (it.toString() != "null") {
                         getPropertyDetails(
-                            propertyDetailInfoModel!!.id,
-                            propertyDetailInfoModel!!.propertyid
+                            0,
+                            propertyid
                         )
                         /* val status = jsonObj.getString("status")
                          val msg = jsonObj.getString("msg")

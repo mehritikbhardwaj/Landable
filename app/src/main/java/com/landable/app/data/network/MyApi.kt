@@ -5,6 +5,7 @@ import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.home.agent.AddAgentFragment
 import com.landable.app.ui.home.auction.FragmentAuction
 import com.landable.app.ui.home.browser.AddSuperGroupWebFragment
+import com.landable.app.ui.home.deeplink.PropertyDetailDeepLinkFragment
 import com.landable.app.ui.home.login.LoginViewModel
 import com.landable.app.ui.home.login.OTPLoginFragment
 import com.landable.app.ui.home.postProjectProperty.project.PostProjectBasicInfoFragment
@@ -92,6 +93,13 @@ interface MyApi {
     @POST(LandableConstants.Post_Addtofavourite)
     fun addToFavourite(
         @Body raw: PropertyDetailFragment.AddtoFavouriteDataModel,
+        @HeaderMap headers: Map<String, String>
+    ): Call<ResponseBody>
+
+    @Headers("Content-Type: application/json")
+    @POST(LandableConstants.Post_Addtofavourite)
+    fun addToFavouriteDeepLink(
+        @Body raw: PropertyDetailDeepLinkFragment.AddtoFavouriteDataModel,
         @HeaderMap headers: Map<String, String>
     ): Call<ResponseBody>
 
@@ -430,6 +438,13 @@ interface MyApi {
     @POST(LandableConstants.Post_AddLocations)
     fun post_AddLocations(
         @Body raw: PropertyDetailFragment.PostAddLocation,
+        @HeaderMap headers: Map<String, String>
+    ): Call<ResponseBody>
+
+    @Headers("Content-Type: application/json")
+    @POST(LandableConstants.Post_AddLocations)
+    fun post_AddLocationsDeepLink(
+        @Body raw: PropertyDetailDeepLinkFragment.PostAddLocation,
         @HeaderMap headers: Map<String, String>
     ): Call<ResponseBody>
 

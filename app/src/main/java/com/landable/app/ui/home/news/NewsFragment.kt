@@ -1,6 +1,5 @@
 package com.landable.app.ui.home.news
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -19,7 +18,6 @@ import com.landable.app.common.Utility
 import com.landable.app.data.repositories.RegisterRepository
 import com.landable.app.data.responses.ParseResponse
 import com.landable.app.databinding.FragmentNewsBinding
-import com.landable.app.ui.BrowserActivity
 import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.dialog.CustomProgressDialog
 import com.landable.app.ui.home.dataModels.NewsDataModelItem
@@ -34,17 +32,19 @@ class NewsFragment : Fragment(), NewsClickListener {
         fun newInstance() = NewsFragment()
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         (activity as HomeActivity).showTopBar()
-        (activity as HomeActivity).enableBackButton("News")
+        (activity as HomeActivity).enableBackButton("Blogs & News")
         (activity as HomeActivity).hideBottomNavigation()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_news, container, false)
 
-        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "News Fragment", null);
+        FirebaseAnalytics.getInstance((activity as HomeActivity))
+            .setCurrentScreen((activity as HomeActivity), "News Fragment", null)
 
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
 
@@ -78,9 +78,6 @@ class NewsFragment : Fragment(), NewsClickListener {
         }
 
         getNewsList(1, "na")
-
-
-
 
         return binding.root
     }
@@ -118,11 +115,10 @@ class NewsFragment : Fragment(), NewsClickListener {
     override fun onNewsClick(action: String, newsDataModel: NewsDataModelItem) {
         when (action) {
             "newsClick" -> {
-                (activity as HomeActivity).callBrowserActivity(newsDataModel.link,"News Page")
+                (activity as HomeActivity).callBrowserActivity(newsDataModel.link, "News Page")
             }
         }
     }
-
 
 
 }

@@ -11,6 +11,7 @@ import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.home.agent.AddAgentFragment
 import com.landable.app.ui.home.auction.FragmentAuction
 import com.landable.app.ui.home.browser.AddSuperGroupWebFragment
+import com.landable.app.ui.home.deeplink.PropertyDetailDeepLinkFragment
 import com.landable.app.ui.home.login.LoginViewModel
 import com.landable.app.ui.home.login.OTPLoginFragment
 import com.landable.app.ui.home.postProjectProperty.project.PostProjectBasicInfoFragment
@@ -262,6 +263,32 @@ class RegisterRepository : SafeApiRequest() {
                         apiResponse.value = response.body()!!.string()
                     } else {
                         apiResponse.value = response.errorBody()!!.string()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    apiResponse.value = t.message
+                }
+            })
+        return apiResponse
+    }
+
+    fun addToFavoriteDeepLink(body: PropertyDetailDeepLinkFragment.AddtoFavouriteDataModel): LiveData<String> {
+        val apiResponse = MutableLiveData<String>()
+
+        MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).addToFavouriteDeepLink(
+            body,
+            getRegisterUserHeaderMap()
+        )
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        apiResponse.value = response.body()?.string()
+                    } else {
+                        apiResponse.value = response.errorBody()?.string()
                     }
                 }
 
@@ -889,6 +916,32 @@ class RegisterRepository : SafeApiRequest() {
         val apiResponse = MutableLiveData<String>()
 
         MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).post_AddLocations(
+            body,
+            getRegisterUserHeaderMap()
+        )
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        apiResponse.value = response.body()?.string()
+                    } else {
+                        apiResponse.value = response.errorBody()?.string()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    apiResponse.value = t.message
+                }
+            })
+        return apiResponse
+    }
+
+    fun postAddLocationInfoDeepLink(body: PropertyDetailDeepLinkFragment.PostAddLocation): LiveData<String> {
+        val apiResponse = MutableLiveData<String>()
+
+        MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).post_AddLocationsDeepLink(
             body,
             getRegisterUserHeaderMap()
         )

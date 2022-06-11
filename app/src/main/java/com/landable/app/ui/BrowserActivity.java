@@ -19,6 +19,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -56,7 +57,8 @@ public class BrowserActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mContext = this;
-        pd = new ProgressDialog(BrowserActivity.this);
+        pd = new ProgressDialog(BrowserActivity.this,R.style.AppCompatAlertDialogStyle);
+
         pd.setMessage("Loading...");
         pd.show();
         url = getIntent().getStringExtra("url");
@@ -91,6 +93,7 @@ public class BrowserActivity extends AppCompatActivity {
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDisplayZoomControls(false);
+        webView.getSettings().setJavaScriptEnabled(true);
     }
 
     @Override
@@ -175,10 +178,6 @@ public class BrowserActivity extends AppCompatActivity {
                     intent.putExtra("url", "Supergroup");
                     startActivity(intent);
                     finish();
-                } else if (url.contains(".pdf")) {
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);
                 } else if (url.contains("api.whatsapp.com")) {
                     webView.goBack();
                 }
@@ -193,6 +192,12 @@ public class BrowserActivity extends AppCompatActivity {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     intent.setData(Uri.parse(url));
                     startActivity(intent);
+                    return true;
+                } else if (url.contains(".pdf")) {
+                    Toast.makeText(BrowserActivity.this, "Pdf", Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
                     return true;
                 }
                 return true;

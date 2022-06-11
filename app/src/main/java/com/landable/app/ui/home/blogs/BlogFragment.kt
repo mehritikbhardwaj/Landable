@@ -1,6 +1,5 @@
 package com.landable.app.ui.home.blogs
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import com.landable.app.common.BlogsClickListener
 import com.landable.app.data.repositories.RegisterRepository
 import com.landable.app.data.responses.ParseResponse
 import com.landable.app.databinding.FragmentBlogsBinding
-import com.landable.app.ui.BrowserActivity
 import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.dialog.CustomProgressDialog
 import com.landable.app.ui.home.dataModels.BlogDataModel
@@ -29,20 +27,28 @@ class BlogFragment : Fragment(), BlogsClickListener {
         fun newInstance() = BlogFragment()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+      /*  blogsListing =
+            requireArguments().getSerializable("blogsList") as ArrayList<BlogDataModel>
+   */ }
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         (activity as HomeActivity).showTopBar()
-        (activity as HomeActivity).enableBackButton("Blogs")
+        (activity as HomeActivity).enableBackButton("Blogs & News")
         (activity as HomeActivity).hideBottomNavigation()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_blogs, container, false)
 
-        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Blogs Fragment", null);
+        FirebaseAnalytics.getInstance((activity as HomeActivity))
+            .setCurrentScreen((activity as HomeActivity), "Blogs Fragment", null)
 
         getBlogsList()
-        
+
         return binding.root
     }
 
@@ -78,7 +84,7 @@ class BlogFragment : Fragment(), BlogsClickListener {
     override fun onBlogClick(action: String, blogsDataModel: BlogDataModel) {
         when (action) {
             "blogClick" -> {
-                (activity as HomeActivity).callBrowserActivity(blogsDataModel.link,"Blogs")
+                (activity as HomeActivity).callBrowserActivity(blogsDataModel.link, "Blogs")
 
             }
         }

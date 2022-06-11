@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.gms.tasks.OnCompleteListener
@@ -37,7 +36,7 @@ import com.landable.app.ui.home.homeUI.HomeFragment
 import com.landable.app.ui.home.login.OTPLoginFragment
 import com.landable.app.ui.home.myActivity.MyActivityFragment
 import com.landable.app.ui.home.profile.ProfileFragment
-import com.landable.app.ui.home.property.PropertyDetailFragment
+import com.landable.app.ui.home.search.SearchFragment
 import com.landable.app.ui.home.splash.SplashFragment
 import com.landable.app.ui.home.supergroups.AddSuperGroupFragment
 
@@ -68,7 +67,11 @@ class HomeActivity : AppCompatActivity(),
 
         appUpdateManager = AppUpdateManagerFactory.create(this)
 
-        if(intent.hasExtra("isComingFromNotification")){
+        handleIntent()
+
+
+
+        if (intent.hasExtra("isComingFromNotification")) {
             loadActivityFragment()
         }
         if (intent.hasExtra("url")) {
@@ -111,10 +114,10 @@ class HomeActivity : AppCompatActivity(),
 
         // Toast.makeText(this,LandableConstants.fcmToken,Toast.LENGTH_LONG).show()
         binding.ivBack.setOnClickListener {
-            if (intent.hasExtra("url")){
-                intent.removeExtra("url");
+            if (intent.hasExtra("url")) {
+                intent.removeExtra("url")
                 loadHomeFragment()
-                }else FragmentHelper().popBackStackImmediate(this@HomeActivity)
+            } else FragmentHelper().popBackStackImmediate(this@HomeActivity)
         }
 
         binding.ivSideNavigation.setOnClickListener {
@@ -130,6 +133,9 @@ class HomeActivity : AppCompatActivity(),
         super.onResume()
         inProgressUpdate()
     }
+
+
+
 
     private fun inProgressUpdate() {
         appUpdateManager?.appUpdateInfo?.addOnSuccessListener { updateInfo ->
@@ -407,13 +413,14 @@ class HomeActivity : AppCompatActivity(),
         }
     }
 
-     fun postUserTrackingModel(dataModel: PostUserTrackingModel) {
+    fun postUserTrackingModel(dataModel: PostUserTrackingModel) {
         val postaddLocationResponse = RegisterRepository().post_usertracking(dataModel)
         postaddLocationResponse.observe(this) {
 
             if (it == LandableConstants.noInternetErrorMessage) {
                 //print NoInternet Error Message
-                CustomAlertDialog(this,
+                CustomAlertDialog(
+                    this,
                     LandableConstants.noInternetErrorTitle,
                     it
                 ).show()
@@ -426,6 +433,21 @@ class HomeActivity : AppCompatActivity(),
                 }
 
             }
+        }
+    }
+
+    private fun handleIntent() {
+        val appLinkIntent = intent
+        if (appLinkIntent.data != null && appLinkIntent.data.toString().isNotEmpty()) {
+            LandableConstants.isClickedDeepLinking = true
+            LandableConstants.deepLinkURL = appLinkIntent.data.toString()
+        } else if (LandableConstants.isClickedDeepLinking && LandableConstants.deepLinkURL != null
+            && LandableConstants.deepLinkURL!!.isNotEmpty()
+        ) {
+            AppInfo.setContext(this)
+        } else {
+            LandableConstants.isClickedDeepLinking = false
+            LandableConstants.deepLinkURL = ""
         }
     }
 

@@ -1,13 +1,14 @@
 package com.landable.app.ui.home.homeUI
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -17,19 +18,26 @@ import com.landable.app.data.repositories.RegisterRepository
 import com.landable.app.data.responses.ParseResponse
 import com.landable.app.databinding.FragmentHomeBinding
 import com.landable.app.ui.HomeActivity
+import com.landable.app.ui.dialog.CustomAlertDialog
 import com.landable.app.ui.dialog.CustomProgressDialog
+import com.landable.app.ui.dialog.HelpTutorialDialog
 import com.landable.app.ui.dialog.PostTypeDialog
 import com.landable.app.ui.home.agent.AgencyProfileFragment
 import com.landable.app.ui.home.auction.FragmentAuction
 import com.landable.app.ui.home.blogs.BlogFragment
+import com.landable.app.ui.home.blogs.BlogNewsFragment
 import com.landable.app.ui.home.chats.ChatBoxListFragment
 import com.landable.app.ui.home.dataModels.DashBoardDataModel
 import com.landable.app.ui.home.dataModels.FeaturePropertiesDataModel
 import com.landable.app.ui.home.dataModels.ProjectsDataModel
 import com.landable.app.ui.home.dataModels.WhyLandableDataModel
+import com.landable.app.ui.home.deeplink.AuctionDetailPageDeepLinkFragment
+import com.landable.app.ui.home.deeplink.ProjectDetailDeepLinkFragment
+import com.landable.app.ui.home.deeplink.PropertyDetailDeepLinkFragment
 import com.landable.app.ui.home.news.NewsFragment
 import com.landable.app.ui.home.notifications.NotificationsFragment
 import com.landable.app.ui.home.postProjectProperty.PostProjectPropertyFragment
+import com.landable.app.ui.home.profile.ProfileFragment
 import com.landable.app.ui.home.project.ProjectDetailFragment
 import com.landable.app.ui.home.project.ViewAllProjectFragment
 import com.landable.app.ui.home.project.adapter.ProjectsAdapter
@@ -41,7 +49,8 @@ import com.landable.app.ui.home.supergroups.AddSuperGroupFragment
 
 
 class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
-    WhyLandableClickListener, PostTypeDialog.UploadTypeListener {
+    WhyLandableClickListener, PostTypeDialog.UploadTypeListener,
+    HelpTutorialDialog.SelectedListener {
 
     private lateinit var binding: FragmentHomeBinding
     private var whyLandableList = ArrayList<WhyLandableDataModel>()
@@ -75,9 +84,175 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
         (activity as HomeActivity).showBottomNavigation()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
-        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Dashboard", null);
+        FirebaseAnalytics.getInstance((activity as HomeActivity))
+            .setCurrentScreen((activity as HomeActivity), "Dashboard", null)
+
+        FirebaseAnalytics.getInstance((activity as HomeActivity))
+            .setAnalyticsCollectionEnabled(true)
 
         updateFCM()
+
+
+        binding.layoutHome.ivProfileDetailsIcon.setOnClickListener {
+            showInfoPopup("Detail")
+        }
+        binding.layoutHome.ivBuyDetailsIcon.setOnClickListener {
+            showInfoPopup("Detail")
+        }
+
+        binding.layoutHome.SellDetail.setOnClickListener {
+            showInfoPopup("Detail")
+        }
+
+        binding.layoutHome.ivAuctionsDetailsIcon.setOnClickListener {
+            showInfoPopup("Get auction related updates for all type of properties in selected area.")
+        }
+        binding.layoutHome.ivRegistrationDetailsIcon.setOnClickListener {
+            showInfoPopup("Check owner & registration details of any property as per govt. records.")
+        }
+        binding.layoutHome.ivDataDetailsIcon.setOnClickListener {
+            showInfoPopup("View real-estate trends across different localities.")
+        }
+        binding.layoutHome.ivChatsDetailsIcon.setOnClickListener {
+            showInfoPopup("Message buyer/seller without sharing your number.")
+        }
+        binding.layoutHome.ivBlogsDetailsIcon.setOnClickListener {
+            showInfoPopup("News:- Get area-specific news updates on development, regulations etc." +
+                    "\n\nBlogs:- Get interesting insights on diverse aspects of real estate sector.")
+        }
+
+
+        binding.layoutHome.llProfile.setOnClickListener {
+            if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
+                (activity as HomeActivity).askForLogin()
+            } else {
+                (activity as HomeActivity).updateBottomNavigationSelection(R.id.home)
+                loadProfileFragment()
+            }
+        }
+
+        binding.layoutHome.llSearch.setOnClickListener {
+            if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
+                (activity as HomeActivity).askForLogin()
+            } else {
+                val url =
+                    LandableConstants.Image_URL + "app/threadsearch.aspx?uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
+                (activity as HomeActivity).callBrowserActivity(url, "Supergroups Page")
+            }
+        }
+
+        binding.layoutHome.llBlogsNews.setOnClickListener {
+            loadBlogsNewsFragment()
+        }
+        binding.layoutHome.llAuction.setOnClickListener {
+            loadAuctionFragment()
+        }
+
+        binding.layoutHome.AboutUs.setOnClickListener {
+            val browserIntent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://www.landable.in/about.aspx")
+                //   Uri.parse("https://api.whatsapp.com/send?phone=918448856325&text=Hello,%20I%20have%20a%20question%20about%20")
+            )
+            startActivity(browserIntent)
+        }
+
+        binding.layoutHome.RegistrationLookup.setOnClickListener {
+            FirebaseAnalytics.getInstance((activity as HomeActivity))
+                .setCurrentScreen((activity as HomeActivity), "Registration Lookup", null)
+            if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
+                (activity as HomeActivity).askForLogin()
+            } else {
+                val url =
+                    LandableConstants.Image_URL + "app/powerbi.aspx?uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
+                (activity as HomeActivity).callBrowserActivity(url, "Registration Lookup")
+
+            }
+        }
+
+        binding.layoutHome.DataAnalytics.setOnClickListener {
+            if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
+                (activity as HomeActivity).askForLogin()
+            } else {
+                val url =
+                    LandableConstants.Image_URL + "app/analyse-trends.aspx?uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
+                (activity as HomeActivity).callBrowserActivity(url, "Data Analytics Page")
+            }
+        }
+
+        binding.layoutHome.Chat.setOnClickListener {
+            if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
+                (activity as HomeActivity).askForLogin()
+            } else {
+                loadSuperGroupFragment()
+            }
+        }
+
+        binding.layoutHome.llSellRent.setOnClickListener {
+            if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
+                (activity as HomeActivity).askForLogin()
+            } else {
+                PostTypeDialog(requireActivity(), this).show()
+            }
+        }
+
+        binding.layoutHome.help.setOnClickListener {
+            HelpTutorialDialog(requireActivity(), this).show()
+        }
+
+        if (LandableConstants.isClickedDeepLinking && LandableConstants.deepLinkURL!!.isNotEmpty()) {
+            //Handle deep link functionality
+            var url = ""
+            if (LandableConstants.deepLinkURL!!.contains("-pr-prop")) {
+                loadDeepLinkOpenPropertyFragment()
+            } else if (LandableConstants.deepLinkURL!!.contains("-pj-proj")) {
+                loadDeepLinkOpenProjectFragment()
+            } else if (LandableConstants.deepLinkURL!!.contains("https://www.landable.in/powerbi.aspx")) {
+                FirebaseAnalytics.getInstance((activity as HomeActivity))
+                    .setCurrentScreen((activity as HomeActivity), "Registration Lookup", null)
+
+                if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
+                    (activity as HomeActivity).askForLogin()
+                } else {
+                    url =
+                        LandableConstants.Image_URL + "app/powerbi.aspx?uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
+                    (activity as HomeActivity).callBrowserActivity(url, "Registration Lookup")
+
+                }
+            } else if (LandableConstants.deepLinkURL!!.contains("propertysearch")) {
+                loadSearchFragment()
+            } else if (LandableConstants.deepLinkURL!!.contains("-th-")) {
+                if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
+                    (activity as HomeActivity).askForLogin()
+                } else {
+                    val threadId = LandableConstants.deepLinkURL!!.substringAfter("-th-")
+
+                    url =
+                        LandableConstants.Image_URL + "app/appthreaddetails.aspx?th=$threadId" + "&uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
+                    (activity as HomeActivity).callBrowserActivity(url, "Supergroups Page")
+                }
+            } else if (LandableConstants.deepLinkURL!!.contains("-ac-")) {
+                loadDeepLinkOpenAuctionFragment()
+            } else if (LandableConstants.deepLinkURL!!.contains("analyse-trends")) {
+                if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
+                    (activity as HomeActivity).askForLogin()
+                } else {
+                    url =
+                        LandableConstants.Image_URL + "app/analyse-trends.aspx?uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
+                    (activity as HomeActivity).callBrowserActivity(url, "Data Analytics Page")
+                }
+            } else (activity as HomeActivity).callBrowserActivity(
+                LandableConstants.deepLinkURL!!,
+                ""
+            )
+            LandableConstants.isClickedDeepLinking = false
+            //   CustomAlertDialog(this, "Deep link", LitConstants.deepLinkURL!!).show()
+        } else {
+            if (featurePropertyList.size == 0 || recentPropertyList.size == 0 || projectsList.size == 0) {
+                getDashboardInfo()
+            } else updateDashboardInfo()
+        }
+
         binding.ivSideNavigation.setOnClickListener {
             (activity as HomeActivity).openDrawer()
         }
@@ -88,79 +263,79 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
 
         //hideLeftScrollButtons()
 
-        binding.rightScrollLandable.setOnClickListener {
-            binding.leftScrollLandable.visibility = View.VISIBLE
-            whyLandableVisiblePosition = getLastVisiblePosition(binding.rvWhyLandable) - 1
-            scrollRightRecyclerView(binding.rvWhyLandable)
-            if (whyLandableVisiblePosition >= whyLandableList.size - 2) {
-                binding.rightScrollLandable.visibility = View.GONE
+        /* binding.rightScrollLandable.setOnClickListener {
+             binding.leftScrollLandable.visibility = View.VISIBLE
+             whyLandableVisiblePosition = getLastVisiblePosition(binding.rvWhyLandable) - 1
+             scrollRightRecyclerView(binding.rvWhyLandable)
+             if (whyLandableVisiblePosition >= whyLandableList.size - 2) {
+                 binding.rightScrollLandable.visibility = View.GONE
+             }
+         }
+         binding.leftScrollLandable.setOnClickListener {
+             binding.rightScrollLandable.visibility = View.VISIBLE
+             whyLandableVisiblePosition = getLastVisiblePosition(binding.rvWhyLandable) - 1
+             if (whyLandableVisiblePosition == 1) {
+                 binding.leftScrollLandable.visibility = View.GONE
+             } else {
+                 scrollLeftRecyclerView(binding.rvWhyLandable)
+                 *//* if (whyLandableVisiblePosition == 1) {
+                     binding.leftScrollLandable.visibility = View.GONE
+                 }*//*
             }
         }
-        binding.leftScrollLandable.setOnClickListener {
-            binding.rightScrollLandable.visibility = View.VISIBLE
-            whyLandableVisiblePosition = getLastVisiblePosition(binding.rvWhyLandable) - 1
-            if (whyLandableVisiblePosition == 1) {
-                binding.leftScrollLandable.visibility = View.GONE
-            } else {
-                scrollLeftRecyclerView(binding.rvWhyLandable)
-               /* if (whyLandableVisiblePosition == 1) {
-                    binding.leftScrollLandable.visibility = View.GONE
-                }*/
-            }
-        }
+*/
 
+        /* binding.editText.setOnClickListener {
+             loadSearchFragment()
+         }
 
-        binding.editText.setOnClickListener {
-            loadSearchFragment()
-        }
+         binding.viewAllFeaturedProperties.setOnClickListener {
+             (activity as HomeActivity).postUserTrackingModel(
+                 HomeActivity.PostUserTrackingModel(
+                     "View all featured property page",
+                     "Visit",
+                     "Visit",
+                     "Visit",
+                     "",
+                     ""
+                 )
+             )
+             if (featurePropertyList.size != 0) {
+                 loadViewAllFeaturedProperties(featurePropertyList)
+             }
+         }
 
-        binding.viewAllFeaturedProperties.setOnClickListener {
-            (activity as HomeActivity).postUserTrackingModel(
-                HomeActivity.PostUserTrackingModel(
-                    "View all featured property page",
-                    "Visit",
-                    "Visit",
-                    "Visit",
-                    "",
-                    ""
-                )
-            )
-            if (featurePropertyList.size != 0) {
-                loadViewAllFeaturedProperties(featurePropertyList)
-            }
-        }
+         binding.viewAllProjects.setOnClickListener {
+             (activity as HomeActivity).postUserTrackingModel(
+                 HomeActivity.PostUserTrackingModel(
+                     "View all project page",
+                     "Visit",
+                     "Visit",
+                     "Visit",
+                     "",
+                     ""
+                 )
+             )
+             if (projectsList.size != 0) {
+                 loadViewAllProjects()
+             }
+         }
 
-        binding.viewAllProjects.setOnClickListener {
-            (activity as HomeActivity).postUserTrackingModel(
-                HomeActivity.PostUserTrackingModel(
-                    "View all project page",
-                    "Visit",
-                    "Visit",
-                    "Visit",
-                    "",
-                    ""
-                )
-            )
-            if (projectsList.size != 0) {
-                loadViewAllProjects()
-            }
-        }
-
-        binding.viewAllRecentProperties.setOnClickListener {
-            (activity as HomeActivity).postUserTrackingModel(
-                HomeActivity.PostUserTrackingModel(
-                    "View all recent page",
-                    "Visit",
-                    "Visit",
-                    "Visit",
-                    "",
-                    ""
-                )
-            )
-            if (recentPropertyList.size != 0) {
-                loadViewAllFeaturedProperties(recentPropertyList)
-            }
-        }
+         binding.viewAllRecentProperties.setOnClickListener {
+             (activity as HomeActivity).postUserTrackingModel(
+                 HomeActivity.PostUserTrackingModel(
+                     "View all recent page",
+                     "Visit",
+                     "Visit",
+                     "Visit",
+                     "",
+                     ""
+                 )
+             )
+             if (recentPropertyList.size != 0) {
+                 loadViewAllFeaturedProperties(recentPropertyList)
+             }
+         }*/
 
         binding.llPostProperty.setOnClickListener {
             if (AppInfo.getSCode() == "" || AppInfo.getSCode() == "0") {
@@ -170,9 +345,7 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
             }
         }
 
-        if (featurePropertyList.size == 0 || recentPropertyList.size == 0 || projectsList.size == 0) {
-            getDashboardInfo()
-        } else updateDashboardInfo()
+
 
         if ((activity as HomeActivity).propertyID != "" && AppInfo.getSCode() != "") {
             postContactOwner(
@@ -185,6 +358,55 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
         return binding.root
     }
 
+    private fun loadDeepLinkOpenPropertyFragment() {
+        val bundle = Bundle()
+        val albumJoinDeepLink = PropertyDetailDeepLinkFragment.newInstance()
+        albumJoinDeepLink.arguments = bundle
+
+        FragmentHelper().replaceFragmentAddToBackstack(
+            (activity as HomeActivity).supportFragmentManager,
+            HomeActivity().getHomePageContainerId(),
+            PropertyDetailDeepLinkFragment.newInstance(),
+            PropertyDetailDeepLinkFragment::class.java.name
+        )
+    }
+
+    private fun loadBlogsNewsFragment() {
+        FragmentHelper().replaceFragmentAddToBackstack(
+            requireActivity().supportFragmentManager,
+            (activity as HomeActivity).getHomePageContainerId(),
+            BlogNewsFragment.newInstance(),
+            BlogNewsFragment::class.java.name
+        )
+    }
+
+    private fun loadDeepLinkOpenProjectFragment() {
+        val bundle = Bundle()
+        val projectDeepLink = ProjectDetailDeepLinkFragment.newInstance()
+        projectDeepLink.arguments = bundle
+
+        FragmentHelper().replaceFragmentAddToBackstack(
+            (activity as HomeActivity).supportFragmentManager,
+            HomeActivity().getHomePageContainerId(),
+            ProjectDetailDeepLinkFragment.newInstance(),
+            ProjectDetailDeepLinkFragment::class.java.name
+        )
+    }
+
+    private fun loadDeepLinkOpenAuctionFragment() {
+        val bundle = Bundle()
+        val auctionDeepLink = AuctionDetailPageDeepLinkFragment.newInstance()
+        auctionDeepLink.arguments = bundle
+
+        FragmentHelper().replaceFragmentAddToBackstack(
+            (activity as HomeActivity).supportFragmentManager,
+            HomeActivity().getHomePageContainerId(),
+            AuctionDetailPageDeepLinkFragment.newInstance(),
+            AuctionDetailPageDeepLinkFragment::class.java.name
+        )
+    }
+
+
     private fun scrollRightRecyclerView(recyclerView: RecyclerView) {
         recyclerView.smoothScrollToPosition(whyLandableVisiblePosition + 2)
         whyLandableVisiblePosition += 1
@@ -195,6 +417,16 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
         whyLandableVisiblePosition -= 1
 
     }
+
+    private fun loadProfileFragment() {
+        FragmentHelper().replaceFragmentAddToBackstack(
+            requireActivity().supportFragmentManager,
+            (activity as HomeActivity).getHomePageContainerId(),
+            ProfileFragment.newInstance(),
+            ProfileFragment::class.java.name
+        )
+    }
+
 
     private fun hideLeftScrollButtons() {
         binding.leftScrollLandable.visibility = View.GONE
@@ -215,6 +447,15 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
         return 0
     }
 
+
+    private fun loadAuctionFragment() {
+        FragmentHelper().replaceFragmentAddToBackstack(
+            requireActivity().supportFragmentManager,
+            (activity as HomeActivity).getHomePageContainerId(),
+            FragmentAuction.newInstance(),
+            FragmentAuction::class.java.name
+        )
+    }
 
     private fun postContactOwner(propertyid: String, type: String) {
         // Show progress bar
@@ -282,9 +523,14 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
     }
 
     private fun whyLandableList() {
-        binding.rvWhyLandable.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvWhyLandable.adapter = WhyLandableAdapter(whyLandableList, this)
+
+        binding.rvWhyLandable.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.rvWhyLandable.adapter =
+            WhyLandableAdapter(whyLandableList, this)
+        /*  binding.rvWhyLandable.layoutManager =
+              LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+          binding.rvWhyLandable.adapter = WhyLandableAdapter(whyLandableList, this)
+     */
     }
 
     private fun updateFeaturePropertiesList() {
@@ -307,27 +553,27 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
 
     private fun updateDashboardInfo() {
         whyLandableList()
-        updateFeaturePropertiesList()
-        updateRecentPropertiesList()
-        updateProjectsList()
+        /* updateFeaturePropertiesList()
+         updateRecentPropertiesList()
+         updateProjectsList()*/
     }
 
     private fun getDashboardInfo() {
         // Show progress bar
-        progressDialog = CustomProgressDialog(requireContext())
-        progressDialog!!.show()
+        /*  progressDialog = CustomProgressDialog(requireContext())
+          progressDialog!!.show()*/
         val dashboardResponse = RegisterRepository().getDashboardInfo()
         dashboardResponse.observe(viewLifecycleOwner) {
             // hide progress bar
-            progressDialog!!.cancelProgress()
+            //  progressDialog!!.cancelProgress()
             // parse dashboard info
             if (it.toString() != "null") {
                 try {
                     dashBoardData = ParseResponse.parseDashboardResponse(it.toString())
                     whyLandableList = dashBoardData!!.whylandable
-                    featurePropertyList = dashBoardData!!.featuredproperties
-                    recentPropertyList = dashBoardData!!.recentproperties
-                    projectsList = dashBoardData!!.projects
+                    /*    featurePropertyList = dashBoardData!!.featuredproperties
+                        recentPropertyList = dashBoardData!!.recentproperties
+                        projectsList = dashBoardData!!.projects*/
                     saveAllData()
                     updateDashboardInfo()
                 } catch (
@@ -431,14 +677,15 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
             "itemClicked" -> {
                 if (whyLandableDataModel!!.pages == "Registration Lookup") {
 
-                    FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Chats Fragment", null);
+                    FirebaseAnalytics.getInstance((activity as HomeActivity))
+                        .setCurrentScreen((activity as HomeActivity), "Registration Lookup", null)
 
                     if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
                         (activity as HomeActivity).askForLogin()
                     } else {
                         val url =
                             LandableConstants.Image_URL + "app/powerbi.aspx?uid=" + AppInfo.getUserId() + "&ucode=" + AppInfo.getSCode()
-                        (activity as HomeActivity).callBrowserActivity(url,"Registration Lookup")
+                        (activity as HomeActivity).callBrowserActivity(url, "Registration Lookup")
                     }
                 } else if (whyLandableDataModel.pages == "Supergroups") {
                     if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
@@ -461,7 +708,11 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
                 } else if (whyLandableDataModel.pages == "Free Listing") {
                     if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
                         (activity as HomeActivity).askForLogin()
-                    } else loadPostPropertyFragment()
+                    } else /*loadPostPropertyFragment()*/ PostTypeDialog(
+                        requireActivity(),
+                        this
+                    ).show()
+
                 } else if (whyLandableDataModel.pages == "Chat") {
                     if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
                         (activity as HomeActivity).askForLogin()
@@ -504,15 +755,6 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
         )
     }
 
-    private fun loadAuctionFragment() {
-        FragmentHelper().replaceFragmentAddToBackstack(
-            requireActivity().supportFragmentManager,
-            (activity as HomeActivity).getHomePageContainerId(),
-            FragmentAuction.newInstance(),
-            FragmentAuction::class.java.name
-        )
-    }
-
     private fun loadNotificationsFragment() {
         FragmentHelper().replaceFragmentAddToBackstack(
             requireActivity().supportFragmentManager,
@@ -523,11 +765,11 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
     }
 
     override fun onClickButtonForUploadType(typeOfUpload: String) {
-        when(typeOfUpload){
-            "llPostProperty"->{
+        when (typeOfUpload) {
+            "llPostProperty" -> {
                 loadPostPropertyFragment()
             }
-            "llPostSupergroup"->{
+            "llPostSupergroup" -> {
                 loadAddPostFragment()
             }
         }
@@ -554,5 +796,35 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
     }
 
 
+    override fun onClickButton(clicked: String) {
+        when (clicked) {
+            "llFAQ" -> {
+                val browserIntent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://www.landable.in/faq.aspx")
+                )
+                startActivity(browserIntent)
+            }
+            "llDemo" -> {
+               //showInfoPopup("Coming Soon")
+            }
+            "llWhatsapp" -> {
+                val browserIntent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://api.whatsapp.com/send?phone=918448856325&text=Hello,%20I%20have%20a%20question%20about%20")
+                )
+                startActivity(browserIntent)
+            }
+            "llCall" -> {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel: 8448856325")
+                startActivity(intent)
+            }
+        }
+    }
+
+    private fun showInfoPopup(msg: String) {
+        CustomAlertDialog(requireContext(), "Info", msg).show()
+    }
 
 }

@@ -128,6 +128,8 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                         selectedHighlightedText
                     )
                 )
+                CustomAlertDialog(requireContext(),
+                    "Message","You will be notified when there are new results for the search tags").show()
             }
         }
 

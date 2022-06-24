@@ -32,6 +32,8 @@ class PostedProjectAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val project = projectsList[position]
 
+        holder.propertiesBinding.Status.text = "Status: "+project.Status
+
         holder.propertiesBinding.ivPropertyImage.load(LandableConstants.Image_URL + project.image1)
         holder.propertiesBinding.tvPossessionName.text = project.possessionname
         holder.propertiesBinding.llBathroomCOunt.visibility = View.GONE

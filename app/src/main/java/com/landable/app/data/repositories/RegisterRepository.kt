@@ -8,6 +8,7 @@ import com.landable.app.data.network.MyApi
 import com.landable.app.data.network.NetworkConnectionInterceptor
 import com.landable.app.data.network.SafeApiRequest
 import com.landable.app.ui.HomeActivity
+import com.landable.app.ui.dialog.UpdateProfileDialog
 import com.landable.app.ui.home.agent.AddAgentFragment
 import com.landable.app.ui.home.auction.FragmentAuction
 import com.landable.app.ui.home.browser.AddSuperGroupWebFragment
@@ -325,6 +326,32 @@ class RegisterRepository : SafeApiRequest() {
         return apiResponse
     }
 
+    fun post_shortprofileupdate(body: UpdateProfileDialog.ProfileDataModel): LiveData<String> {
+        val apiResponse = MutableLiveData<String>()
+
+        MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).post_shortprofileupdate(
+            body,
+            getRegisterUserHeaderMap()
+        )
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        apiResponse.value = response.body()?.string()
+                    } else {
+                        apiResponse.value = response.errorBody()?.string()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    apiResponse.value = t.message
+                }
+            })
+        return apiResponse
+    }
+
     fun getDashboardInfo(): LiveData<String> {
         val apiResponse = MutableLiveData<String>()
 
@@ -426,6 +453,30 @@ class RegisterRepository : SafeApiRequest() {
         return apiResponse
     }
 
+    fun getVideos(): LiveData<String> {
+        val apiResponse = MutableLiveData<String>()
+
+        MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).getVideos(
+            getRegisterUserHeaderMap()
+        )
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        apiResponse.value = response.body()!!.string()
+                    } else {
+                        apiResponse.value = response.errorBody()!!.string()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    apiResponse.value = t.message
+                }
+            })
+        return apiResponse
+    }
     fun getMyActivity(): LiveData<String> {
         val apiResponse = MutableLiveData<String>()
 
@@ -1164,6 +1215,32 @@ class RegisterRepository : SafeApiRequest() {
         MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).getDeleteAgent(
             getRegisterUserHeaderMap(),
             id
+        )
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        apiResponse.value = response.body()?.string()
+                    } else {
+                        apiResponse.value = response.errorBody()?.string()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    apiResponse.value = t.message
+                }
+            })
+        return apiResponse
+    }
+
+    fun get_Auctionkeysuggestion(key: String): LiveData<String> {
+        val apiResponse = MutableLiveData<String>()
+
+        MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).get_Auctionkeysuggestion(
+            getRegisterUserHeaderMap(),
+            key
         )
             .enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(

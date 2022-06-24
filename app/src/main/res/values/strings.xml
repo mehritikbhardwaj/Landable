@@ -11,6 +11,16 @@
         <item>1000.0</item>
     </string-array>
 
+    <string name="asset_statements">
+        [{
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+          "namespace": "web",
+          "site": "https://www.landable.in/"
+        }
+      }]
+  </string>
+
     <string name="cameraPermissionString">Needs access to your camera so you can take pictures.</string>
     <string name="writeFilePermissionString">Needs access to write file to your external directory.</string>
     <string name="galleryPermissionString">Needs access to your gallery so you can select pictures.</string>
@@ -52,7 +62,7 @@
     <string name="code_sent_text">Code is sent to</string>
 
     <!--login page-->
-    <string name="login_page_header">"Let's sign you in"</string>
+    <string name="login_page_header">"Verify your details"</string>
     <string name="login_page_subHeader">Welcome back.</string>
     <string name="login_page_subHeader_sec">"You've been missed!"</string>
     <string name="login_button">Log In</string>

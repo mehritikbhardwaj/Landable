@@ -58,14 +58,15 @@ class AuctionDetailPageFragment : Fragment(), AdvertisementClickListener,
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_auction_detail, container, false)
 
-        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Auction Detail Fragment", null);
+        FirebaseAnalytics.getInstance((activity as HomeActivity))
+            .setCurrentScreen((activity as HomeActivity), "Auction Detail Fragment", null)
 
         binding.ivProfilePicture.load(LandableConstants.Image_URL + previousAuctionData!!.image1)
         binding.tvAuctionName.text = previousAuctionData!!.title
         binding.tvBankName.text = previousAuctionData!!.bankname
         binding.tvAuid.text = previousAuctionData!!.auid
         binding.tvLocation.text = previousAuctionData!!.locality
-        binding.tvPrice.text = "\u20B9 " +previousAuctionData!!.reservepriceinword
+        binding.tvPrice.text = "\u20B9 " + previousAuctionData!!.reservepriceinword
         binding.tvStartDate.text = "Start Date: " + previousAuctionData!!.startdate
 
         binding.buttonContact.setOnClickListener {
@@ -115,6 +116,11 @@ class AuctionDetailPageFragment : Fragment(), AdvertisementClickListener,
             } else {
                 try {
                     auctionData = ParseResponse.parseAuctionDetailResponse(it.toString())
+                    url = auctionData!!.Auction[0].website
+
+                    if (url.isNullOrEmpty()) {
+                        binding.llWeb.visibility = View.GONE
+                    }
                     updateUI()
                 } catch (
                     e: Exception
@@ -126,21 +132,19 @@ class AuctionDetailPageFragment : Fragment(), AdvertisementClickListener,
     }
 
     private fun updateUI() {
-
         binding.tvAuctionEnd.text = auctionData!!.Auction[0].enddate
-
         binding.tvDescription.text = auctionData!!.Auction[0].locatiodesc
         linkResponse = LandableConstants.Image_URL + auctionData!!.Auction[0].linkurl
         binding.tvBorrowerName.text = auctionData!!.Auction[0].borrowername
         binding.tvPropertyTypeName.text = auctionData!!.Auction[0].categoryname
 
-        if (auctionData!!.Auction[0].possessiontypename.isNullOrEmpty()) {
+        if (auctionData!!.Auction[0].possessiontypename.isEmpty()) {
             binding.possessionLayout.visibility = View.GONE
         } else {
             binding.tvPossessionStatus.text = auctionData!!.Auction[0].possessiontypename
         }
 
-        if (auctionData!!.Auction[0].act.isNullOrEmpty()) {
+        if (auctionData!!.Auction[0].act.isEmpty()) {
             binding.actLayout.visibility = View.GONE
         } else {
             binding.tvAct.text = auctionData!!.Auction[0].act
@@ -151,7 +155,7 @@ class AuctionDetailPageFragment : Fragment(), AdvertisementClickListener,
         binding.tvReservePrice.text = "\u20B9 " + auctionData!!.Auction[0].reservepriceinword
         binding.tvEMDAmount.text = auctionData!!.Auction[0].emdamountinword
 
-        if (auctionData!!.Auction[0].emdsubmission.isNullOrEmpty()) {
+        if (auctionData!!.Auction[0].emdsubmission.isEmpty()) {
             binding.emdSubmission.visibility = View.GONE
         } else {
             binding.tvEMDSubmission.text = auctionData!!.Auction[0].emdsubmission
@@ -159,9 +163,9 @@ class AuctionDetailPageFragment : Fragment(), AdvertisementClickListener,
 
         binding.tvAuctionStart.text =
             auctionData!!.Auction[0].startdate + " " + auctionData!!.Auction[0].stime
-      /*  binding.tvEndDate.text =
-            auctionData!!.Auction[0].enddate + " " + auctionData!!.Auction[0].etime
-*/
+        /*  binding.tvEndDate.text =
+              auctionData!!.Auction[0].enddate + " " + auctionData!!.Auction[0].etime
+  */
         if (auctionData!!.Auction[0].inspectiondate.isNullOrEmpty()) {
             binding.inspectionLayout.visibility = View.GONE
         } else {
@@ -169,8 +173,6 @@ class AuctionDetailPageFragment : Fragment(), AdvertisementClickListener,
         }
 
 //        binding.tvWebsite.text = auctionData!!.Auction[0].website
-
-        url = auctionData!!.Auction[0].website
 
         binding.rvAdvertisements.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.rvAdvertisements.adapter = AdvertisementAdapter(auctionData!!.advertisment, this)
@@ -182,8 +184,6 @@ class AuctionDetailPageFragment : Fragment(), AdvertisementClickListener,
             binding.rvAuctionDocuments.adapter =
                 AuctionDocumentAdapter(auctionData!!.auctiondocuments, this)
         }
-
-
     }
 
     override fun onAdvertisemntClick(action: String, advertisementDataModel: Advertisment?) {

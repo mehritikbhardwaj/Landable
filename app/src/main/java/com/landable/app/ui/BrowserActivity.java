@@ -57,7 +57,7 @@ public class BrowserActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mContext = this;
-        pd = new ProgressDialog(BrowserActivity.this,R.style.AppCompatAlertDialogStyle);
+        pd = new ProgressDialog(BrowserActivity.this, R.style.AppCompatAlertDialogStyle);
 
         pd.setMessage("Loading...");
         pd.show();
@@ -178,8 +178,11 @@ public class BrowserActivity extends AppCompatActivity {
                     intent.putExtra("url", "Supergroup");
                     startActivity(intent);
                     finish();
-                } else if (url.contains("api.whatsapp.com")) {
+                } else if (url.contains("api.whatsapp.com") || url.contains("https://twitter.com/share?") || url.contains("https://www.facebook.com/sharer.php?")) {
                     webView.goBack();
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
                 }
 
             }

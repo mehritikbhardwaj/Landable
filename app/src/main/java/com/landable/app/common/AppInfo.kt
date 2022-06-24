@@ -45,6 +45,16 @@ object AppInfo {
         editorUser?.commit()
     }
 
+    fun getUserMobile(): String {
+        return sharedPreferencesUser?.getString("mobile", "")!!
+    }
+
+
+    fun setUserMobile(mobile: String) {
+        editorUser?.putString("mobile", mobile)
+        editorUser?.commit()
+    }
+
     fun getUserEmail(): String {
         return sharedPreferencesUser?.getString("email", "")!!
     }

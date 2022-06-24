@@ -31,6 +31,7 @@ class PostedPropertyAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val property = propertiesList[position]
+        holder.propertiesBinding.Status.text = "Status: "+property.Status
 
         holder.propertiesBinding.ivPropertyImage.load(LandableConstants.Image_URL + property.image1)
         holder.propertiesBinding.tvBathroomCount.text = property.bathroom.toString()

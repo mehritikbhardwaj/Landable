@@ -5,6 +5,10 @@
 
     </data>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/llBlogs"
@@ -33,15 +37,15 @@
                     android:id="@+id/tvHeading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12ssp"
+                    android:inputType="textMultiLine"
+                    android:textSize="@dimen/_10ssp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -70,6 +74,14 @@
 
             </LinearLayout>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"/>
+
+    </LinearLayout>
+
 
 
 </layout>

@@ -96,6 +96,8 @@ class PostPropertyLocationFragment : Fragment() {
             if(binding.edAddress.text.toString().isNullOrEmpty()){
                 CustomAlertDialog(requireContext(),"Alert", "Please fill all the fields").show()
             }else{
+                val landmark = binding.edLandmark.text.toString()
+                val Pincode = binding.edPin.text.toString()
                 postPropertyLocationUpdate(
                     PostPropertyLocationInfo(
                         _id,
@@ -103,8 +105,8 @@ class PostPropertyLocationFragment : Fragment() {
                         stateId,
                         cityId,
                         binding.edAddress.text.toString(),
-                        binding.edLandmark.text.toString(),
-                        binding.edPin.text.toString()
+                        landmark,
+                        Pincode
                     ),true
                 )
             }

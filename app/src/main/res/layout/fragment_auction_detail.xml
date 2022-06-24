@@ -32,14 +32,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_weight="0.3"
+                        android:layout_weight="0.2"
                         android:orientation="vertical">
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/ivProfilePicture"
-                            android:layout_width="@dimen/_42sdp"
-                            android:layout_height="@dimen/_42sdp"
-                            android:layout_gravity="center"
+                            android:layout_width="@dimen/_35sdp"
+                            android:layout_height="@dimen/_35sdp"
+                            android:layout_gravity="start"
                             android:src="@drawable/user_circle" />
 
                         <TextView
@@ -52,7 +52,7 @@
                             android:maxLines="1"
                             android:textStyle="bold"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_10ssp" />
+                            android:textSize="@dimen/_8ssp" />
                     </LinearLayout>
 
 
@@ -204,12 +204,11 @@
                 </LinearLayout>
 
 
-
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_below="@+id/Contact"
                     android:id="@+id/rvAdvertisements"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Contact" />
 
                 <View
                     android:id="@+id/view3"
@@ -393,6 +392,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/llWeb"
                         style="@style/auctionDetailsLayoutStyle">
 
                         <TextView

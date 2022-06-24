@@ -179,6 +179,24 @@
                 android:maxLength="100"
                 android:maxLines="10" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/hideInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/filterTextSearchUI"
+                    android:layout_marginTop="0dp"
+                    android:text="Hide contact info"/>
+
+            </LinearLayout>
             <Button
                 android:id="@+id/buttonContinue"
                 style="@style/buttons_login_signup"

@@ -18,10 +18,7 @@ import com.landable.app.data.repositories.RegisterRepository
 import com.landable.app.data.responses.ParseResponse
 import com.landable.app.databinding.FragmentHomeBinding
 import com.landable.app.ui.HomeActivity
-import com.landable.app.ui.dialog.CustomAlertDialog
-import com.landable.app.ui.dialog.CustomProgressDialog
-import com.landable.app.ui.dialog.HelpTutorialDialog
-import com.landable.app.ui.dialog.PostTypeDialog
+import com.landable.app.ui.dialog.*
 import com.landable.app.ui.home.agent.AgencyProfileFragment
 import com.landable.app.ui.home.auction.FragmentAuction
 import com.landable.app.ui.home.blogs.BlogFragment
@@ -34,6 +31,8 @@ import com.landable.app.ui.home.dataModels.WhyLandableDataModel
 import com.landable.app.ui.home.deeplink.AuctionDetailPageDeepLinkFragment
 import com.landable.app.ui.home.deeplink.ProjectDetailDeepLinkFragment
 import com.landable.app.ui.home.deeplink.PropertyDetailDeepLinkFragment
+import com.landable.app.ui.home.lead.LeadFragment
+import com.landable.app.ui.home.listing.MyListingFragment
 import com.landable.app.ui.home.news.NewsFragment
 import com.landable.app.ui.home.notifications.NotificationsFragment
 import com.landable.app.ui.home.postProjectProperty.PostProjectPropertyFragment
@@ -92,16 +91,25 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
 
         updateFCM()
 
+        if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
+        } else {
+            if (AppInfo.getName().isEmpty() || AppInfo.getUserEmail()
+                    .isEmpty() || AppInfo.getUserMobile().isEmpty()
+            ) {
+                UpdateProfileDialog(activity as HomeActivity).show()
+            }
+        }
+
 
         binding.layoutHome.ivProfileDetailsIcon.setOnClickListener {
-            showInfoPopup("Detail")
+            showInfoPopup("Check your profile details.")
         }
         binding.layoutHome.ivBuyDetailsIcon.setOnClickListener {
-            showInfoPopup("Detail")
+            showInfoPopup("Search properties for buying/renting.")
         }
 
         binding.layoutHome.SellDetail.setOnClickListener {
-            showInfoPopup("Detail")
+            showInfoPopup("List your property for sale /rent.")
         }
 
         binding.layoutHome.ivAuctionsDetailsIcon.setOnClickListener {
@@ -117,8 +125,10 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
             showInfoPopup("Message buyer/seller without sharing your number.")
         }
         binding.layoutHome.ivBlogsDetailsIcon.setOnClickListener {
-            showInfoPopup("News:- Get area-specific news updates on development, regulations etc." +
-                    "\n\nBlogs:- Get interesting insights on diverse aspects of real estate sector.")
+            showInfoPopup(
+                "News:- Get area-specific news updates on development, regulations etc." +
+                        "\n\nBlogs:- Get interesting insights on diverse aspects of real estate sector."
+            )
         }
 
 
@@ -126,8 +136,14 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
             if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
                 (activity as HomeActivity).askForLogin()
             } else {
-                (activity as HomeActivity).updateBottomNavigationSelection(R.id.home)
-                loadProfileFragment()
+                if (AppInfo.getName().isEmpty() || AppInfo.getUserEmail()
+                        .isEmpty() || AppInfo.getUserMobile().isEmpty()
+                ) {
+                    UpdateProfileDialog(activity as HomeActivity).show()
+                } else {
+                    (activity as HomeActivity).updateBottomNavigationSelection(R.id.home)
+                    loadProfileFragment()
+                }
             }
         }
 
@@ -141,18 +157,40 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
             }
         }
 
+        binding.layoutHome.Leads.setOnClickListener {
+            if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
+                (activity as HomeActivity).askForLogin()
+            } else {
+                loadLeadFragment()
+            }
+        }
+        binding.layoutHome.Listing.setOnClickListener {
+            if (AppInfo.getSCode() == "" || AppInfo.getUserId() == "0") {
+                (activity as HomeActivity).askForLogin()
+            } else {
+                loadMyListingFragment()
+            }
+        }
+
+        binding.layoutHome.ivListingIcon.setOnClickListener {
+            showInfoPopup("Check out your posted properties")
+        }
+
+        binding.layoutHome.ivLeadsDetail.setOnClickListener {
+            showInfoPopup("Check leads on your properties")
+        }
+
         binding.layoutHome.llBlogsNews.setOnClickListener {
             loadBlogsNewsFragment()
         }
         binding.layoutHome.llAuction.setOnClickListener {
             loadAuctionFragment()
         }
-
         binding.layoutHome.AboutUs.setOnClickListener {
+            //(activity as HomeActivity).callBrowserActivity("https://www.landable.in/about.aspx", "About us")
             val browserIntent = Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse("https://www.landable.in/about.aspx")
-                //   Uri.parse("https://api.whatsapp.com/send?phone=918448856325&text=Hello,%20I%20have%20a%20question%20about%20")
             )
             startActivity(browserIntent)
         }
@@ -247,11 +285,11 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
             )
             LandableConstants.isClickedDeepLinking = false
             //   CustomAlertDialog(this, "Deep link", LitConstants.deepLinkURL!!).show()
-        } else {
+        } /*else {
             if (featurePropertyList.size == 0 || recentPropertyList.size == 0 || projectsList.size == 0) {
                 getDashboardInfo()
-            } else updateDashboardInfo()
-        }
+            } else updateDashboardInfo()*/
+
 
         binding.ivSideNavigation.setOnClickListener {
             (activity as HomeActivity).openDrawer()
@@ -358,6 +396,15 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
         return binding.root
     }
 
+    private fun loadLeadFragment() {
+        FragmentHelper().replaceFragmentAddToBackstack(
+            requireActivity().supportFragmentManager,
+            (activity as HomeActivity).getHomePageContainerId(),
+            LeadFragment.newInstance(),
+            LeadFragment::class.java.name
+        )
+    }
+
     private fun loadDeepLinkOpenPropertyFragment() {
         val bundle = Bundle()
         val albumJoinDeepLink = PropertyDetailDeepLinkFragment.newInstance()
@@ -377,6 +424,26 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
             (activity as HomeActivity).getHomePageContainerId(),
             BlogNewsFragment.newInstance(),
             BlogNewsFragment::class.java.name
+        )
+    }
+
+
+    private fun loadDemovideoFragment() {
+        FragmentHelper().replaceFragmentAddToBackstack(
+            requireActivity().supportFragmentManager,
+            (activity as HomeActivity).getHomePageContainerId(),
+            DemoVideosFragment.newInstance(),
+            DemoVideosFragment::class.java.name
+        )
+    }
+
+
+    private fun loadMyListingFragment() {
+        FragmentHelper().replaceFragmentAddToBackstack(
+            requireActivity().supportFragmentManager,
+            (activity as HomeActivity).getHomePageContainerId(),
+            MyListingFragment.newInstance(),
+            MyListingFragment::class.java.name
         )
     }
 
@@ -799,14 +866,19 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
     override fun onClickButton(clicked: String) {
         when (clicked) {
             "llFAQ" -> {
-                val browserIntent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://www.landable.in/faq.aspx")
+                (activity as HomeActivity).callBrowserActivity(
+                    "https://www.landable.in/app/faq.aspx",
+                    "Faq page"
                 )
-                startActivity(browserIntent)
+                /* val browserIntent = Intent(
+                     Intent.ACTION_VIEW,
+                     Uri.parse("https://www.landable.in/app/faq.aspx")
+                 )
+                 startActivity(browserIntent)*/
             }
             "llDemo" -> {
-               //showInfoPopup("Coming Soon")
+                loadDemovideoFragment()
+                //showInfoPopup("Coming Soon")
             }
             "llWhatsapp" -> {
                 val browserIntent = Intent(

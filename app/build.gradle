@@ -40,8 +40,8 @@ android {
     productFlavors {
         prod {
             signingConfig signingConfigs.release
-            versionCode 24
-            versionName "1.0.22"
+            versionCode 28
+            versionName "1.0.26"
             applicationId "com.landable.app"
             dimension "tier"
             buildConfigField "String", "BASE_URL", "\"https://api.landable.in/api/v1/\""
@@ -49,8 +49,8 @@ android {
 
         dev {
             signingConfig signingConfigs.debug
-            versionCode 24
-            versionName "1.0.22"
+            versionCode 28
+            versionName "1.0.26"
             applicationId "com.landable.app"
             dimension "tier"
             buildConfigField "String", "BASE_URL", "\"https://api.landable.in/api/v1/\""
@@ -86,6 +86,8 @@ android {
 }
 
 dependencies {
+    implementation 'org.osmdroid:osmdroid-android:6.1.13'
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.7.0'

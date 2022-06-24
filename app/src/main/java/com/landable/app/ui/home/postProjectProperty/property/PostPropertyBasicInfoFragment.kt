@@ -173,7 +173,7 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
             if (binding.tvCOst.text.toString().isNotEmpty()) {
                 cost = binding.tvCOst.text.toString().toDouble()
             }
-            title = binding.edTitle.text.toString()
+
             if (binding.tvTotalFloor.text.toString().isNotEmpty()) {
                 totalFloor = binding.tvTotalFloor.text.toString().toInt()
             }
@@ -191,32 +191,37 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
             }
 
             tvFloor = binding.tvFloor.text.toString()
-            postPropertyStep1(
-                PostPropertyBasicInfo(
-                    propertyId,
-                    propertyFullId,
-                    "",
-                    categoryID,
-                    subCategoryID,
-                    saleType,
-                    possetionType,
-                    bedsCOunt,
-                    description,
-                    cost,
-                    title,
-                    totalFloor,
-                    totalArea,
-                    address,
-                    lat,
-                    lon,
-                    buildUpArea,
-                    carpetArea,
-                    builtYear,
-                    availableMonth,
-                    availableYear,
-                    tvFloor
-                ),true
-            )
+            if(binding.edTitle.text.toString().isNullOrEmpty()){
+                CustomAlertDialog(requireContext(),"Alert","Please fill Title").show()
+            }else {
+                title = binding.edTitle.text.toString()
+                postPropertyStep1(
+                    PostPropertyBasicInfo(
+                        propertyId,
+                        propertyFullId,
+                        "",
+                        categoryID,
+                        subCategoryID,
+                        saleType,
+                        possetionType,
+                        bedsCOunt,
+                        description,
+                        cost,
+                        title,
+                        totalFloor,
+                        totalArea,
+                        address,
+                        lat,
+                        lon,
+                        buildUpArea,
+                        carpetArea,
+                        builtYear,
+                        availableMonth,
+                        availableYear,
+                        tvFloor
+                    ), true
+                )
+            }
         }
 
         binding.buttonContinue.setOnClickListener {

@@ -33,4 +33,5 @@ class ProjectsDataModel : Serializable {
     var linkurl:String = ""
     var badges:String = ""
     var profilepic:String = ""
+    var Status :String = ""
 }

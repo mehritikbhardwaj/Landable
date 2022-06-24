@@ -38,4 +38,5 @@ class FeaturePropertiesDataModel : Serializable {
     var enddate: String = ""
     var clicks: Int = 0
     var leads: Int = 0
+    var Status:String = ""
 }

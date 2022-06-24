@@ -69,6 +69,21 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                style="@style/forSaleOrFeaturedLayoutStyle"
+                android:backgroundTint="@color/green"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/Status"
+                    android:textStyle="bold"
+                    android:padding="@dimen/_2sdp"
+                    android:textSize="@dimen/_8ssp"
+                    style="@style/forSaleOrFeaturedTextStyle"
+                    android:text="Status : Active" />
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

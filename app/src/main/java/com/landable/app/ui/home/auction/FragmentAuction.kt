@@ -3,6 +3,8 @@ package com.landable.app.ui.home.auction
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -34,9 +36,11 @@ import com.landable.app.ui.home.profile.StateAdapter
 import com.landable.app.ui.home.property.adapters.AdvertisementAdapter
 import com.landable.app.ui.home.search.SearchAuctionAdapter
 
+
 class FragmentAuction : Fragment(),
     AuctionDetailClickListener, PropertyTypeClickListener,
-    CategoryTypeClickListener, AdvertisementClickListener/*, DatePickerDialog.OnDateSetListener*/ {
+    CategoryTypeClickListener, AdvertisementClickListener,
+    VideoClickListener/*, DatePickerDialog.OnDateSetListener*/ {
 
     private lateinit var binding: FragmentAuctionsBinding
     private var searchData: SearchAuctionDataModel? = null
@@ -66,6 +70,8 @@ class FragmentAuction : Fragment(),
     private var searchId: Int = 0
     private var searchDescription: String = ""
 
+    private var suggesstionListing: ArrayList<AuctionSuggestionModel>? = null
+
     companion object {
         fun newInstance() = FragmentAuction()
     }
@@ -85,7 +91,8 @@ class FragmentAuction : Fragment(),
 
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
 
-        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Auction Search Fragment", null);
+        FirebaseAnalytics.getInstance((activity as HomeActivity))
+            .setCurrentScreen((activity as HomeActivity), "Auction Search Fragment", null)
 
         (activity as HomeActivity).postUserTrackingModel(
             HomeActivity.PostUserTrackingModel(
@@ -101,7 +108,33 @@ class FragmentAuction : Fragment(),
         updatePriceUnitDopDown()
         updateStatusUnitDopDown()
 
+        binding.editText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                val key = binding.editText.text.toString()
+
+                if(key.isEmpty()){
+                    binding.rvSuggestions.visibility = View.GONE
+                }else {
+                    binding.rvSuggestions.visibility = View.VISIBLE
+                    get_Auctionkeysuggestion(key)
+                }
+            }
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+
+            }
+        })
+
         binding.layoutFilter.status.setText("Active")
+
         binding.ivSaveResult.setOnClickListener {
             if (AppInfo.getUserId() == "0" || AppInfo.getSCode() == "") {
                 (activity as HomeActivity).askForLogin()
@@ -115,8 +148,8 @@ class FragmentAuction : Fragment(),
             binding.filterIcon.visibility = View.GONE
             binding.rvAuctions.visibility = View.GONE
             binding.rvAdvertisements.visibility = View.GONE
-
         }
+
         binding.layoutFilter.buttonClearFilter.setOnClickListener {
             clearFilter()
             getFiltersList()
@@ -129,10 +162,11 @@ class FragmentAuction : Fragment(),
         callDefaultApi()
 
         binding.ivSearchMap.setOnClickListener {
-            var url = "https://www.landable.in/auctionmap.aspx?key=&ct=0&st=0&" +
-                    "city=,status=Active,locality=,locality=,beforedate=,bankname=," +
-                    "borrower=,costfrom=0,costto=0,areafrom=0,areato=300000,emddate="
-            (activity as HomeActivity).callBrowserActivity(url,"Search Map")
+            var url =
+                "https://www.landable.in/app/auctionmap.aspx?key=&ct=" +
+                        "0&st=0&city=&status=Active&locality=&locality=&bef" +
+                        "oredate=&bankname=&borrower=&costfrom=0&costto=0&areafrom=0&areato=300000&emddate="
+            (activity as HomeActivity).callBrowserActivity(url, "Search Auction Map")
         }
 
         binding.layoutFilter.buttonSearch.setOnClickListener {
@@ -186,6 +220,39 @@ class FragmentAuction : Fragment(),
             })
 
         return binding.root
+    }
+
+    private fun get_Auctionkeysuggestion(key: String) {
+        val response = RegisterRepository().get_Auctionkeysuggestion(key)
+        response.observe(viewLifecycleOwner) {
+
+            if (it == LandableConstants.noInternetErrorMessage) {
+                //print NoInternet Error Message
+                CustomAlertDialog(
+                    requireContext(),
+                    LandableConstants.noInternetErrorTitle,
+                    it
+                ).show()
+            } else {
+                try {
+                    if (it.toString() != "null") {
+                        suggesstionListing = ParseResponse.parseSuggestionList(it.toString())
+                        updateSuggestionUI()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+            }
+        }
+    }
+
+    private fun updateSuggestionUI(){
+        binding.rvSuggestions.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvSuggestions.adapter = SuggestionAdapter(suggesstionListing!!,this)
+
+
     }
 
     private fun clearFilter() {
@@ -254,6 +321,7 @@ class FragmentAuction : Fragment(),
 
     private fun callAPI() {
         binding.llFilter.visibility = View.GONE
+        binding.rvSuggestions.visibility = View.GONE
         binding.filterIcon.visibility = View.VISIBLE
         binding.tvNoResult.visibility = View.GONE
         binding.rvAuctions.visibility = View.VISIBLE
@@ -423,7 +491,7 @@ class FragmentAuction : Fragment(),
         categoryList = filterData!!.categorymaster
         binding.layoutFilter.rvCategory.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.layoutFilter.rvCategory.adapter = CategoriesAdapter(categoryList, this,categoryID)
+        binding.layoutFilter.rvCategory.adapter = CategoriesAdapter(categoryList, this, categoryID)
 
     }
 
@@ -436,7 +504,7 @@ class FragmentAuction : Fragment(),
                 binding.layoutFilter.rvPropertyType.adapter =
                     PropertyTypeAdapter(
                         filterData!!.residentialTypeLinkedHashMap[categoryType]!!,
-                        this,subCategoryID
+                        this, subCategoryID
                     )
             }
             "Commercial" -> {
@@ -445,7 +513,7 @@ class FragmentAuction : Fragment(),
                 binding.layoutFilter.rvPropertyType.adapter =
                     PropertyTypeAdapter(
                         filterData!!.commercialTypeLinkedList[categoryType]!!,
-                        this,subCategoryID
+                        this, subCategoryID
                     )
             }
             "Agricultural" -> {
@@ -455,7 +523,7 @@ class FragmentAuction : Fragment(),
                 binding.layoutFilter.rvPropertyType.adapter =
                     PropertyTypeAdapter(
                         filterData!!.agriculturalTypeLinkedList[categoryType]!!,
-                        this,subCategoryID
+                        this, subCategoryID
                     )
             }
         }
@@ -653,6 +721,15 @@ class FragmentAuction : Fragment(),
                 val openURL = Intent(Intent.ACTION_VIEW)
                 openURL.data = Uri.parse(advertisementDataModel!!.link)
                 startActivity(openURL)
+            }
+        }
+    }
+
+    override fun onvideoClick(action: String, path: String) {
+        when(action){
+            "clicked"->{
+                binding.editText.setText(path)
+                callAPI()
             }
         }
     }

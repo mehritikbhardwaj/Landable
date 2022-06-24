@@ -1,6 +1,8 @@
 package com.landable.app.data.responses
 
+import com.landable.app.ui.home.auction.AuctionSuggestionModel
 import com.landable.app.ui.home.dataModels.*
+import com.landable.app.ui.home.homeUI.DemoVideoDataModel
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -1124,6 +1126,7 @@ object ParseResponse {
             propertiesList.clicks = propertiesArray.getJSONObject(i).getInt("clicks")
             propertiesList.leads = propertiesArray.getJSONObject(i).getInt("leads")
             propertiesList.isfavourite = propertiesArray.getJSONObject(i).getString("isfavourite")
+            propertiesList.Status = propertiesArray.getJSONObject(i).getString("Status")
             featurePropertiesArrayList.add(propertiesList)
         }
         listingInfo.featuredproperties = featurePropertiesArrayList
@@ -1170,6 +1173,7 @@ object ParseResponse {
             projects.linkurl = projectsArray.getJSONObject(i).getString("linkurl")
             projects.badges = projectsArray.getJSONObject(i).getString("badges")
             projects.profilepic = projectsArray.getJSONObject(i).getString("profilepic")
+            projects.Status = propertiesArray.getJSONObject(i).getString("Status")
 
             projectsArrayList.add(projects)
         }
@@ -2757,4 +2761,37 @@ object ParseResponse {
         }
         return blogsList
     }
+
+    fun parseVideoList(response: String): ArrayList<DemoVideoDataModel> {
+        val videoList = ArrayList<DemoVideoDataModel>()
+        val jsonArray = JSONArray(response)
+        for (i in 0 until jsonArray.length()) {
+            val video = DemoVideoDataModel()
+            video.id = jsonArray.getJSONObject(i).getInt("id")
+            video.createddate = jsonArray.getJSONObject(i).getString("createddate")
+            video.videopath = jsonArray.getJSONObject(i).getString("videopath")
+            video.title = jsonArray.getJSONObject(i).getString("title")
+            video.coverpage = jsonArray.getJSONObject(i).getString("coverpage")
+            video.categoryname = jsonArray.getJSONObject(i).getString("categoryname")
+            video.status = jsonArray.getJSONObject(i).getString("status")
+            videoList.add(video)
+        }
+        return videoList
+    }
+
+    fun parseSuggestionList(response: String): ArrayList<AuctionSuggestionModel> {
+        val suggestionList = ArrayList<AuctionSuggestionModel>()
+        val jsonArray = JSONArray(response)
+        for (i in 0 until jsonArray.length()) {
+            val suggestion = AuctionSuggestionModel()
+            suggestion.id = jsonArray.getJSONObject(i).getInt("id")
+            suggestion.value = jsonArray.getJSONObject(i).getString("value")
+            suggestion.value2 = jsonArray.getJSONObject(i).getString("value2")
+            suggestion.type = jsonArray.getJSONObject(i).getString("type")
+
+            suggestionList.add(suggestion)
+        }
+        return suggestionList
+    }
+
 }

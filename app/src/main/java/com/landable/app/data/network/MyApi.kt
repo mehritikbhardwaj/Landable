@@ -2,6 +2,7 @@ package com.landable.app.data.network
 
 import com.landable.app.common.LandableConstants
 import com.landable.app.ui.HomeActivity
+import com.landable.app.ui.dialog.UpdateProfileDialog
 import com.landable.app.ui.home.agent.AddAgentFragment
 import com.landable.app.ui.home.auction.FragmentAuction
 import com.landable.app.ui.home.browser.AddSuperGroupWebFragment
@@ -93,6 +94,13 @@ interface MyApi {
     @POST(LandableConstants.Post_Addtofavourite)
     fun addToFavourite(
         @Body raw: PropertyDetailFragment.AddtoFavouriteDataModel,
+        @HeaderMap headers: Map<String, String>
+    ): Call<ResponseBody>
+
+    @Headers("Content-Type: application/json")
+    @POST(LandableConstants.Post_shortprofileupdate)
+    fun post_shortprofileupdate(
+        @Body raw: UpdateProfileDialog.ProfileDataModel,
         @HeaderMap headers: Map<String, String>
     ): Call<ResponseBody>
 
@@ -333,6 +341,10 @@ interface MyApi {
     fun getbloglist(@HeaderMap headers: Map<String, String>): Call<ResponseBody>
 
     @Headers("Content-Type: application/json")
+    @GET(LandableConstants.GetVideos)
+    fun getVideos(@HeaderMap headers: Map<String, String>): Call<ResponseBody>
+
+    @Headers("Content-Type: application/json")
     @GET(LandableConstants.GetMyactivity)
     fun getMyactivity(@HeaderMap headers: Map<String, String>): Call<ResponseBody>
 
@@ -374,6 +386,13 @@ interface MyApi {
     fun getDeleteAgent(
         @HeaderMap headers: Map<String, String>,
         @Query("id") id: Int
+    ): Call<ResponseBody>
+
+    @Headers("Content-Type: application/json")
+    @GET(LandableConstants.Get_Auctionkeysuggestion)
+    fun get_Auctionkeysuggestion(
+        @HeaderMap headers: Map<String, String>,
+        @Query("key") key: String
     ): Call<ResponseBody>
 
     @Headers("Content-Type: application/json")

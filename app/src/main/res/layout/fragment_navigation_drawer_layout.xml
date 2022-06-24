@@ -297,7 +297,8 @@
 
                             <ImageView
                                 style="@style/myProfileImageView"
-                                android:src="@drawable/chart_bar" />
+                                android:src="@drawable/registerationlookup"
+                                app:tint="@color/colour_app" />
 
                             <TextView
                                 style="@style/myProfileTextView"
@@ -326,7 +327,8 @@
 
                             <ImageView
                                 style="@style/myProfileImageView"
-                                android:src="@drawable/file" />
+                                android:src="@drawable/dataanalytics"
+                                app:tint="@color/colour_app" />
 
                             <TextView
                                 style="@style/myProfileTextView"

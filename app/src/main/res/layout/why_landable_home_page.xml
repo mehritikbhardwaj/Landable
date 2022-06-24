@@ -174,8 +174,6 @@
                 <ImageView
                     android:id="@+id/ivRegistrationIcon"
                     style="@style/homePageCategoriesImage"
-                    android:layout_width="57dp"
-                    android:layout_height="49dp"
                     android:layout_gravity="center"
                     android:src="@drawable/registerationlookup" />
 
@@ -217,6 +215,77 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:text="Data Analytics" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:id="@+id/Leads"
+                style="@style/whyLandableCategoriesHomePAge"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_weight="0.5">
+
+                <ImageView
+                    android:id="@+id/ivLeadsDetail"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="right|top"
+                    android:src="@drawable/info" />
+
+                <ImageView
+                    style="@style/homePageCategoriesImage"
+                    android:layout_gravity="center"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:src="@drawable/user_cog"
+                    app:tint="#FF9800" />
+
+
+                <TextView
+                    style="@style/homePageCategoriesText"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="Leads" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Listing"
+                style="@style/whyLandableCategoriesHomePAge"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_weight="0.5">
+
+                <ImageView
+                    android:id="@+id/ivListingIcon"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="right|top"
+                    android:src="@drawable/info" />
+
+                <ImageView
+                    style="@style/homePageCategoriesImage"
+                    android:layout_gravity="center"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:src="@drawable/building"
+                    app:tint="#3DC0FB" />
+
+
+                <TextView
+                    style="@style/homePageCategoriesText"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="My Listings" />
 
             </LinearLayout>
 

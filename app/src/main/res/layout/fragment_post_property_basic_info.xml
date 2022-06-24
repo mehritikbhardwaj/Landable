@@ -147,6 +147,21 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp" />
 
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:text="@string/description" />
+
+            <EditText
+                android:id="@+id/tvDescription"
+                style="@style/editText_EditProfile"
+                android:layout_height="@dimen/_100sdp"
+                android:gravity="start"
+                android:hint="@string/description"
+                android:inputType="textMultiLine"
+                android:maxLength="500"
+                android:maxLines="20" />
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -551,6 +566,7 @@
                 android:id="@+id/tvCOst"
                 style="@style/editText_EditProfile"
                 android:layout_width="match_parent"
+                android:maxLength="11"
                 android:inputType="numberDecimal"
                 android:padding="@dimen/_6sdp" />
 
@@ -641,19 +657,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                style="@style/filterTextSearchUI"
-                android:text="@string/description" />
-
-            <EditText
-                android:id="@+id/tvDescription"
-                style="@style/editText_EditProfile"
-                android:layout_height="@dimen/_100sdp"
-                android:gravity="start"
-                android:hint="@string/description"
-                android:inputType="textMultiLine"
-                android:maxLength="500"
-                android:maxLines="20" />
 
             <Button
                 android:id="@+id/buttonContinue"

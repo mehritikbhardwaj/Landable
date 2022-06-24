@@ -191,12 +191,10 @@ class OTPLoginFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
                 try {
                     if (it.toString() != "null") {
                         val jsonObj = JSONObject(it)
+
                         val status = jsonObj.getString("status")
                         val userstatus = jsonObj.getString("userstatus")
-                        val otp = jsonObj.getInt("otp")
                         val userid = jsonObj.getInt("userid")
-                        val email = jsonObj.getString("email")
-                        val scode = jsonObj.getString("scode")
 
                         if (status == "success") {
                             this@OTPLoginFragment.userid = userid
@@ -206,12 +204,12 @@ class OTPLoginFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
                                 Toast.LENGTH_LONG
                             ).show()
                         } else if (status == "not exists") {
-                            Toast.makeText(
+                           /* Toast.makeText(
                                 requireContext(),
                                 "Not a valid user.",
                                 Toast.LENGTH_LONG
                             ).show()
-                            openSignUpFragment(binding.edMobile.text.toString())
+                            openSignUpFragment(binding.edMobile.text.toString())*/
                         } else {
                             Toast.makeText(requireContext(), status, Toast.LENGTH_LONG).show()
                         }
@@ -239,16 +237,23 @@ class OTPLoginFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
                 try {
                     if (it.toString() != "null") {
                         val jsonObj = JSONObject(it)
+
                         val status = jsonObj.getString("status")
                         val userstatus = jsonObj.getString("userstatus")
                         val userid = jsonObj.getInt("userid")
                         val scode = jsonObj.getString("scode")
                         val customertype = jsonObj.getString("customertype")
+                        val email = jsonObj.getString("email")
+                        val mobile = jsonObj.getString("mobile")
+                        val name = jsonObj.getString("name")
+
                         if (status == "success") {
-                           // Toast.makeText(requireContext(), status, Toast.LENGTH_LONG).show()
                             AppInfo.setSCode(scode)
                             AppInfo.setUserId(userid.toString())
                             AppInfo.setCustomerType(customertype)
+                            AppInfo.setUserEmail(email)
+                            AppInfo.setUserMobile(mobile)
+                            AppInfo.setName(name)
                             countDownTimer!!.cancel()
                             callHomeFragment()
                         } else {

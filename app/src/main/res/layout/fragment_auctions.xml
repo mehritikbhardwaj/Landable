@@ -81,6 +81,17 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSuggestions"
+            android:layout_width="match_parent"
+            android:elevation="@dimen/_5sdp"
+            android:background="@color/white"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_50sdp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchLayout"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAuctions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

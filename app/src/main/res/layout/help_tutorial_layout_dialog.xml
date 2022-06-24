@@ -84,10 +84,9 @@
                     <TextView
                         android:id="@+id/tvBuyText"
                         style="@style/homePageCategoriesText"
-                        android:layout_height="17dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:text="Watch demo" />
+                        android:text="Demo Video" />
 
                 </LinearLayout>
 
@@ -127,7 +126,7 @@
                         style="@style/homePageCategoriesText"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:text="Send us a message" />
+                        android:text="Whatsapp us" />
 
                 </LinearLayout>
 

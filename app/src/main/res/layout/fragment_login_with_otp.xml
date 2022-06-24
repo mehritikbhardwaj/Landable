@@ -72,7 +72,7 @@
                     android:autofillHints="username"
                     android:cursorVisible="true"
                     android:hint="@string/mobile_number"
-                    android:inputType="text"
+                    android:inputType="phone"
                     android:maxLength="10"
                     android:maxLines="1" />
 

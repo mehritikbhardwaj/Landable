@@ -53,7 +53,7 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
     private var mMap: GoogleMap? = null
     private var lat: String = ""
     private var lon: String = ""
-
+    private var hideContactInfo: Int = 0
     companion object {
         fun newInstance() = AddSuperGroupFragment()
     }
@@ -71,6 +71,13 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
             DataBindingUtil.inflate(inflater, R.layout.fragment_add_supergroup, container, false)
 
         getFilterInfo()
+
+        binding.hideInfo.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+                hideContactInfo = 1
+                //Toast.makeText(requireContext(),"InfoHide",Toast.LENGTH_LONG).show()
+            }else hideContactInfo = 0
+        }
 
         FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Add Supergroup Fragment", null);
 
@@ -120,7 +127,8 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
                         binding.tvDescription.text.toString(),
                         lat,
                         lon,
-                        binding.tvCOst.text.toString().toDouble()
+                        binding.tvCOst.text.toString().toDouble(),
+                        hideContactInfo
                     )
                 )
             }
@@ -427,7 +435,8 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
         description: String,
         lat: String,
         lon: String,
-        price: Double
+        price: Double,
+        hidecontact:Int
     ) {
         private var id: Int = id
         private var title: String = title
@@ -441,6 +450,7 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
         private var lat: String = lat
         private var lon: String = lon
         private var price: Double = price
+        private var hidecontact:Int = hidecontact
     }
 
     override fun onAgentClick(action: String, id: Int) {

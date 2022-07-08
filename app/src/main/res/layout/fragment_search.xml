@@ -81,7 +81,6 @@
 
         </LinearLayout>
 
-
         <LinearLayout
             android:id="@+id/topSearchTypes"
             android:layout_width="wrap_content"
@@ -119,14 +118,19 @@
                 android:layout_height="1dp"
                 android:background="@color/black" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSelectedFilters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/topSearchTypes"
             android:layout_above="@+id/filterIcon"
+            android:layout_below="@+id/topSearchTypes"
             android:background="@color/grey"
             android:visibility="gone" />
 
@@ -141,7 +145,6 @@
                 android:id="@+id/llFilter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:visibility="gone">
 
                 <include
@@ -160,8 +163,8 @@
             android:id="@+id/filterIcon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colour_app"
             android:layout_alignParentBottom="true"
+            android:background="@color/colour_app"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -173,16 +176,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filter"
-                android:textStyle="bold"
-                android:layout_marginLeft="@dimen/_5sdp"
                 android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:text="Filter"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_15ssp" />
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <ImageView
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -191,7 +193,8 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:src="@drawable/filter" />
+            android:src="@drawable/filter"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

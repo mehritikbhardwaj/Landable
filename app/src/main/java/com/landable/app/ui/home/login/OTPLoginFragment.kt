@@ -272,7 +272,6 @@ class OTPLoginFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
         }
     }
 
-
     class OTPDataModel(
         username: String,
         fcmid: String,

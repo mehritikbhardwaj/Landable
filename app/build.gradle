@@ -40,8 +40,8 @@ android {
     productFlavors {
         prod {
             signingConfig signingConfigs.release
-            versionCode 28
-            versionName "1.0.26"
+            versionCode 29
+            versionName "1.0.27"
             applicationId "com.landable.app"
             dimension "tier"
             buildConfigField "String", "BASE_URL", "\"https://api.landable.in/api/v1/\""
@@ -49,8 +49,8 @@ android {
 
         dev {
             signingConfig signingConfigs.debug
-            versionCode 28
-            versionName "1.0.26"
+            versionCode 29
+            versionName "1.0.27"
             applicationId "com.landable.app"
             dimension "tier"
             buildConfigField "String", "BASE_URL", "\"https://api.landable.in/api/v1/\""
@@ -60,12 +60,12 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            debuggable false
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
-            debuggable false
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

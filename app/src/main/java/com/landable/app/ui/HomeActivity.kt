@@ -69,9 +69,14 @@ class HomeActivity : AppCompatActivity(),
 
         handleIntent()
 
-
+        if(intent.hasExtra("related_type")){
+            CustomAlertDialog(this,"Notification",
+                intent.getStringExtra("related_type").toString()).show()
+        }
 
         if (intent.hasExtra("isComingFromNotification")) {
+            CustomAlertDialog(this,"Notification",
+                intent.getStringExtra("related_type").toString()).show()
             loadActivityFragment()
         }
         if (intent.hasExtra("url")) {

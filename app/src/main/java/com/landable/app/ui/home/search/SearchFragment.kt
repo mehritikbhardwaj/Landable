@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.slider.RangeSlider
@@ -37,7 +38,7 @@ import com.landable.app.ui.home.property.PropertyDetailFragment
 class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickListener,
     AgentProfileListener, PropertyDetailListener, ProjectDetailListener, FloorClickListener,
     PostedDateClickListener,
-    AmenitiesClickListener {
+    AmenitiesClickListener, SelectedFilterSearch {
 
     private lateinit var binding: FragmentSearchBinding
     private var selectedHighlightedText: String = "Property"
@@ -71,6 +72,11 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
     private var areaFrom: Int = 0
     private var searchId: Int = 0
     private var searchDescription: String = ""
+
+
+    var selectedFiltersList = ArrayList<String>()
+    private var selectedFiltersAdapter: SelectedFiltersAdapter? = null
+
 
     companion object {
         fun newInstance() = SearchFragment()
@@ -109,6 +115,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
 
         binding.ivSearchMap.setOnClickListener {
 
+            updateSelectedFilterRecycler()
             val url = "https://www.landable.in/property-list.aspx?city=37" +
                     "&key=&ct=&st=&stype=0&ps=0&cfrom=0&cto=0&bed=&bath=0&bal=0&furnished=&parking" +
                     "=0&amenities=&postedon=0&floor=&lat=0&lon=0&sort=New&areafrom=0&areato=100000#."
@@ -135,6 +142,8 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
 
 
         binding.layoutFilter.buttonClearFilter.setOnClickListener {
+            selectedFiltersList.clear()
+         //   updateSelectedFilterRecycler()
             clearFilter()
             getFilterInfo()
             updatePriceUnitDopDown()
@@ -165,6 +174,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         }
 
         binding.layoutFilter.buttonSearch.setOnClickListener {
+           // updateSelectedFilterRecycler()
             binding.llFilter.visibility = View.GONE
             binding.recyclerView.visibility = View.VISIBLE
             binding.topSearchTypes.visibility = View.VISIBLE
@@ -221,6 +231,14 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
 
         return binding.root
 
+    }
+
+    private fun updateSelectedFilterRecycler() {
+        binding.rvSelectedFilters.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvSelectedFilters.itemAnimator = DefaultItemAnimator()
+        selectedFiltersAdapter = SelectedFiltersAdapter(activity, selectedFiltersList, this)
+        binding.rvSelectedFilters.adapter = selectedFiltersAdapter
     }
 
     private fun clearFilter() {
@@ -480,7 +498,6 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
 
 
     private fun updateFilterUI() {
-
         binding.layoutFilter.rvAmenities.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.layoutFilter.rvAmenities.adapter =
             AmenitiesAdapter(filterData!!.Amenitiesmaster, this)
@@ -626,10 +643,14 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
             "categoryClick" -> {
                 categoryID = categoryDataModel!!.id
                 updatePropertyTypeList(categoryDataModel.codevalue)
+                selectedFiltersList.add(categoryDataModel.codevalue)
+
             }
             "removeCategoryClicked" -> {
                 categoryID = 0
                 binding.layoutFilter.rvPropertyType.visibility = View.GONE
+                selectedFiltersList.remove(categoryDataModel!!.codevalue)
+
             }
         }
     }
@@ -639,8 +660,15 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         when (action) {
             "typeClick" -> {
                 subCategoryID = propertyDataModel!!.id
+                selectedFiltersList.add(propertyDataModel.codevalue)
+
             }
-            "deleteTypeClick" -> subCategoryID = 0
+            "deleteTypeClick" -> {
+                subCategoryID = 0
+                selectedFiltersList.remove(propertyDataModel!!.codevalue)
+
+            }
+
         }
     }
 
@@ -974,6 +1002,12 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
             }
         }
 
+    }
+
+    override fun onFilterSelected(action: String, name: String) {
+        when(action){
+
+        }
     }
 
 }

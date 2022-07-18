@@ -40,6 +40,16 @@ class DemoVideosFragment : Fragment(), VideoClickListener {
         FirebaseAnalytics.getInstance((activity as HomeActivity))
             .setCurrentScreen((activity as HomeActivity), "Demo Videos", null)
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Demo Videos",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
+
         getVideosList()
 
         return binding.root

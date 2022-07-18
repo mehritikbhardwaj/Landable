@@ -15,20 +15,25 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.landable.app.R
 import com.landable.app.common.*
+import com.landable.app.data.repositories.RegisterRepository
+import com.landable.app.data.responses.ParseResponse
 import com.landable.app.databinding.FragmentProjectUploadDocumentsBinding
 import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.dialog.CustomAlertDialog
 import com.landable.app.ui.dialog.CustomConfirmationDialog
 import com.landable.app.ui.dialog.CustomProgressDialog
+import com.landable.app.ui.home.dataModels.SupergroupMasterMediaModel
+import com.landable.app.ui.home.dataModels.SupergroupMediaModel
 import com.landable.app.ui.home.homeUI.HomeFragment
 import com.landable.app.ui.home.postProjectProperty.filterAdapters.SelectedImagesAdapter
+import com.landable.app.ui.home.supergroups.AvailableSupergroupMediaAdapter
 import java.io.File
 
 
 class ProjectUploadDocumentsFragment : Fragment(),
     UploadTypeMediaDialogFragment.UploadTypeListener,
     UploadImageDialogFragment.IUploadImageListener,
-    CustomConfirmationDialog.ICustomConfirmationDialogListener {
+    CustomConfirmationDialog.ICustomConfirmationDialogListener, AgentProfileListener {
 
     private lateinit var binding: FragmentProjectUploadDocumentsBinding
     private var progressDialog: CustomProgressDialog? = null
@@ -39,6 +44,9 @@ class ProjectUploadDocumentsFragment : Fragment(),
     private var selectedUploadType: String = ""
     private var comingFor: String = ""
     private var count: Int = 0
+
+    private var details: SupergroupMasterMediaModel? = null
+    private var dataMedia:ArrayList<SupergroupMediaModel>?=null
 
     companion object {
         fun newInstance() = ProjectUploadDocumentsFragment()
@@ -68,6 +76,10 @@ class ProjectUploadDocumentsFragment : Fragment(),
                 false
             )
 
+        if (comingFor == "supergroup") {
+            getsupergroupMedia(id)
+        }
+
         binding.uploadType.setOnClickListener {
             val fm = requireActivity().supportFragmentManager
             val dialogFragment = UploadTypeMediaDialogFragment(this)
@@ -83,6 +95,36 @@ class ProjectUploadDocumentsFragment : Fragment(),
 
         return binding.root
     }
+
+    private fun getsupergroupMedia(id: Int) {
+        progressDialog = CustomProgressDialog(requireContext())
+        progressDialog!!.show()
+        val userDataResponse = RegisterRepository().getSupergroupMedia(id)
+        userDataResponse.observe(viewLifecycleOwner) {
+            progressDialog!!.cancel()
+            if (it.toString() != "null") {
+                try {
+                    details = ParseResponse.parseSuperGroupMediaList(it.toString())
+
+                    if(details!!.image.isNotEmpty() || details!!.video.isNotEmpty() || details!!.document.isNotEmpty()){
+                        dataMedia = details!!.image
+                        dataMedia = details!!.video
+                        dataMedia = details!!.document
+                        binding.rvAvailableImages.layoutManager =
+                            GridLayoutManager(requireContext(), 2)
+                        binding.rvAvailableImages.adapter =
+                            AvailableSupergroupMediaAdapter(dataMedia!!, this)
+
+                    }
+                } catch (
+                    e: Exception
+                ) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
 
     private fun uploadImages(type: String) {
         if (uploadFileArrayList.size == 0) {
@@ -112,7 +154,7 @@ class ProjectUploadDocumentsFragment : Fragment(),
                             "AddSupergroupMedia",
                             File(filePath!!),
                             this,
-                            "", _id,  "",
+                            "", _id, "",
                             "Floorplan",
                             "", "", "", ""
                         )
@@ -152,63 +194,32 @@ class ProjectUploadDocumentsFragment : Fragment(),
                 }
 
             } else {
-                // multiple photo upload
-             /*   progressDialog = CustomProgressDialog(requireContext())
-                progressDialog!!.show()
-
-                for (i in 0 until uploadFileArrayList.size) {
-                    val filePath = if ("content" == Uri.parse(uploadFileArrayList[i]).scheme) {
-                        Log.e("contains", "getUri.getScheme()")
-                        ClsGlobal.getPathFromUri(context, Uri.parse(uploadFileArrayList[i]))
+                if (comingFor == "supergroup") {
+                    val intent = Intent(requireContext(), UploadService::class.java)
+                    intent.putStringArrayListExtra("photoList", uploadFileArrayList)
+                    intent.putExtra("_id", _id)
+                    intent.putExtra("propertyId", "")
+                    intent.putExtra("isComingFor", "AddSupergroupMedia")
+                    intent.putExtra("type", type)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        requireContext().startForegroundService(intent)
                     } else {
-                        Uri.parse(uploadFileArrayList[i]).path
+                        requireContext().startService(intent)
                     }
-                    if(comingFor == "supergroup"){
-                        UploadImage(
-                            "AddSupergroupMedia",
-                            File(filePath!!),
-                            this,
-                            "",
-                            _id,
-                            "",
-                            "Image",
-                            "",
-                            "",
-                            "",
-                            ""
-                        )
-                    }else UploadImage(
-                        "ProjectImageUpload", File(filePath!!), this,
-                        "", _id, projectID, "Image", "", "", "", ""
-                    )
-                }*/
-              //  loadHomeFragment()
-                 if (comingFor == "supergroup") {
-                     val intent = Intent(requireContext(), UploadService::class.java)
-                     intent.putStringArrayListExtra("photoList", uploadFileArrayList)
-                     intent.putExtra("_id", _id)
-                     intent.putExtra("propertyId", "")
-                     intent.putExtra("isComingFor", "AddSupergroupMedia")
-                     intent.putExtra("type",type)
-                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                         requireContext().startForegroundService(intent)
-                     } else {
-                         requireContext().startService(intent)
-                     }
-                 } else {
-                     val intent = Intent(requireContext(), UploadService::class.java)
-                     intent.putStringArrayListExtra("photoList", uploadFileArrayList)
-                     intent.putExtra("_id", _id)
-                     intent.putExtra("propertyId", projectID)
-                     intent.putExtra("isComingFor", "AddSupergroupMedia")
-                     intent.putExtra("type",type)
+                } else {
+                    val intent = Intent(requireContext(), UploadService::class.java)
+                    intent.putStringArrayListExtra("photoList", uploadFileArrayList)
+                    intent.putExtra("_id", _id)
+                    intent.putExtra("propertyId", projectID)
+                    intent.putExtra("isComingFor", "ProjectImageUpload")
+                    intent.putExtra("type", type)
 
-                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                         requireContext().startForegroundService(intent)
-                     } else {
-                         requireContext().startService(intent)
-                     }
-                 }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        requireContext().startForegroundService(intent)
+                    } else {
+                        requireContext().startService(intent)
+                    }
+                }
 
             }
         }
@@ -333,6 +344,38 @@ class ProjectUploadDocumentsFragment : Fragment(),
             HomeFragment::class.java.name
         )
     }
+
+    override fun onAgentClick(action: String, id: Int) {
+        deleteSupergroupMedia(id,_id)
+
+    }
+    private fun deleteSupergroupMedia(id: Int,threadID:Int) {
+        progressDialog = CustomProgressDialog(requireContext())
+        progressDialog!!.show()
+        val deleteResponse = RegisterRepository().getDeleteSupergroupMedia(threadID,id)
+        deleteResponse.observe(viewLifecycleOwner) {
+            progressDialog!!.cancelProgress()
+
+            if (it == LandableConstants.noInternetErrorMessage) {
+                //print NoInternet Error Message
+                CustomAlertDialog(
+                    requireContext(),
+                    LandableConstants.noInternetErrorTitle,
+                    it
+                ).show()
+            } else {
+                try {
+                    if (it.toString() != "null") {
+                       getsupergroupMedia(threadID)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+            }
+        }
+    }
+
 
 
 }

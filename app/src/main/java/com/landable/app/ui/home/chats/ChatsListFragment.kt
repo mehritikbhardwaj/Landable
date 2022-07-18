@@ -53,6 +53,15 @@ class ChatsListFragment : Fragment(), ChatsUserClickListener {
 
         getChatUsersList(chatBoxDataModel!!.id, chatBoxDataModel!!.type)
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Chat UserList Page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
         return binding.root
     }
 

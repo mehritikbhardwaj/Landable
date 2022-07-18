@@ -46,6 +46,15 @@ class NewsFragment : Fragment(), NewsClickListener {
         FirebaseAnalytics.getInstance((activity as HomeActivity))
             .setCurrentScreen((activity as HomeActivity), "News Fragment", null)
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "News Page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
 
         binding.editText.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, keyEvent ->

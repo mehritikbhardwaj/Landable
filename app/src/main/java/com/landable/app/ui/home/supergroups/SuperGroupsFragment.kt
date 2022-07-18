@@ -48,6 +48,16 @@ class SuperGroupsFragment : Fragment(), SupergroupClickListener {
         FirebaseAnalytics.getInstance((activity as HomeActivity))
             .setCurrentScreen((activity as HomeActivity), "My Supergroups Fragment", null)
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "My Threads Page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
+
         getMySuperGroups()
 
         return binding.root
@@ -79,6 +89,21 @@ class SuperGroupsFragment : Fragment(), SupergroupClickListener {
         binding.rvPostedProject.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvPostedProject.adapter = SuperGroupsAdapter(superGroupsList, this)
+    }
+
+
+    private fun loadAddPostFragment(threadID:Int) {
+        val bundle = Bundle()
+        bundle.putSerializable("isComingForEdit", false)
+        bundle.putInt("threadId", threadID)
+        val addSuperGroupFragment = AddSuperGroupFragment.newInstance()
+        addSuperGroupFragment.arguments = bundle
+
+        FragmentHelper().replaceFragmentAddToBackstack(
+            requireActivity().supportFragmentManager,
+            (activity as HomeActivity).getHomePageContainerId(),
+            addSuperGroupFragment,
+            AddSuperGroupFragment::class.java.name)
     }
 
     private fun deleteSupergroup(id: Int) {
@@ -123,6 +148,9 @@ class SuperGroupsFragment : Fragment(), SupergroupClickListener {
                     superGroupsDataModelItem.link, "Supergroup Detail " +
                             "Page"
                 )
+            }
+            "edit"->{
+                loadAddPostFragment(superGroupsDataModelItem.id)
             }
         }
     }

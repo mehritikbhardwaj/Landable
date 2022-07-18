@@ -81,7 +81,7 @@
         <service android:name=".common.UploadService" />
 
         <service
-            android:name=".ui.firebase.MyFirebaseMessagingService"
+            android:name=".ui.fcm_message.MyFirebaseMessagingService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

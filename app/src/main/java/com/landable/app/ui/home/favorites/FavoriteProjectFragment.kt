@@ -47,6 +47,15 @@ class FavoriteProjectFragment : Fragment(), ProjectDetailListener {
 
         FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Favourite Project Fragment", null);
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Favourite Project Page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
         if(projectList.size ==0){
             binding.tvNoResult.visibility = View.VISIBLE
         }else{

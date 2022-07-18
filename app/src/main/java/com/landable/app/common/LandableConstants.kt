@@ -37,13 +37,13 @@ object LandableConstants {
     const val PostProjectsearch = "PostProjectsearch"
     const val PostAuctionsearch = "PostAuctionsearch"
     const val PostAgencysearch = "PostAgencysearch"
-    const val Post_AddUpdatePropertystep1 = "Post_AddUpdatePropertystep1"
+    const val Post_AddUpdatePropertystep1_V2 = "Post_AddUpdatePropertystep1_V2"
     const val Getauctiondetails = "Getauctiondetails"
     const val PostUserprofileupdate = "PostUserprofileupdate"
     const val Getnewslist = "Getnewslist"
     const val Post_AddUpdatePropertystep2 = "Post_AddUpdatePropertystep2"
     const val Post_AddUpdatePropertystep3 = "Post_AddUpdatePropertystep3"
-    const val Post_AddUpdatePropertystep4 = "Post_AddUpdatePropertystep4"
+    const val Post_AddUpdatePropertystep4_V2 = "Post_AddUpdatePropertystep4_V2"
     const val Getbloglist = "Getbloglist"
     const val GetVideos ="GetVideos"
     const val Post_Contactowner = "Post_Contactowner"
@@ -82,7 +82,10 @@ object LandableConstants {
     const val Post_usertracking = "Post_usertracking"
     const val UpdateFCM = "UpdateFCM"
     const val GetDeletesavedsearch = "GetDeletesavedsearch"
+    const val GetSupergroupMedia = "GetSupergroupMedia"
     const val GetDeletePropertymedia = "GetDeletePropertymedia"
+    const val Getsupergroupbyid = "Getsupergroupbyid"
+    const val GetDeleteSupergroupMedia = "GetDeleteSupergroupMedia"
 
     var isClickedDeepLinking = false
     var deepLinkURL: String? = null

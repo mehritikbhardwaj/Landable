@@ -36,6 +36,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/rvSelectedImages"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_2sdp"
+            android:id="@+id/rvAvailableImages"/>
+
+
         <Button
             android:id="@+id/buttonUpload"
             style="@style/buttons_login_signup"

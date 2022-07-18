@@ -30,15 +30,16 @@ class PostPropertyLocationFragment : Fragment() {
 
     private lateinit var binding: FragmentPostPropertyLocationInfoBinding
     private var propertyId: String = ""
+    private var address: String = ""
     private var _id: Int = 0
     private var filterData: FilterMasterDataModel? = null
     private var progressDialog: CustomProgressDialog? = null
     private var stateList = ArrayList<Statemaster>()
-    private var cityList = ArrayList<Citymaster>()
+ //   private var cityList = ArrayList<Citymaster>()
 
-    private var cityArrayAdapter: CityAdapter? = null
+   // private var cityArrayAdapter: CityAdapter? = null
     private var stateId: Int = 37
-    private var cityId: Int = 0
+    private var cityId: Int = 5338
     private var isComingForEdit:Boolean =false
     private var propertyData: PropertyRawDataModel? = null
 
@@ -50,6 +51,7 @@ class PostPropertyLocationFragment : Fragment() {
         super.onCreate(savedInstanceState)
         propertyId = requireArguments().getString("propertyid")!!
         _id = requireArguments().getInt("id")
+        address = requireArguments().getString("address")!!
         isComingForEdit = requireArguments().getBoolean("isComingForEdit")
     }
 
@@ -102,9 +104,9 @@ class PostPropertyLocationFragment : Fragment() {
                     PostPropertyLocationInfo(
                         _id,
                         propertyId,
-                        stateId,
-                        cityId,
-                        binding.edAddress.text.toString(),
+                        37,
+                        5338,
+                        address,
                         landmark,
                         Pincode
                     ),true
@@ -112,22 +114,18 @@ class PostPropertyLocationFragment : Fragment() {
             }
         }
         binding.buttonContinue.setOnClickListener {
-            if(binding.edAddress.text.toString().isNullOrEmpty()){
-                CustomAlertDialog(requireContext(),"Alert", "Please fill all the fields").show()
-            }else{
+
                 postPropertyLocationUpdate(
                     PostPropertyLocationInfo(
                         _id,
                         propertyId,
-                        stateId,
-                        cityId,
-                        binding.edAddress.text.toString(),
+                        37,
+                        5338,
+                        address,
                         binding.edLandmark.text.toString(),
                         binding.edPin.text.toString()
                     ),false
                 )
-            }
-
         }
 
         return binding.root
@@ -239,10 +237,10 @@ class PostPropertyLocationFragment : Fragment() {
                     stateName = stateList[i].state
             }
             binding.autoCompleteTextViewForState.setText(stateName)
-            updateCityList(stateId)
+//            updateCityList(stateId)
         }else{
             binding.autoCompleteTextViewForState.setText("Delhi NCR")
-            updateCityList(stateId)
+//            updateCityList(stateId)
         }
 
 
@@ -250,41 +248,41 @@ class PostPropertyLocationFragment : Fragment() {
             AdapterView.OnItemClickListener { adapterView, view, pos, id ->
                 //this is the way to find selected object/item
                 stateId = stateList[pos].id
-                updateCityList(stateId)
+              //  updateCityList(stateId)
             }
     }
 
-    private fun updateCityList(stateId: Int) {
-        // create an array adapter and pass the required parameter
-        // in our case pass the context, drop down layout , and array.
-        if (cityArrayAdapter == null) {
-            cityArrayAdapter = CityAdapter(requireActivity(), filterData!!.cityHashMap[stateId])
-            cityList = filterData!!.cityHashMap[stateId]!!
-        } else {
-            cityArrayAdapter!!.updateList(filterData!!.cityHashMap[stateId])
-            cityList = filterData!!.cityHashMap[stateId]!!
-        }
-        // set adapter to the autocomplete tv to the arrayAdapter
-        binding.autoCompleteTextViewForCity.setAdapter(cityArrayAdapter)
-
-        var cityNAme=""
-        if(cityId!= 0){
-            for(i in 0 until cityList.size){
-                if(cityId==cityList[i].id){
-                    cityNAme = cityList[i].city
-                }
-            }
-            binding.autoCompleteTextViewForCity.setText(cityNAme)
-        }else{
-
-        }
-
-        binding.autoCompleteTextViewForCity.onItemClickListener =
-            AdapterView.OnItemClickListener { adapterView, view, pos, id ->
-                //this is the way to find selected object/item
-                cityId = (filterData!!.cityHashMap[stateId] as ArrayList<Citymaster>)[pos].id
-            }
-    }
+//    private fun updateCityList(stateId: Int) {
+//        // create an array adapter and pass the required parameter
+//        // in our case pass the context, drop down layout , and array.
+//        if (cityArrayAdapter == null) {
+//            cityArrayAdapter = CityAdapter(requireActivity(), filterData!!.cityHashMap[stateId])
+//            cityList = filterData!!.cityHashMap[stateId]!!
+//        } else {
+//            cityArrayAdapter!!.updateList(filterData!!.cityHashMap[stateId])
+//            cityList = filterData!!.cityHashMap[stateId]!!
+//        }
+//        // set adapter to the autocomplete tv to the arrayAdapter
+//        binding.autoCompleteTextViewForCity.setAdapter(cityArrayAdapter)
+//
+//        var cityNAme=""
+//        if(cityId!= 0){
+//            for(i in 0 until cityList.size){
+//                if(cityId==cityList[i].id){
+//                    cityNAme = cityList[i].city
+//                }
+//            }
+//            binding.autoCompleteTextViewForCity.setText(cityNAme)
+//        }else{
+//
+//        }
+//
+//        binding.autoCompleteTextViewForCity.onItemClickListener =
+//            AdapterView.OnItemClickListener { adapterView, view, pos, id ->
+//                //this is the way to find selected object/item
+//                cityId = (filterData!!.cityHashMap[stateId] as ArrayList<Citymaster>)[pos].id
+//            }
+//    }
 
 
     class PostPropertyLocationInfo(

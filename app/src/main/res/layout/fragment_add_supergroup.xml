@@ -84,7 +84,7 @@
                 android:id="@+id/tvCOst"
                 style="@style/editText_EditProfile"
                 android:layout_width="match_parent"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:maxLength="11"
                 android:padding="@dimen/_6sdp" />
 
@@ -110,16 +110,17 @@
                 android:inputType="textCapSentences"
                 android:padding="@dimen/_6sdp" />
 
-            <fragment android:id="@+id/googleMap"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_160sdp"
-                android:layout_marginTop="@dimen/_10sdp" />
+<!--            <fragment android:id="@+id/googleMap"-->
+<!--                android:name="com.google.android.gms.maps.SupportMapFragment"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/_160sdp"-->
+<!--                android:layout_marginTop="@dimen/_10sdp" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:weightSum="2">
 
                 <LinearLayout
@@ -179,6 +180,24 @@
                 android:maxLength="100"
                 android:maxLines="10" />
 
+
+            <TextView
+                style="@style/filterTextSearchUI"
+                android:layout_marginBottom="0dp"
+                android:text="Commission (%)"/>
+
+            <EditText
+                android:id="@+id/edCommission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/editText_EditProfile"
+                android:inputType="numberDecimal"
+                android:maxLength="2"
+                android:hint="0"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -197,6 +216,7 @@
                     android:text="Hide contact info"/>
 
             </LinearLayout>
+
             <Button
                 android:id="@+id/buttonContinue"
                 style="@style/buttons_login_signup"

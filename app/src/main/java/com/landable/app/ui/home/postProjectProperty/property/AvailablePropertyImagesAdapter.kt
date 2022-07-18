@@ -11,8 +11,9 @@ import com.landable.app.common.AgentProfileListener
 import com.landable.app.common.LandableConstants
 import com.landable.app.databinding.RowSelectedPropertyImageBinding
 import com.landable.app.ui.home.dataModels.Propertyimage
+import com.landable.app.ui.home.dataModels.SupergroupMediaModel
 
-class AvailablePropertyImagesAdapter (
+class AvailablePropertyImagesAdapter(
     private val imagesList: ArrayList<Propertyimage>,
     private val deleteListener:AgentProfileListener
 ) :
@@ -30,7 +31,7 @@ class AvailablePropertyImagesAdapter (
     }
 
     override fun onBindViewHolder(holder: ImagesHolder, position: Int) {
-        val images = imagesList[position]
+        val images = imagesList!![position]
 
         holder.imageBinding.ivSelectedImage.load(LandableConstants.Image_URL + images.imagepath)
         holder.imageBinding.ivDelete.setOnClickListener {

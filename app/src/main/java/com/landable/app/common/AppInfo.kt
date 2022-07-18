@@ -119,6 +119,15 @@ object AppInfo {
         return sharedPreferencesUser?.getString("customerType", "")!!
     }
 
+    fun setNotificationID(notificationId: String) {
+        editorUser?.putString("notificationId", notificationId)
+        editorUser?.commit()
+    }
+
+    fun getNotificationID(): String? {
+        return sharedPreferencesUser?.getString("notificationId", "")!!
+    }
+
     fun clearUserData(){
        setUserId("0")
         setCustomerType("")

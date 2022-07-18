@@ -56,6 +56,15 @@ class PostedPropertyFragment : Fragment(), PropertyDetailListener {
 
         FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Posted Property Fragment", null);
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Property Listing Page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
         if (propertyList.size == 0) {
             binding.tvNoResult.visibility = View.VISIBLE
         } else {

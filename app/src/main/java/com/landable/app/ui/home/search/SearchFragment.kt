@@ -102,6 +102,8 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         Utility.hideKeyboardOutsideClick(requireActivity(), binding.outerLayout)
 
+        changeSelectedTextColourAndCallAPi(selectedHighlightedText)
+
         (activity as HomeActivity).postUserTrackingModel(
             HomeActivity.PostUserTrackingModel(
                 "Search page",
@@ -156,9 +158,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
             binding.recyclerView.visibility = View.VISIBLE
             binding.topSearchTypes.visibility = View.VISIBLE
             binding.filterIcon.visibility = View.VISIBLE
-            if (!binding.editText.text.isNullOrEmpty()) {
                 changeSelectedTextColourAndCallAPi(selectedHighlightedText)
-            } else toast()
         }
         addPostedSinceDataToList()
         //change seleted top option given for search like properties, projects, auction, agencies        
@@ -343,9 +343,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                     )
                 )
                 binding.recyclerView.visibility = View.GONE
-                if (!binding.editText.text.isNullOrEmpty()) {
                     search(selectedText)
-                } else toast()
             }
             "Project" -> {
                 binding.tvProjects.setTextColor(
@@ -355,9 +353,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                     )
                 )
                 binding.recyclerView.visibility = View.GONE
-                if (!binding.editText.text.isNullOrEmpty()) {
                     search(selectedText)
-                } else toast()
             }
             "Agency" -> {
                 binding.tvAgency.setTextColor(
@@ -366,9 +362,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                         R.color.colour_app
                     )
                 )
-                if (!binding.editText.text.isNullOrEmpty()) {
                     search(selectedText)
-                } else toast()
             }
         }
     }

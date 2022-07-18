@@ -44,6 +44,16 @@ class AgentsFragment : Fragment(), AgentProfileListener {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_agents, container, false)
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Agent List Page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
+
         getAgentsListData()
         FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Agents List Fragment", null);
 

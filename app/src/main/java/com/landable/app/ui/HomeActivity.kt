@@ -33,9 +33,11 @@ import com.landable.app.ui.home.dataModels.UserProfileDataModel
 import com.landable.app.ui.home.dataModels.WhyLandableDataModel
 import com.landable.app.ui.home.favorites.FavoritesFragment
 import com.landable.app.ui.home.homeUI.HomeFragment
+import com.landable.app.ui.home.lead.LeadFragment
 import com.landable.app.ui.home.login.OTPLoginFragment
 import com.landable.app.ui.home.myActivity.MyActivityFragment
 import com.landable.app.ui.home.profile.ProfileFragment
+import com.landable.app.ui.home.property.PropertyDetailFragment
 import com.landable.app.ui.home.search.SearchFragment
 import com.landable.app.ui.home.splash.SplashFragment
 import com.landable.app.ui.home.supergroups.AddSuperGroupFragment
@@ -69,24 +71,13 @@ class HomeActivity : AppCompatActivity(),
 
         handleIntent()
 
-        if(intent.hasExtra("related_type")){
-            CustomAlertDialog(this,"Notification",
-                intent.getStringExtra("related_type").toString()).show()
-        }
-
-        if (intent.hasExtra("isComingFromNotification")) {
-            CustomAlertDialog(this,"Notification",
-                intent.getStringExtra("related_type").toString()).show()
-            loadActivityFragment()
-        }
-        if (intent.hasExtra("url")) {
-            loadAddSupergroupFragment()
-        } else {
-            loadSplashFragment()
+            if (intent.hasExtra("url")) {
+                loadAddSupergroupFragment()
+            } else {
+                loadSplashFragment()
         }
 
         checkUpdate()
-
 
         // Creates instance of the manager.
 
@@ -326,8 +317,8 @@ class HomeActivity : AppCompatActivity(),
         FragmentHelper().replaceFragmentAddToBackstack(
             supportFragmentManager,
             getHomePageContainerId(),
-            MyActivityFragment.newInstance(),
-            MyActivityFragment::class.java.name
+            LeadFragment.newInstance(),
+            LeadFragment::class.java.name
         )
     }
 
@@ -341,10 +332,15 @@ class HomeActivity : AppCompatActivity(),
     }
 
     private fun loadAddSupergroupFragment() {
+        val bundle = Bundle()
+        bundle.putSerializable("isComingForEdit", false)
+        val addSuperGroupFragment = AddSuperGroupFragment.newInstance()
+        addSuperGroupFragment.arguments = bundle
+
         FragmentHelper().replaceFragment(
             supportFragmentManager,
             getHomePageContainerId(),
-            AddSuperGroupFragment.newInstance(),
+            addSuperGroupFragment,
             AddSuperGroupFragment::class.java.name
         )
     }

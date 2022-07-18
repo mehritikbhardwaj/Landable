@@ -48,6 +48,10 @@ class SuperGroupsAdapter(
         holder.supergroupsBinding.chatThread.setOnClickListener {
             supergroupListener.onClickSuperGroup("chatSupergroup",superGroups)
         }
+        holder.supergroupsBinding.edit.setOnClickListener {
+            supergroupListener.onClickSuperGroup("edit",superGroups)
+
+        }
 
         holder.supergroupsBinding.llChatBox.setOnClickListener {
             supergroupListener.onClickSuperGroup("detail",superGroups)

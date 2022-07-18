@@ -100,26 +100,6 @@
                 android:padding="@dimen/_8sdp"
                 android:textSize="@dimen/_12ssp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:text="Mobile"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/edMobile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edit_outline_bg"
-                android:gravity="start"
-                android:hint="Enter Mobile"
-                android:inputType="phone"
-                android:padding="@dimen/_8sdp"
-                android:textSize="@dimen/_12ssp" />
 
             <Button
                 android:id="@+id/buttonUpdate"

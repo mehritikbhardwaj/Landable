@@ -69,6 +69,16 @@ class AgencyProfileFragment : Fragment(), PropertyDetailListener, ProjectDetailL
 
         getAgencyProfileDetails(agentID)
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Agent Profile Page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
+
         binding.viewALlPRoperties.setOnClickListener {
             if (Properties.size != 0) {
                 loadViewAllFeaturedProperties()

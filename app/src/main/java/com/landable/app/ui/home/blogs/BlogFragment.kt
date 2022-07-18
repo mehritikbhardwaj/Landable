@@ -47,6 +47,17 @@ class BlogFragment : Fragment(), BlogsClickListener {
         FirebaseAnalytics.getInstance((activity as HomeActivity))
             .setCurrentScreen((activity as HomeActivity), "Blogs Fragment", null)
 
+
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Blogs Page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
+
         getBlogsList()
 
         return binding.root

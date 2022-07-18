@@ -94,6 +94,15 @@ class ChatsFragment : Fragment(), MyCountDownTimer.ICompleteTimerListener {
             touSerID = chatUsersDataModel!!.id
         }
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Chats Page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
         binding.ivBack.setOnClickListener {
             FragmentHelper().popBackStackImmediate((activity as HomeActivity))
         }

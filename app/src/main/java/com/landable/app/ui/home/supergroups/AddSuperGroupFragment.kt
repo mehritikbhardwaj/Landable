@@ -12,12 +12,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.*
@@ -39,24 +34,39 @@ import java.io.IOException
 
 
 class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClickListener,
-    PropertyTypeClickListener, OnMapReadyCallback {
+    PropertyTypeClickListener {
 
     private lateinit var binding: FragmentAddSupergroupBinding
     private var categoryList = ArrayList<CategoriesDataModel>()
     private var filterData: FilterMasterDataModel? = null
     private var progressDialog: CustomProgressDialog? = null
+
+    private var details = ArrayList<SupergroupDetailModel>()
+
     private var categoryID: Int = 0
     private var subCategoryID: Int = 0
     private var saleType: Int = 0
     private var possetionType: Int = 0
     private var arbitrage: Int = 0
-    private var mMap: GoogleMap? = null
+
+    //  private var mMap: GoogleMap? = null
     private var lat: String = ""
     private var lon: String = ""
     private var hideContactInfo: Int = 0
+    private var commission: Int = 0
+    private var cost: Int = 0
+    private var threadId: Int = 0
+    private var isComingForEdit: Boolean = true
+
     companion object {
         fun newInstance() = AddSuperGroupFragment()
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isComingForEdit = requireArguments().getBoolean("isComingForEdit")
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,16 +80,24 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_add_supergroup, container, false)
 
-        getFilterInfo()
 
-        binding.hideInfo.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked){
-                hideContactInfo = 1
-                //Toast.makeText(requireContext(),"InfoHide",Toast.LENGTH_LONG).show()
-            }else hideContactInfo = 0
+        if (isComingForEdit) {
+            threadId = requireArguments().getInt("threadId")
+
+            getsupergroupDetail(threadId)
+        } else {
+            getFilterInfo()
         }
 
-        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Add Supergroup Fragment", null);
+        binding.hideInfo.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                hideContactInfo = 1
+                //Toast.makeText(requireContext(),"InfoHide",Toast.LENGTH_LONG).show()
+            } else hideContactInfo = 0
+        }
+
+        FirebaseAnalytics.getInstance((activity as HomeActivity))
+            .setCurrentScreen((activity as HomeActivity), "Add Supergroup Fragment", null)
 
         (activity as HomeActivity).postUserTrackingModel(
             HomeActivity.PostUserTrackingModel(
@@ -94,14 +112,14 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
 
         binding.tvCOst.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if(binding.tvCOst.text.toString().isEmpty()){
+                if (binding.tvCOst.text.toString().isEmpty()) {
                     binding.tvPriceIndicator.text = "\u20B9 0"
-                }else setPriceText(binding.tvCOst.text.toString())
+                } else setPriceText(binding.tvCOst.text.toString())
             }
+
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable) {
                 // set oid value now
-
             }
         })
 
@@ -114,9 +132,16 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
                 Toast.makeText(requireContext(), "Please fill all the columns", Toast.LENGTH_LONG)
                     .show()
             } else {
+                if (binding.edCommission.text.toString() == "0" || binding.edCommission.text.toString()
+                        .isEmpty()
+                ) {
+                    commission = 0
+                } else {
+                    commission = binding.edCommission.text.toString().toInt()
+                }
                 postSuperGroup(
                     PostSuperGroup(
-                        0,
+                        threadId,
                         binding.edTitle.text.toString(),
                         arbitrage,
                         categoryID,
@@ -128,15 +153,15 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
                         lat,
                         lon,
                         binding.tvCOst.text.toString().toDouble(),
-                        hideContactInfo
+                        hideContactInfo, commission, ""
                     )
                 )
             }
 
         }
-        val mapFragment =
-            childFragmentManager.findFragmentById(R.id.googleMap) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+//        val mapFragment =
+//            childFragmentManager.findFragmentById(R.id.googleMap) as SupportMapFragment
+//        mapFragment.getMapAsync(this)
 
 
         binding.edAddress.setOnFocusChangeListener { v, hasFocus ->
@@ -150,48 +175,49 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
         return binding.root
     }
 
-    private fun setPriceText(priceInWords:String){
+    private fun setPriceText(priceInWords: String) {
         val first = priceInWords[0]
 
         when {
-            priceInWords.length<4 -> {
+            priceInWords.length < 4 -> {
                 binding.tvPriceIndicator.text = "\u20B9 $priceInWords"
             }
-            priceInWords.length==4 -> {
+            priceInWords.length == 4 -> {
                 val second = priceInWords[1]
                 binding.tvPriceIndicator.text = "\u20B9 $first.$second k"
             }
-            priceInWords.length==5 -> {
+            priceInWords.length == 5 -> {
                 val second = priceInWords[1]
                 val third = priceInWords[2]
                 binding.tvPriceIndicator.text = "\u20B9 $first$second.$third k"
             }
-            priceInWords.length==6 -> {
+            priceInWords.length == 6 -> {
                 val second = priceInWords[1]
                 val third = priceInWords[2]
                 binding.tvPriceIndicator.text = "\u20B9 $first.$second$third L"
-            }priceInWords.length==7 -> {
+            }
+            priceInWords.length == 7 -> {
                 val second = priceInWords[1]
                 val third = priceInWords[2]
                 binding.tvPriceIndicator.text = "\u20B9 $first$second.$third L"
             }
-            priceInWords.length==8 -> {
+            priceInWords.length == 8 -> {
                 val second = priceInWords[1]
                 val third = priceInWords[2]
                 binding.tvPriceIndicator.text = "\u20B9 $first.$second$third Cr"
             }
-            priceInWords.length==9 -> {
+            priceInWords.length == 9 -> {
                 val second = priceInWords[1]
                 val third = priceInWords[2]
                 binding.tvPriceIndicator.text = "\u20B9 $first$second.$third Cr"
             }
-            priceInWords.length==10 -> {
+            priceInWords.length == 10 -> {
                 val second = priceInWords[1]
                 val third = priceInWords[2]
                 val fourth = priceInWords[3]
                 binding.tvPriceIndicator.text = "\u20B9 $first$second$third.$fourth Cr"
             }
-            priceInWords.length==11 -> {
+            priceInWords.length == 11 -> {
                 val second = priceInWords[1]
                 val third = priceInWords[2]
                 val fourth = priceInWords[3]
@@ -217,7 +243,6 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
         )
     }
 
-
     fun getLocationFromAddress(strAddress: String?): LatLng? {
         val coder = Geocoder(requireContext())
         val address: List<Address>?
@@ -240,8 +265,8 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
                 p1 = LatLng(location.latitude, location.longitude)
 
                 lat = location.latitude.toString()
-                lon = location.latitude.toString()
-                updateLocation(p1, "")
+                lon = location.longitude.toString()
+                //      updateLocation(p1, "")
 
                 return p1
             }
@@ -251,21 +276,21 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
         return null
     }
 
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-        mMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
-        mMap!!.uiSettings.isCompassEnabled = true
-        //  updateLocation(getLocationFromAddress( "New delhi")!!, "")
-    }
-
-    private fun updateLocation(location: LatLng, markerTitle: String) {
-        if (mMap != null) {
-            val zoomLevel = 12.0f //This goes up to 21
-            mMap!!.addMarker(MarkerOptions().position(location).title(markerTitle))
-            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel))
-        }
-    }
+//
+//    override fun onMapReady(googleMap: GoogleMap) {
+//        mMap = googleMap
+//        mMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
+//        mMap!!.uiSettings.isCompassEnabled = true
+//        //  updateLocation(getLocationFromAddress( "New delhi")!!, "")
+//    }
+//
+//    private fun updateLocation(location: LatLng, markerTitle: String) {
+//        if (mMap != null) {
+//            val zoomLevel = 12.0f //This goes up to 21
+//            mMap!!.addMarker(MarkerOptions().position(location).title(markerTitle))
+//            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel))
+//        }
+//    }
 
     private fun postSuperGroup(dataModel: PostSuperGroup) {
         progressDialog = CustomProgressDialog(requireContext())
@@ -436,7 +461,9 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
         lat: String,
         lon: String,
         price: Double,
-        hidecontact:Int
+        hidecontact: Int,
+        commision: Int,
+        hashtags: String
     ) {
         private var id: Int = id
         private var title: String = title
@@ -450,7 +477,10 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
         private var lat: String = lat
         private var lon: String = lon
         private var price: Double = price
-        private var hidecontact:Int = hidecontact
+        private var hidecontact: Int = hidecontact
+        private var commision: Int = commision
+        private var hashtags: String = hashtags
+
     }
 
     override fun onAgentClick(action: String, id: Int) {
@@ -474,5 +504,49 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
                 arbitrage = 0
             }
         }
+    }
+
+    private fun getsupergroupDetail(id: Int) {
+        progressDialog = CustomProgressDialog(requireContext())
+        progressDialog!!.show()
+        val userDataResponse = RegisterRepository().getSupergroupDetails(id)
+        userDataResponse.observe(viewLifecycleOwner) {
+            progressDialog!!.cancel()
+            if (it.toString() != "null") {
+                try {
+                    details = ParseResponse.parsesupergroupDetailResponse(it.toString())
+                    categoryID = details[0].category
+                    subCategoryID = details[0].subcategory
+                    saleType = details[0].saletype
+                    possetionType = details[0].possession
+                    arbitrage = details[0].arbitrage
+                    updateUi(details)
+
+                } catch (
+                    e: Exception
+                ) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    private fun updateUi(details: ArrayList<SupergroupDetailModel>) {
+
+        getFilterInfo()
+        binding.edTitle.setText(details[0].title)
+
+        val constChanged = details[0].price.toString().substringBefore(".")
+
+        binding.tvCOst.setText(constChanged)
+        setPriceText(constChanged)
+        binding.edAddress.setText(details[0].locality)
+        getLocationFromAddress(details[0].locality)
+        binding.tvDescription.setText(details[0].description)
+        if (hideContactInfo == 1) {
+            binding.hideInfo.isChecked = true
+        }
+        binding.edCommission.setText(details[0].commission.toString())
+
     }
 }

@@ -249,7 +249,7 @@ class PostProjectBasicInfoFragment : Fragment(), PropertyTypeClickListener,
                 p1 = LatLng(location.latitude, location.longitude)
 
                 lat = location.latitude.toString()
-                lon = location.latitude.toString()
+                lon = location.longitude.toString()
                 updateLocation(p1, "")
 
                 return p1

@@ -47,6 +47,15 @@ class NotificationsFragment : Fragment() {
 
         getNotificationsData()
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Notifications Page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
         return binding.root
     }
 

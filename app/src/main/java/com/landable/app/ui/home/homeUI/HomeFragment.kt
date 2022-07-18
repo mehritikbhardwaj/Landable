@@ -84,6 +84,22 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
         (activity as HomeActivity).showBottomNavigation()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
+        if(AppInfo.getNotificationID()!=""){
+            AppInfo.setNotificationID("")
+            loadLeadFragment()
+        }
+
+
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Dashboard",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
+
         FirebaseAnalytics.getInstance((activity as HomeActivity))
             .setCurrentScreen((activity as HomeActivity), "Dashboard", null)
 
@@ -139,7 +155,7 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
                 (activity as HomeActivity).askForLogin()
             } else {
                 if (AppInfo.getName().isEmpty() || AppInfo.getUserEmail()
-                        .isEmpty() || AppInfo.getUserMobile().isEmpty()
+                        .isEmpty()
                 ) {
                     UpdateProfileDialog(activity as HomeActivity).show()
                 } else {
@@ -845,12 +861,16 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
     }
 
     private fun loadAddPostFragment() {
+        val bundle = Bundle()
+        bundle.putSerializable("isComingForEdit", false)
+        val addSuperGroupFragment = AddSuperGroupFragment.newInstance()
+        addSuperGroupFragment.arguments = bundle
+
         FragmentHelper().replaceFragmentAddToBackstack(
             requireActivity().supportFragmentManager,
             (activity as HomeActivity).getHomePageContainerId(),
-            AddSuperGroupFragment.newInstance(),
-            AddSuperGroupFragment::class.java.name
-        )
+            addSuperGroupFragment,
+            AddSuperGroupFragment::class.java.name)
     }
 
 

@@ -228,7 +228,6 @@ class PropertyDetailDeepLinkFragment : Fragment(), PropertyDetailListener,
         mMap = googleMap
         mMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
         mMap!!.uiSettings.isCompassEnabled = true
-        updateLocation(LatLng(lat, lon), "")
     }
 
     private fun updateLocation(location: LatLng, markerTitle: String) {
@@ -475,6 +474,8 @@ class PropertyDetailDeepLinkFragment : Fragment(), PropertyDetailListener,
                     lon = propertyData!!.details.lon.toDouble()
                     link = propertyData!!.details.link
                     name = propertyData!!.details.name
+
+                    updateLocation(LatLng(lat, lon), "")
 
                     updatePropertyDetailsUI()
 

@@ -46,6 +46,15 @@ class MyActivityFragment : Fragment(), ActivityClickListener {
 
         FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Activity Fragment", null);
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Activity Page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
         getActivityList()
         return binding.root
     }

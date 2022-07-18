@@ -300,12 +300,16 @@ class NavigationFragment : Fragment(), IListener {
     }
 
     private fun loadAddPostFragment() {
+        val bundle = Bundle()
+        bundle.putSerializable("isComingForEdit", false)
+        val addSuperGroupFragment = AddSuperGroupFragment.newInstance()
+        addSuperGroupFragment.arguments = bundle
+
         FragmentHelper().replaceFragmentAddToBackstack(
             requireActivity().supportFragmentManager,
             (activity as HomeActivity).getHomePageContainerId(),
-            AddSuperGroupFragment.newInstance(),
-            AddSuperGroupFragment::class.java.name
-        )
+            addSuperGroupFragment,
+            AddSuperGroupFragment::class.java.name)
     }
 
     private fun loadMyPostsFragment() {

@@ -215,7 +215,18 @@
                             android:src="@drawable/bin_24"
                             app:tint="@color/white" />
 
+
                     </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/edit"
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_marginRight="@dimen/_2sdp"
+                        android:layout_gravity="right"
+                        android:src="@drawable/pencil"
+                        app:tint="@color/colour_app" />
                 </LinearLayout>
 
 

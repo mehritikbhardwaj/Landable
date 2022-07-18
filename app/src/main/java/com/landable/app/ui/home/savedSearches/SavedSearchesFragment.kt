@@ -44,6 +44,15 @@ class SavedSearchesFragment : Fragment(), SavedSearchListener {
 
         FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity), "Saved Searches List Fragment", null);
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Saved Searches Page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
         getSavedSearhcesList()
         return binding.root
     }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,11 +23,10 @@ import com.landable.app.ui.dialog.CustomConfirmationDialog
 import com.landable.app.ui.dialog.CustomProgressDialog
 import com.landable.app.ui.home.dataModels.*
 import com.landable.app.ui.home.homeUI.HomeFragment
-import com.landable.app.ui.home.postProjectProperty.filterAdapters.AmenitiesAdapter
-import com.landable.app.ui.home.postProjectProperty.filterAdapters.BathroomDropdownAdapter
-import com.landable.app.ui.home.postProjectProperty.filterAdapters.FurnishedDropdownAdapter
-import com.landable.app.ui.home.postProjectProperty.filterAdapters.MonthsDropdownAdapter
+import com.landable.app.ui.home.postProjectProperty.filterAdapters.*
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
 
 class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListener,
     AmenitiesClickListener, CustomConfirmationDialog.ICustomConfirmationDialogListener {
@@ -48,6 +48,14 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
     private var corneredArray = ArrayList<MonthsDataModel>()
     private var isGatedColony: String = "YES"
     private var cornered: String = "YES"
+
+    private var monthsArray = ArrayList<MonthsDataModel>()
+    var totalFloor = 0
+    var tvFloor = ""
+    private var availableMonth: Int = 0
+    private var availableYear: Int = 0
+    private var intArray = ArrayList<Int>()
+    private var builtYear: Int = 0
 
     companion object {
         fun newInstance() = PostPropertyAdditionalDetailsFragment()
@@ -94,19 +102,25 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
         if (isComingForEdit) {
             getPropertyDetails(_id)
         }
+        val calendar = Calendar.getInstance()
+        val year = calendar[Calendar.YEAR]
+
+        for (i in 2000 until (year + 50)) {
+            intArray.add(i)
+        }
+
+        updateMonthDopDown()
+        updateYearDropDown()
+        updateBuiltYearDropDown()
         updateIsCertifiedDropDown()
         updateIsCornerdDropDown()
 
         binding.buttonPost.setOnClickListener {
-            if (binding.edMaintenanceCharge.text.toString().isNullOrEmpty() ||
-                binding.securityDeposit.text.toString()
-                    .isNullOrEmpty() || binding.edDepositPErcentage.text.toString().isNullOrEmpty()
-                || binding.poolSize.text.toString()
-                    .isNullOrEmpty() || binding.edAdditionalRooms.text.toString().isNullOrEmpty()
-                || binding.edRemodelYear.text.toString().isNullOrEmpty()
-            ) {
-                CustomAlertDialog(requireContext(), "Alert", "Please fill all the columns.").show()
-            } else {
+                if (binding.tvTotalFloor.text.toString().isNotEmpty()) {
+                    totalFloor = binding.tvTotalFloor.text.toString().toInt()
+                }
+                tvFloor = binding.tvFloor.text.toString()
+
 
                 val maintenancecharge =
                     binding.edMaintenanceCharge.text.toString().toDouble().toInt()
@@ -135,10 +149,9 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
                         binding.poolSize.text.toString(),
                         binding.edAdditionalRooms.text.toString(),
                         binding.edRemodelYear.text.toString(),
-                        getIdsWithString()
+                        getIdsWithString(),builtYear,availableMonth,availableYear,tvFloor,totalFloor
                     )
                 )
-            }
 
         }
 
@@ -185,30 +198,73 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
             }
     }
 
-/*
-    private fun getPropertyAdditionalDetails(id: Int, propertyid: String) {
-        val propertyResponse = RegisterRepository().getPropertyDetails(id, propertyid)
-        propertyResponse.observe(viewLifecycleOwner) {
-            if (it == LandableConstants.noInternetErrorMessage) {
-                //print NoInternet Error Message
-                CustomAlertDialog(
-                    requireContext(),
-                    LandableConstants.noInternetErrorTitle,
-                    it
-                ).show()
-            } else {
-                try {
-                    propertyData = ParseResponse.parsePropertyAdditionalResponse(it.toString())
-                    updateDataForEdit()
-                } catch (
-                    e: Exception
-                ) {
-                    e.printStackTrace()
-                }
+    private fun updateMonthDopDown() {
+
+        monthsArray.add(MonthsDataModel(1, "January"))
+        monthsArray.add(MonthsDataModel(2, "February"))
+        monthsArray.add(MonthsDataModel(3, "March"))
+        monthsArray.add(MonthsDataModel(4, "April"))
+        monthsArray.add(MonthsDataModel(5, "May"))
+        monthsArray.add(MonthsDataModel(6, "June"))
+        monthsArray.add(MonthsDataModel(7, "July"))
+        monthsArray.add(MonthsDataModel(8, "August"))
+        monthsArray.add(MonthsDataModel(9, "September"))
+        monthsArray.add(MonthsDataModel(10, "October"))
+        monthsArray.add(MonthsDataModel(11, "November"))
+        monthsArray.add(MonthsDataModel(12, "December"))
+
+        // create an array adapter and pass the required parameter
+        // in our case pass the context, drop down layout , and array.
+        val monthsAdapter = MonthsDropdownAdapter(requireActivity(), monthsArray)
+
+        // set adapter to the autocomplete tv to the arrayAdapter
+        binding.autoCompleteTextViewForMonth.setAdapter(monthsAdapter)
+
+        binding.autoCompleteTextViewForMonth.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, pos, id ->
+                //this is the way to find selected object/item
+                //unitId = filterData!!.Unitmaster[pos].id
+                availableMonth = pos + 1
+
             }
-        }
     }
-*/
+
+    private fun updateYearDropDown() {
+
+        // create an array adapter and pass the required parameter
+        // in our case pass the context, drop down layout , and array.
+        val yearAdapter = YearDropdownAdapter(requireActivity(), intArray)
+
+        // set adapter to the autocomplete tv to the arrayAdapter
+        binding.autoCompleteTextViewForYear.setAdapter(yearAdapter)
+
+        binding.autoCompleteTextViewForYear.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, pos, id ->
+                //this is the way to find selected object/item
+                //unitId = filterData!!.Unitmaster[pos].id
+                availableYear = 2000 + pos
+                Toast.makeText(requireContext(), (2000 + pos).toString(), Toast.LENGTH_LONG).show()
+            }
+    }
+
+    private fun updateBuiltYearDropDown() {
+
+        // create an array adapter and pass the required parameter
+        // in our case pass the context, drop down layout , and array.
+        val yearAdapter = YearDropdownAdapter(requireActivity(), intArray)
+
+        // set adapter to the autocomplete tv to the arrayAdapter
+        binding.autoCompleteTextViewForBuiltYear.setAdapter(yearAdapter)
+
+        binding.autoCompleteTextViewForBuiltYear.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, pos, id ->
+                //this is the way to find selected object/item
+                //unitId = filterData!!.Unitmaster[pos].id
+
+                builtYear = 2000 + pos
+                Toast.makeText(requireContext(), (2000 + pos).toString(), Toast.LENGTH_LONG).show()
+            }
+    }
 
     private fun getPropertyDetails(id: Int) {
         val propertyResponse = RegisterRepository().getPropertyforeditByID(id)
@@ -235,8 +291,15 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
     }
 
     private fun updateDataForEdit() {
-        binding.edMaintenanceCharge.setText(propertyData!!.propertyraw[0].maintenancecharge.toString())
-        binding.securityDeposit.setText(propertyData!!.propertyraw[0].securitydeposite.toString())
+
+        val constChanged = propertyData!!.propertyraw[0].maintenancecharge.toString().substringBefore(".")
+
+        binding.edMaintenanceCharge.setText(constChanged)
+
+        val constsecurity = propertyData!!.propertyraw[0].securitydeposite.toString().substringBefore(".")
+
+        binding.securityDeposit.setText(constsecurity)
+
         binding.attachedBathroom.setText(propertyData!!.propertyraw[0].attachedbathroom.toString())
         binding.spinnerBalconey.setText(propertyData!!.propertyraw[0].balcony.toString())
         binding.spinnerParking.setText(propertyData!!.propertyraw[0].parking.toString())
@@ -252,10 +315,59 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
         binding.edDepositPErcentage.setText(propertyData!!.propertyraw[0].depositepercentage.toString())
         bathromCount = propertyData!!.propertyraw[0].bathroom
 
+        binding.tvFloor.setText(propertyData!!.propertyraw[0].floorno)
+        binding.tvTotalFloor.setText(propertyData!!.propertyraw[0].totalfloor.toString())
         balconyCount = propertyData!!.propertyraw[0].balcony
         parkingCount = propertyData!!.propertyraw[0].parking
         furnishedType = propertyData!!.propertyraw[0].furnished
         openSidesCount = propertyData!!.propertyraw[0].openside
+
+        availableMonth = propertyData!!.propertyraw[0].availfrommonth
+        when (propertyData!!.propertyraw[0].availfrommonth) {
+            1 -> {
+                binding.autoCompleteTextViewForMonth.setText("January")
+            }
+            2 -> {
+                binding.autoCompleteTextViewForMonth.setText("February")
+            }
+            3 -> {
+                binding.autoCompleteTextViewForMonth.setText("March")
+            }
+            4 -> {
+                binding.autoCompleteTextViewForMonth.setText("April")
+            }
+            5 -> {
+                binding.autoCompleteTextViewForMonth.setText("May")
+            }
+            6 -> {
+                binding.autoCompleteTextViewForMonth.setText("June")
+            }
+            7 -> {
+                binding.autoCompleteTextViewForMonth.setText("July")
+            }
+            8 -> {
+                binding.autoCompleteTextViewForMonth.setText("August")
+            }
+            9 -> {
+                binding.autoCompleteTextViewForMonth.setText("September")
+            }
+            10 -> {
+                binding.autoCompleteTextViewForMonth.setText("October")
+            }
+            11 -> {
+                binding.autoCompleteTextViewForMonth.setText("November")
+            }
+            12 -> {
+                binding.autoCompleteTextViewForMonth.setText("December")
+
+            }
+        }
+
+        binding.autoCompleteTextViewForBuiltYear.setText(propertyData!!.propertyraw[0].bulityear.toString())
+        builtYear = propertyData!!.propertyraw[0].bulityear
+        binding.autoCompleteTextViewForYear.setText(propertyData!!.propertyraw[0].availfromyear.toString())
+        availableYear = propertyData!!.propertyraw[0].availfromyear
+
     }
 
 
@@ -455,7 +567,12 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
         poolsize: String,
         additionalroom: String,
         remodalyear: String,
-        amenities: String
+        amenities: String,
+        bulityear:Int,
+        availfrommonth:Int,
+        availfromyear:Int,
+        floorno:String,
+        totalfloor:Int,
     ) {
         private val id: Int = id
         private val propertyid: String = propertyid
@@ -477,7 +594,13 @@ class PostPropertyAdditionalDetailsFragment : Fragment(), PropertyTypeClickListe
         private val poolsize: String = poolsize
         private val additionalroom: String = additionalroom
         private val remodalyear: String = remodalyear
-        private val amenities: String = amenities
+        private val bulityear: Int = bulityear
+        private val availfrommonth: Int = availfrommonth
+        private val availfromyear: Int = availfromyear
+        private val floorno: String = floorno
+        private val totalfloor: Int = totalfloor
+
+
     }
 
     private fun updateAmenitiesList(list: ArrayList<Amenitiesmaster>) {

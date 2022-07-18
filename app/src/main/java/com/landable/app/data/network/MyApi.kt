@@ -195,7 +195,7 @@ interface MyApi {
     ): Call<ResponseBody>
 
     @Headers("Content-Type: application/json")
-    @POST(LandableConstants.Post_AddUpdatePropertystep1)
+    @POST(LandableConstants.Post_AddUpdatePropertystep1_V2)
     fun postPropertyStep1(
         @Body raw: PostPropertyBasicInfoFragment.PostPropertyBasicInfo,
         @HeaderMap headers: Map<String, String>
@@ -211,7 +211,7 @@ interface MyApi {
 
 
     @Headers("Content-Type: application/json")
-    @POST(LandableConstants.Post_AddUpdatePropertystep4)
+    @POST(LandableConstants.Post_AddUpdatePropertystep4_V2)
     fun postPropertyStep4(
         @Body raw: PostPropertyAdditionalDetailsFragment.PostPropertyAdditionalInfo,
         @HeaderMap headers: Map<String, String>
@@ -402,11 +402,33 @@ interface MyApi {
         @Query("id") id: Int
     ): Call<ResponseBody>
 
+    @Headers("Content-Type: application/json")
+    @GET(LandableConstants.Getsupergroupbyid)
+    fun getSupergroupDetails(
+        @HeaderMap headers: Map<String, String>,
+        @Query("threadid") threadid: Int
+    ): Call<ResponseBody>
+
+    @Headers("Content-Type: application/json")
+    @GET(LandableConstants.GetSupergroupMedia)
+    fun getSupergroupMedia(
+        @HeaderMap headers: Map<String, String>,
+        @Query("threadid") threadid: Int
+    ): Call<ResponseBody>
+
 
     @Headers("Content-Type: application/json")
     @GET(LandableConstants.GetDeletePropertymedia)
     fun GetDeletePropertymedia(
         @HeaderMap headers: Map<String, String>,
+        @Query("id") id: Int
+    ): Call<ResponseBody>
+
+    @Headers("Content-Type: application/json")
+    @GET(LandableConstants.GetDeleteSupergroupMedia)
+    fun getDeleteSupergroupMedia(
+        @HeaderMap headers: Map<String, String>,
+        @Query("threadid") threadid: Int,
         @Query("id") id: Int
     ): Call<ResponseBody>
 

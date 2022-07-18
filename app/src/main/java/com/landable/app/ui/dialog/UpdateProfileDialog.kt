@@ -47,7 +47,6 @@ class UpdateProfileDialog(
             window!!.setBackgroundDrawableResource(R.color.transparent)
         }
 
-        binding!!.edMobile.setText(AppInfo.getUserMobile())
         binding!!.edName.setText(AppInfo.getName())
         binding!!.edAddress.setText(AppInfo.getUserEmail())
 
@@ -57,14 +56,13 @@ class UpdateProfileDialog(
         binding!!.buttonUpdate.setOnClickListener {
              name = binding!!.edName.text.toString()
              email = binding!!.edAddress.text.toString()
-            val mobile = binding!!.edMobile.text.toString()
             if (name.isEmpty()) {
                 Toast.makeText(
                     activity as HomeActivity,
                     "Please Enter your name",
                     Toast.LENGTH_LONG
                 ).show()
-            }else updateProfile(ProfileDataModel(name, email, mobile))
+            }else updateProfile(ProfileDataModel(name, email, AppInfo.getUserMobile()))
             // listener.onClickButtonForUploadType("llPostProperty")
             dismiss()
         }

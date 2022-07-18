@@ -46,6 +46,16 @@ class LeadFragment : Fragment(), LeadsClickListener {
 
         getMyLeadsData()
 
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Leads Page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
+
         FirebaseAnalytics.getInstance((activity as HomeActivity))
             .setCurrentScreen((activity as HomeActivity), "Leads Fragment", null)
 

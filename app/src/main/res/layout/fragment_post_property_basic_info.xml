@@ -373,91 +373,6 @@
 
             </LinearLayout>
 
-            <TextView
-                style="@style/filterTextSearchUI"
-                android:text="@string/available_from" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    app:boxStrokeColor="@color/outline_colour"
-                    app:endIconTint="@color/outline_colour"
-                    android:layout_width="0dp"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content">
-
-                    <!-- Inside text input layout add
-                          an auto complete text view
-                            and make its input type to none-->
-                    <AutoCompleteTextView
-                        android:id="@+id/autoCompleteTextViewForMonth"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        android:text="Select Month"
-                        android:textSize="@dimen/_10ssp"
-                        android:padding="@dimen/_6sdp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    app:boxStrokeColor="@color/outline_colour"
-                    app:endIconTint="@color/outline_colour"
-                    android:layout_width="0dp"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content">
-
-                    <!-- Inside text input layout add
-                          an auto complete text view
-                            and make its input type to none-->
-                    <AutoCompleteTextView
-                        android:id="@+id/autoCompleteTextViewForYear"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        android:text="Select Year"
-                        android:textSize="@dimen/_10ssp"
-                        android:padding="@dimen/_6sdp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-            </LinearLayout>
-
-            <TextView
-                style="@style/filterTextSearchUI"
-                android:text="@string/built_year" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                app:boxStrokeColor="@color/outline_colour"
-                app:endIconTint="@color/outline_colour"
-                android:layout_width="match_parent"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_height="wrap_content">
-
-                <!-- Inside text input layout add
-                      an auto complete text view
-                        and make its input type to none-->
-                <AutoCompleteTextView
-                    android:id="@+id/autoCompleteTextViewForBuiltYear"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:text="Select Year"
-                    android:textSize="@dimen/_10ssp"
-                    android:padding="@dimen/_6sdp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 style="@style/filterTextSearchUI"
@@ -484,79 +399,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        style="@style/filterTextSearchUI"
-                        android:text="@string/floor" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/outline_buttons"
-                        android:weightSum="1">
-
-                        <EditText
-                            android:id="@+id/tvFloor"
-                            style="@style/editText_EditProfile"
-                            android:layout_width="match_parent"
-                            android:layout_margin="@dimen/_3sdp"
-                            android:background="@color/white"
-                            android:inputType="number"
-                            android:maxLength="2"
-                            android:maxLines="1"
-                            android:padding="@dimen/_5sdp"
-                            android:textSize="@dimen/_12ssp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        style="@style/filterTextSearchUI"
-                        android:text="@string/total_floor" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/outline_buttons"
-                        android:weightSum="1">
-
-                        <EditText
-                            android:id="@+id/tvTotalFloor"
-                            style="@style/editText_EditProfile"
-                            android:layout_width="match_parent"
-                            android:layout_margin="@dimen/_3sdp"
-                            android:background="@color/white"
-                            android:inputType="number"
-                            android:maxLength="2"
-                            android:maxLines="1"
-                            android:padding="@dimen/_5sdp"
-                            android:textSize="@dimen/_12ssp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-            </LinearLayout>
 
             <TextView
                 style="@style/filterTextSearchUI"
@@ -567,7 +410,7 @@
                 style="@style/editText_EditProfile"
                 android:layout_width="match_parent"
                 android:maxLength="11"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:padding="@dimen/_6sdp" />
 
             <TextView
@@ -602,16 +445,17 @@
                 android:inputType="textCapSentences"
                 android:padding="@dimen/_6sdp" />
 
-            <fragment android:id="@+id/googleMap"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_160sdp"
-                android:layout_marginTop="@dimen/_10sdp" />
+<!--            <fragment android:id="@+id/googleMap"-->
+<!--                android:name="com.google.android.gms.maps.SupportMapFragment"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/_160sdp"-->
+<!--                android:layout_marginTop="@dimen/_10sdp" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:weightSum="2">
 
                 <LinearLayout

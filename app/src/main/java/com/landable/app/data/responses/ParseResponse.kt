@@ -3,6 +3,7 @@ package com.landable.app.data.responses
 import com.landable.app.ui.home.auction.AuctionSuggestionModel
 import com.landable.app.ui.home.dataModels.*
 import com.landable.app.ui.home.homeUI.DemoVideoDataModel
+import com.landable.app.ui.home.supergroups.SupergroupDetailModel
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -1375,6 +1376,28 @@ object ParseResponse {
             userProfile.add(user)
         }
         return userProfile
+    }
+
+    fun parsesupergroupDetailResponse(response: String): ArrayList<SupergroupDetailModel> {
+        val supergroupDetail = ArrayList<SupergroupDetailModel>()
+        val jsonArray = JSONArray(response)
+        for (i in 0 until jsonArray.length()) {
+            val supergroup = SupergroupDetailModel()
+            supergroup.arbitrage= jsonArray.getJSONObject(i).getInt("arbitrage")
+            supergroup.category = jsonArray.getJSONObject(i).getInt("category")
+            supergroup.subcategory = jsonArray.getJSONObject(i).getInt("subcategory")
+            supergroup.saletype = jsonArray.getJSONObject(i).getInt("saletype")
+            supergroup.possession = jsonArray.getJSONObject(i).getInt("possession")
+            supergroup.title = jsonArray.getJSONObject(i).getString("title")
+            supergroup.price = jsonArray.getJSONObject(i).getDouble("price")
+            supergroup.locality = jsonArray.getJSONObject(i).getString("locality")
+            supergroup.description = jsonArray.getJSONObject(i).getString("description")
+            supergroup.hidecontact = jsonArray.getJSONObject(i).getInt("hidecontact")
+            supergroup.commission = jsonArray.getJSONObject(i).getDouble("commission")
+
+            supergroupDetail.add(supergroup)
+        }
+        return supergroupDetail
     }
 
     fun parseLeadsResponse(response: String): ArrayList<LeadsDataModel> {
@@ -2760,6 +2783,49 @@ object ParseResponse {
             blogsList.add(blogs)
         }
         return blogsList
+    }
+
+    fun parseSuperGroupMediaList(response: String): SupergroupMasterMediaModel {
+        val supergroupMedia = SupergroupMasterMediaModel()
+        val jsonObject = JSONObject(response)
+
+        val imagesmasterArray = ArrayList<SupergroupMediaModel>()
+        val imagesArray = jsonObject.getJSONArray("images")
+        for (i in 0 until imagesArray.length()) {
+            val images = SupergroupMediaModel()
+            images.id = imagesArray.getJSONObject(i).getInt("id")
+            images.imagetype = imagesArray.getJSONObject(i).getString("imagetype")
+            images.path = imagesArray.getJSONObject(i).getString("path")
+            images.threadid = imagesArray.getJSONObject(i).getInt("threadid")
+
+            supergroupMedia.image = imagesmasterArray
+        }
+
+        val videomasterArray = ArrayList<SupergroupMediaModel>()
+        val videosArray = jsonObject.getJSONArray("video")
+        for (i in 0 until imagesArray.length()) {
+            val videos = SupergroupMediaModel()
+            videos.id = imagesArray.getJSONObject(i).getInt("id")
+            videos.imagetype = imagesArray.getJSONObject(i).getString("imagetype")
+            videos.path = imagesArray.getJSONObject(i).getString("path")
+            videos.threadid = imagesArray.getJSONObject(i).getInt("threadid")
+
+            supergroupMedia.video = videomasterArray
+        }
+
+        val documentmasterArray = ArrayList<SupergroupMediaModel>()
+        val documentsArray = jsonObject.getJSONArray("document")
+        for (i in 0 until imagesArray.length()) {
+            val documents = SupergroupMediaModel()
+            documents.id = documentsArray.getJSONObject(i).getInt("id")
+            documents.imagetype = documentsArray.getJSONObject(i).getString("imagetype")
+            documents.path = documentsArray.getJSONObject(i).getString("path")
+            documents.threadid = documentsArray.getJSONObject(i).getInt("threadid")
+
+            supergroupMedia.document = documentmasterArray
+        }
+
+        return supergroupMedia
     }
 
     fun parseVideoList(response: String): ArrayList<DemoVideoDataModel> {

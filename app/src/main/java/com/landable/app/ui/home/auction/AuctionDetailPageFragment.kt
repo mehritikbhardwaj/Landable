@@ -61,6 +61,17 @@ class AuctionDetailPageFragment : Fragment(), AdvertisementClickListener,
         FirebaseAnalytics.getInstance((activity as HomeActivity))
             .setCurrentScreen((activity as HomeActivity), "Auction Detail Fragment", null)
 
+
+        (activity as HomeActivity).postUserTrackingModel(
+            HomeActivity.PostUserTrackingModel(
+                "Auction Detail Page",
+                "Visit",
+                "Visit",
+                "Visit",
+                "",
+                ""
+            ))
+
         binding.ivProfilePicture.load(LandableConstants.Image_URL + previousAuctionData!!.image1)
         binding.tvAuctionName.text = previousAuctionData!!.title
         binding.tvBankName.text = previousAuctionData!!.bankname

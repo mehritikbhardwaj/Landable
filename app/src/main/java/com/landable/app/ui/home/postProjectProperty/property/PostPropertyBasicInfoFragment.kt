@@ -13,13 +13,8 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.landable.app.R
 import com.landable.app.common.*
@@ -32,34 +27,32 @@ import com.landable.app.ui.dialog.CustomProgressDialog
 import com.landable.app.ui.home.categories.CategoriesAdapter
 import com.landable.app.ui.home.dataModels.*
 import com.landable.app.ui.home.homeUI.HomeFragment
-import com.landable.app.ui.home.postProjectProperty.filterAdapters.*
+import com.landable.app.ui.home.postProjectProperty.filterAdapters.BedsDropdownAdapter
+import com.landable.app.ui.home.postProjectProperty.filterAdapters.PropertyTypeAdapter
+import com.landable.app.ui.home.postProjectProperty.filterAdapters.SaletypeAdapter
+import com.landable.app.ui.home.postProjectProperty.filterAdapters.UnitDropdownAdapter
 import org.json.JSONObject
 import java.io.IOException
-import java.util.*
 
 
 class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
-    PropertyTypeClickListener, AdapterView.OnItemSelectedListener, OnMapReadyCallback,
+    PropertyTypeClickListener, AdapterView.OnItemSelectedListener,
     AgentProfileListener {
 
     private lateinit var binding: FragmentPostPropertyBasicInfoBinding
     private var categoryList = ArrayList<CategoriesDataModel>()
     private var filterData: FilterMasterDataModel? = null
     private var progressDialog: CustomProgressDialog? = null
-    private var monthsArray = ArrayList<MonthsDataModel>()
     private var bedsArray = ArrayList<BedsDataModel>()
     private var unitId: Int = 0
-    private var intArray = ArrayList<Int>()
     private var categoryID: Int = 0
     private var subCategoryID: Int = 0
     private var saleType: Int = 0
     private var possetionType: Int = 0
     private var bedsCOunt: Int = 0
-    private var builtYear: Int = 0
     private var mCurrLocationMarker: Marker? = null
-    private var mMap: GoogleMap? = null
-    private var availableMonth: Int = 0
-    private var availableYear: Int = 0
+    // private var mMap: GoogleMap? = null
+
     private var lat: Double = 0.0
     private var lon: Double = 0.0
     private var propertyData: PropertyRawDataModel? = null
@@ -73,13 +66,11 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
     var description = ""
     var cost = 0.0
     var title = ""
-    var totalFloor = 0
     var totalArea = 0.0
     var address = ""
     var buildUpArea = 0.0
-    var tvFloor = ""
-    var carpetArea: Double = 0.0
-
+    var carpetArea = 0.0
+    var selectedUnit:String =""
 
     companion object {
         fun newInstance() = PostPropertyBasicInfoFragment()
@@ -103,8 +94,7 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
                 inflater,
                 R.layout.fragment_post_property_basic_info,
                 container,
-                false
-            )
+                false)
 
         (activity as HomeActivity).postUserTrackingModel(
             HomeActivity.PostUserTrackingModel(
@@ -136,16 +126,7 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
         } else {
             getFilterInfo()
         }
-        val calendar = Calendar.getInstance()
-        val year = calendar[Calendar.YEAR]
 
-        for (i in 2000 until (year + 50)) {
-            intArray.add(i)
-        }
-
-        updateMonthDopDown()
-        updateYearDropDown()
-        updateBuiltYearDropDown()
 
         for (i in 1 until 20) {
             bedsArray.add(BedsDataModel(i, i.toString()))
@@ -174,9 +155,7 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
                 cost = binding.tvCOst.text.toString().toDouble()
             }
 
-            if (binding.tvTotalFloor.text.toString().isNotEmpty()) {
-                totalFloor = binding.tvTotalFloor.text.toString().toInt()
-            }
+
             if (binding.edTotalArea.text.toString().isNotEmpty()) {
                 totalArea = binding.edTotalArea.text.toString().toDouble()
             }
@@ -190,10 +169,9 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
                 carpetArea = binding.carpetArea.text.toString().toDouble()
             }
 
-            tvFloor = binding.tvFloor.text.toString()
-            if(binding.edTitle.text.toString().isNullOrEmpty()){
-                CustomAlertDialog(requireContext(),"Alert","Please fill Title").show()
-            }else {
+            if (binding.edTitle.text.toString().isNullOrEmpty()) {
+                CustomAlertDialog(requireContext(), "Alert", "Please fill Title").show()
+            } else {
                 title = binding.edTitle.text.toString()
                 postPropertyStep1(
                     PostPropertyBasicInfo(
@@ -208,21 +186,18 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
                         description,
                         cost,
                         title,
-                        totalFloor,
-                        totalArea,
+                        getModifiedArea(totalArea),
                         address,
                         lat,
                         lon,
-                        buildUpArea,
-                        carpetArea,
-                        builtYear,
-                        availableMonth,
-                        availableYear,
-                        tvFloor
+                        getModifiedArea(buildUpArea),
+                        getModifiedArea(carpetArea),
                     ), true
                 )
             }
         }
+
+
 
         binding.buttonContinue.setOnClickListener {
             /*   //PROP22222602
@@ -233,9 +208,7 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
                 cost = binding.tvCOst.text.toString().toDouble()
             }
             title = binding.edTitle.text.toString()
-            if (binding.tvTotalFloor.text.toString().isNotEmpty()) {
-                totalFloor = binding.tvTotalFloor.text.toString().toInt()
-            }
+
             if (binding.edTotalArea.text.toString().isNotEmpty()) {
                 totalArea = binding.edTotalArea.text.toString().toDouble()
             }
@@ -247,7 +220,6 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
                 carpetArea = binding.carpetArea.text.toString().toDouble()
             }
 
-            tvFloor = binding.tvFloor.text.toString()
             postPropertyStep1(
                 PostPropertyBasicInfo(
                     propertyId,
@@ -261,18 +233,13 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
                     description,
                     cost,
                     title,
-                    totalFloor,
-                    totalArea,
+                    getModifiedArea(totalArea),
                     address,
                     lat,
                     lon,
-                    buildUpArea,
-                    carpetArea,
-                    builtYear,
-                    availableMonth,
-                    availableYear,
-                    tvFloor
-                ),false
+                    getModifiedArea(buildUpArea),
+                    getModifiedArea(carpetArea),
+                ), false
             )
         }
 
@@ -298,29 +265,31 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
                 }
             })
 
-        val mapFragment =
-            childFragmentManager.findFragmentById(R.id.googleMap) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+//        val mapFragment =
+//            childFragmentManager.findFragmentById(R.id.googleMap) as SupportMapFragment
+//        mapFragment.getMapAsync(this)
 
         binding.edLatitude.setOnClickListener {
-            if(lat==0.0){
-                if(binding.edAddress.text.toString().isNotEmpty()){
+            if (lat == 0.0) {
+                if (binding.edAddress.text.toString().isNotEmpty()) {
                     getLocationFromAddress(binding.edAddress.text.toString())
                     binding.edLatitude.text = lat.toString()
                     binding.edLongitude.text = lon.toString()
-                }else{
-                    Toast.makeText(requireContext(),"Please fill your address",Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(requireContext(), "Please fill your address", Toast.LENGTH_LONG)
+                        .show()
                 }
             }
         }
         binding.edLongitude.setOnClickListener {
-            if(lat==0.0){
-                if(binding.edAddress.text.toString().isNotEmpty()){
+            if (lat == 0.0) {
+                if (binding.edAddress.text.toString().isNotEmpty()) {
                     getLocationFromAddress(binding.edAddress.text.toString())
                     binding.edLatitude.text = lat.toString()
                     binding.edLongitude.text = lon.toString()
-                }else{
-                    Toast.makeText(requireContext(),"Please fill your address",Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(requireContext(), "Please fill your address", Toast.LENGTH_LONG)
+                        .show()
                 }
             }
 
@@ -340,6 +309,30 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
         return binding.root
     }
 
+
+    private fun getModifiedArea(area:Double):Double{
+
+        var modifiedArea = 0.0
+        if(selectedUnit=="Sq-ft"){
+            modifiedArea = area
+        }else if(selectedUnit=="Sq-mtr"){
+            modifiedArea = area * 10.76391042
+        }else if(selectedUnit=="Acre"){
+            modifiedArea = area * 43560.00001
+        }else if(selectedUnit=="Hectare"){
+            modifiedArea = area * 107639.1042
+        }else if(selectedUnit=="Sq-kmtr"){
+            modifiedArea = area * 10763910.42
+        }else if(selectedUnit=="Sq-Gaj"){
+            modifiedArea = area * 8.9999251
+        }else if(selectedUnit=="Bigha"){
+            modifiedArea = area * 27225
+        }else if(selectedUnit=="Sq-yrd(Gaj)"){
+            modifiedArea = area * 9.000000878
+        }
+
+        return modifiedArea
+    }
     private fun setPriceText(priceInWords: String) {
         val first = priceInWords[0]
 
@@ -396,7 +389,10 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
     private fun updateDataForEdit() {
         binding.edTitle.setText(propertyInfo!!.title)
         binding.edTotalArea.setText(propertyInfo!!.totalarea)
-        binding.tvCOst.setText(propertyData!!.propertyraw[0].cost.toInt().toString())
+        val constChanged = propertyData!!.propertyraw[0].cost.toString().substringBefore(".")
+
+        binding.tvCOst.setText(constChanged)
+        setPriceText(constChanged)
         binding.edAddress.setText(propertyInfo!!.address)
         binding.edLatitude.text = propertyInfo!!.lat
         binding.edLongitude.text = propertyInfo!!.lon
@@ -407,12 +403,11 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
         binding.tvCarpetAreaUnit.text = "Square Feet"
         binding.tvBuiltUpAreaUnit.text = "Square Feet"
         binding.autoCompleteTextViewForUnit.setText("Square Feet")
-        binding.tvFloor.setText(propertyData!!.propertyraw[0].floorno)
-        binding.tvTotalFloor.setText(propertyData!!.propertyraw[0].totalfloor.toString())
+
         binding.buildUpArea.setText(propertyData!!.propertyraw[0].builduparea.toString())
         binding.carpetArea.setText(propertyData!!.propertyraw[0].carpetarea.toString())
 //        lat = propertyData!!.propertyraw[0].lat.toDouble()
-     //   lon = propertyData!!.propertyraw[0].lon.toDouble()
+        //   lon = propertyData!!.propertyraw[0].lon.toDouble()
 
         if (propertyInfo!!.lat == "") {
             getLocationFromAddress(propertyInfo!!.address)
@@ -423,51 +418,6 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
             lon = propertyData!!.propertyraw[0].lon.toDouble()
         }
 
-        availableMonth = propertyData!!.propertyraw[0].availfrommonth
-        when (propertyData!!.propertyraw[0].availfrommonth) {
-            1 -> {
-                binding.autoCompleteTextViewForMonth.setText("January")
-            }
-            2 -> {
-                binding.autoCompleteTextViewForMonth.setText("February")
-            }
-            3 -> {
-                binding.autoCompleteTextViewForMonth.setText("March")
-            }
-            4 -> {
-                binding.autoCompleteTextViewForMonth.setText("April")
-            }
-            5 -> {
-                binding.autoCompleteTextViewForMonth.setText("May")
-            }
-            6 -> {
-                binding.autoCompleteTextViewForMonth.setText("June")
-            }
-            7 -> {
-                binding.autoCompleteTextViewForMonth.setText("July")
-            }
-            8 -> {
-                binding.autoCompleteTextViewForMonth.setText("August")
-            }
-            9 -> {
-                binding.autoCompleteTextViewForMonth.setText("September")
-            }
-            10 -> {
-                binding.autoCompleteTextViewForMonth.setText("October")
-            }
-            11 -> {
-                binding.autoCompleteTextViewForMonth.setText("November")
-            }
-            12 -> {
-                binding.autoCompleteTextViewForMonth.setText("December")
-
-            }
-        }
-
-        binding.autoCompleteTextViewForBuiltYear.setText(propertyData!!.propertyraw[0].bulityear.toString())
-        builtYear = propertyData!!.propertyraw[0].bulityear
-        binding.autoCompleteTextViewForYear.setText(propertyData!!.propertyraw[0].availfromyear.toString())
-        availableYear = propertyData!!.propertyraw[0].availfromyear
 
     }
 
@@ -515,6 +465,7 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
         val bundle = Bundle()
         bundle.putInt("id", id)
         bundle.putString("propertyid", propertyid)
+        bundle.putString("address", address)
         bundle.putBoolean("isComingForEdit", isComingForEdit)
         if (isComingForWhichEditType == "PropertyEdit") {
             bundle.putSerializable("propertyRaw", propertyData)
@@ -558,73 +509,6 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
         }
     }
 
-    private fun updateMonthDopDown() {
-
-        monthsArray.add(MonthsDataModel(1, "January"))
-        monthsArray.add(MonthsDataModel(2, "February"))
-        monthsArray.add(MonthsDataModel(3, "March"))
-        monthsArray.add(MonthsDataModel(4, "April"))
-        monthsArray.add(MonthsDataModel(5, "May"))
-        monthsArray.add(MonthsDataModel(6, "June"))
-        monthsArray.add(MonthsDataModel(7, "July"))
-        monthsArray.add(MonthsDataModel(8, "August"))
-        monthsArray.add(MonthsDataModel(9, "September"))
-        monthsArray.add(MonthsDataModel(10, "October"))
-        monthsArray.add(MonthsDataModel(11, "November"))
-        monthsArray.add(MonthsDataModel(12, "December"))
-
-        // create an array adapter and pass the required parameter
-        // in our case pass the context, drop down layout , and array.
-        val monthsAdapter = MonthsDropdownAdapter(requireActivity(), monthsArray)
-
-        // set adapter to the autocomplete tv to the arrayAdapter
-        binding.autoCompleteTextViewForMonth.setAdapter(monthsAdapter)
-
-        binding.autoCompleteTextViewForMonth.onItemClickListener =
-            AdapterView.OnItemClickListener { adapterView, view, pos, id ->
-                //this is the way to find selected object/item
-                //unitId = filterData!!.Unitmaster[pos].id
-                availableMonth = pos + 1
-
-            }
-    }
-
-    private fun updateYearDropDown() {
-
-        // create an array adapter and pass the required parameter
-        // in our case pass the context, drop down layout , and array.
-        val yearAdapter = YearDropdownAdapter(requireActivity(), intArray)
-
-        // set adapter to the autocomplete tv to the arrayAdapter
-        binding.autoCompleteTextViewForYear.setAdapter(yearAdapter)
-
-        binding.autoCompleteTextViewForYear.onItemClickListener =
-            AdapterView.OnItemClickListener { adapterView, view, pos, id ->
-                //this is the way to find selected object/item
-                //unitId = filterData!!.Unitmaster[pos].id
-                availableYear = 2000 + pos
-                Toast.makeText(requireContext(), (2000 + pos).toString(), Toast.LENGTH_LONG).show()
-            }
-    }
-
-    private fun updateBuiltYearDropDown() {
-
-        // create an array adapter and pass the required parameter
-        // in our case pass the context, drop down layout , and array.
-        val yearAdapter = YearDropdownAdapter(requireActivity(), intArray)
-
-        // set adapter to the autocomplete tv to the arrayAdapter
-        binding.autoCompleteTextViewForBuiltYear.setAdapter(yearAdapter)
-
-        binding.autoCompleteTextViewForBuiltYear.onItemClickListener =
-            AdapterView.OnItemClickListener { adapterView, view, pos, id ->
-                //this is the way to find selected object/item
-                //unitId = filterData!!.Unitmaster[pos].id
-
-                builtYear = 2000 + pos
-                Toast.makeText(requireContext(), (2000 + pos).toString(), Toast.LENGTH_LONG).show()
-            }
-    }
 
     private fun updateUnitDropdown() {
         // create an array adapter and pass the required parameter
@@ -639,6 +523,7 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
                 //this is the way to find selected object/item
                 unitId = filterData!!.Unitmaster[pos].id
 
+                selectedUnit = filterData!!.Unitmaster[pos].codevalue
                 binding.tvAreaUnit.text = filterData!!.Unitmaster[pos].codevalue
                 binding.tvBuiltUpAreaUnit.text = filterData!!.Unitmaster[pos].codevalue
                 binding.tvCarpetAreaUnit.text = filterData!!.Unitmaster[pos].codevalue
@@ -752,7 +637,7 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Toast.makeText(requireContext(),e.message,Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
                 }
 
             }
@@ -781,19 +666,14 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
         description: String,
         cost: Double,
         title: String,
-        totalfloor: Int,
         totalarea: Double,
         address1: String,
         lat: Double,
         lon: Double,
         builduparea: Double,
         caretareaarea: Double,
-        bulityear: Int,
-        availfrommonth: Int,
-        availfromyear: Int,
-        floorno: String
 
-    ) {
+        ) {
         private val id: Int = id
         private val propertyid: String = propertyid
         private val projectid: String = projectid
@@ -808,11 +688,6 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
         private val caretareaarea: Double = caretareaarea
         private val saletype: Int = saletype
         private val possessionstatus: Int = possessionstatus
-        private val bulityear: Int = bulityear
-        private val availfrommonth: Int = availfrommonth
-        private val availfromyear: Int = availfromyear
-        private val floorno: String = floorno
-        private val totalfloor: Int = totalfloor
         private val address1: String = address1
         private val lat: Double = lat
         private val lon: Double = lon
@@ -840,8 +715,8 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
                 p1 = LatLng(location.latitude, location.longitude)
 
                 lat = location.latitude
-                lon = location.latitude
-                updateLocation(p1, "")
+                lon = location.longitude
+                // updateLocation(p1, "")
 
                 return p1
             }
@@ -852,20 +727,20 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
     }
 
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-        mMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
-        mMap!!.uiSettings.isCompassEnabled = true
-        //  updateLocation(getLocationFromAddress( "New delhi")!!, "")
-    }
-
-    private fun updateLocation(location: LatLng, markerTitle: String) {
-        if (mMap != null) {
-            val zoomLevel = 12.0f //This goes up to 21
-            mMap!!.addMarker(MarkerOptions().position(location).title(markerTitle))
-            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel))
-        }
-    }
+//    override fun onMapReady(googleMap: GoogleMap) {
+//        mMap = googleMap
+//        mMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
+//        mMap!!.uiSettings.isCompassEnabled = true
+//        //  updateLocation(getLocationFromAddress( "New delhi")!!, "")
+//    }
+//
+//    private fun updateLocation(location: LatLng, markerTitle: String) {
+//        if (mMap != null) {
+//            val zoomLevel = 12.0f //This goes up to 21
+//            mMap!!.addMarker(MarkerOptions().position(location).title(markerTitle))
+//            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel))
+//        }
+//    }
 
 
     override fun onAgentClick(action: String, id: Int) {

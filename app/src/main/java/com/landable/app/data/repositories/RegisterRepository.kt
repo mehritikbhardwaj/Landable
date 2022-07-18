@@ -477,6 +477,7 @@ class RegisterRepository : SafeApiRequest() {
             })
         return apiResponse
     }
+
     fun getMyActivity(): LiveData<String> {
         val apiResponse = MutableLiveData<String>()
 
@@ -1183,6 +1184,32 @@ class RegisterRepository : SafeApiRequest() {
         return apiResponse
     }
 
+    fun getDeleteSupergroupMedia(threadid: Int, id: Int): LiveData<String> {
+        val apiResponse = MutableLiveData<String>()
+
+        MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).getDeleteSupergroupMedia(
+            getRegisterUserHeaderMap(),
+            threadid, id
+        )
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        apiResponse.value = response.body()?.string()
+                    } else {
+                        apiResponse.value = response.errorBody()?.string()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    apiResponse.value = t.message
+                }
+            })
+        return apiResponse
+    }
+
     fun getchatcommentlist(id: Int, touserid: Int, type: String): LiveData<String> {
         val apiResponse = MutableLiveData<String>()
 
@@ -1265,6 +1292,58 @@ class RegisterRepository : SafeApiRequest() {
         val apiResponse = MutableLiveData<String>()
 
         MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).getDeletesavedsearch(
+            getRegisterUserHeaderMap(),
+            id
+        )
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        apiResponse.value = response.body()?.string()
+                    } else {
+                        apiResponse.value = response.errorBody()?.string()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    apiResponse.value = t.message
+                }
+            })
+        return apiResponse
+    }
+
+    fun getSupergroupDetails(id: Int): LiveData<String> {
+        val apiResponse = MutableLiveData<String>()
+
+        MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).getSupergroupDetails(
+            getRegisterUserHeaderMap(),
+            id
+        )
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        apiResponse.value = response.body()?.string()
+                    } else {
+                        apiResponse.value = response.errorBody()?.string()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    apiResponse.value = t.message
+                }
+            })
+        return apiResponse
+    }
+
+    fun getSupergroupMedia(id: Int): LiveData<String> {
+        val apiResponse = MutableLiveData<String>()
+
+        MyApi(NetworkConnectionInterceptor(AppInfo.getContext())).getSupergroupMedia(
             getRegisterUserHeaderMap(),
             id
         )

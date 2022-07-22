@@ -9,16 +9,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.landable.app.R
 import com.landable.app.common.AgentProfileListener
+import com.landable.app.common.ArbitrageTypeClick
 import com.landable.app.databinding.RowCategoriesFilterBinding
 import com.landable.app.ui.home.dataModels.Arbitragemaster
 
 class SaletypeAdapter(
     private val salesList: ArrayList<Arbitragemaster>,
-    private var agentProfileListener: AgentProfileListener,
+    private var arbitrageTypeClick: ArbitrageTypeClick,
     private var isComingFromSale: String,
-    private var selectedItem: Int
+    private var selectedItem: Int,
+    private var selectedFilter: String,
 
-) :
+    ) :
     RecyclerView.Adapter<ViewHolder>() {
 
     private var selectedView: LinearLayout? = null
@@ -45,6 +47,15 @@ class SaletypeAdapter(
                 selectedTextView!!
             )
         }
+        if (saleType.codevalue == selectedFilter) {
+            selectedView = holder.categoryBinding.linearLayout3
+            selectedTextView = holder.categoryBinding.tvCategoryName
+            changeBackground(
+                selectedView!!,
+                selectedTextView!!
+            )
+        }
+
 
         holder.categoryBinding.tvCategoryName.text = saleType.codevalue
         holder.categoryBinding.linearLayout3.setOnClickListener {
@@ -56,26 +67,26 @@ class SaletypeAdapter(
                     selectedTextView!!
                 )
                 if (isComingFromSale == "saleTypeClick") {
-                    agentProfileListener.onAgentClick("saleTypeClick", saleType.id)
+                    arbitrageTypeClick.onArbitrageClick("saleTypeClick", saleType)
                 } else if (isComingFromSale == "possessionCLick") {
-                    agentProfileListener.onAgentClick("possessionCLick", saleType.id)
+                    arbitrageTypeClick.onArbitrageClick("possessionCLick", saleType)
                 } else if (isComingFromSale == "furnishedType") {
-                    agentProfileListener.onAgentClick("furnishedType", saleType.id)
+                    arbitrageTypeClick.onArbitrageClick("furnishedType", saleType)
                 } else if (isComingFromSale == "arbitrageClick") {
-                    agentProfileListener.onAgentClick("arbitrageClick", saleType.id)
+                    arbitrageTypeClick.onArbitrageClick("arbitrageClick", saleType)
                 }
             } else if (selectedView == holder.categoryBinding.linearLayout3) {
                 selectedView!!.setBackgroundResource(R.drawable.alert_dialog_bg)
                 selectedTextView!!.setTextColor(Color.BLACK)
                 selectedView = null
                 if (isComingFromSale == "saleTypeClick") {
-                    agentProfileListener.onAgentClick("deleteSaleTypeClick", saleType.id)
+                    arbitrageTypeClick.onArbitrageClick("deleteSaleTypeClick", saleType)
                 } else if (isComingFromSale == "possessionCLick") {
-                    agentProfileListener.onAgentClick("deletePossessionCLick", saleType.id)
+                    arbitrageTypeClick.onArbitrageClick("deletePossessionCLick", saleType)
                 } else if (isComingFromSale == "furnishedType") {
-                    agentProfileListener.onAgentClick("deleteFurnishedType", saleType.id)
+                    arbitrageTypeClick.onArbitrageClick("deleteFurnishedType", saleType)
                 } else if (isComingFromSale == "arbitrageClick") {
-                    agentProfileListener.onAgentClick("deleteArbitrageClick", saleType.id)
+                    arbitrageTypeClick.onArbitrageClick("deleteArbitrageClick", saleType)
                 }
             } else {
                 selectedView!!.setBackgroundResource(R.drawable.alert_dialog_bg)
@@ -87,13 +98,13 @@ class SaletypeAdapter(
                 selectedView = holder.categoryBinding.linearLayout3
                 selectedTextView = holder.categoryBinding.tvCategoryName
                 if (isComingFromSale == "saleTypeClick") {
-                    agentProfileListener.onAgentClick("saleTypeClick", saleType.id)
+                    arbitrageTypeClick.onArbitrageClick("saleTypeClick", saleType)
                 } else if (isComingFromSale == "possessionCLick") {
-                    agentProfileListener.onAgentClick("possessionCLick", saleType.id)
+                    arbitrageTypeClick.onArbitrageClick("possessionCLick", saleType)
                 } else if (isComingFromSale == "furnishedType") {
-                    agentProfileListener.onAgentClick("furnishedType", saleType.id)
+                    arbitrageTypeClick.onArbitrageClick("furnishedType", saleType)
                 } else if (isComingFromSale == "arbitrageClick") {
-                    agentProfileListener.onAgentClick("arbitrageClick", saleType.id)
+                    arbitrageTypeClick.onArbitrageClick("arbitrageClick", saleType)
                 }
             }
         }

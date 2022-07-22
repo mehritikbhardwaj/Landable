@@ -33,12 +33,13 @@ import com.landable.app.ui.home.dataModels.*
 import com.landable.app.ui.home.postProjectProperty.filterAdapters.*
 import com.landable.app.ui.home.project.ProjectDetailFragment
 import com.landable.app.ui.home.property.PropertyDetailFragment
+import com.landable.app.ui.home.search.filterAdapters.SearchTagsAdapter
 
 
 class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickListener,
     AgentProfileListener, PropertyDetailListener, ProjectDetailListener, FloorClickListener,
     PostedDateClickListener,
-    AmenitiesClickListener, SelectedFilterSearch {
+    AmenitiesClickListener, FilterDismissListener, ArbitrageTypeClick {
 
     private lateinit var binding: FragmentSearchBinding
     private var selectedHighlightedText: String = "Property"
@@ -62,24 +63,36 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
     private var postedSince = ArrayList<BedsDataModel>()
     private var priceRange = ArrayList<MonthsDataModel>()
     private var postedDate: String = ""
-    private var price: Int = 2
+    private var price: Int = 3
     private var amenitiesArray = ArrayList<Amenitiesmaster>()
 
     private var costToPrice: Int = 0
+    private var selectedTagsArray = ArrayList<SearchTagModel>()
     private var costFromPrice: Int = 0
 
     private var areaTo: Int = 0
     private var areaFrom: Int = 0
     private var searchId: Int = 0
     private var searchDescription: String = ""
-
+    private var categoryText: String = ""
+    private var typeText: String = ""
+    private var saleTypeText: String = ""
+    private var possessionTypeText: String = ""
+    private var furnishedTypeText: String = ""
 
     var selectedFiltersList = ArrayList<String>()
-    private var selectedFiltersAdapter: SelectedFiltersAdapter? = null
 
 
     companion object {
         fun newInstance() = SearchFragment()
+    }
+
+    private fun updateTagsFilterUi() {
+        binding.rvSearchTags.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvSearchTags.adapter =
+            SearchTagsAdapter(selectedTagsArray, this)
+
     }
 
     override fun onCreateView(
@@ -116,13 +129,11 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         )
 
         binding.ivSearchMap.setOnClickListener {
-
-            updateSelectedFilterRecycler()
             val url = "https://www.landable.in/property-list.aspx?city=37" +
                     "&key=&ct=&st=&stype=0&ps=0&cfrom=0&cto=0&bed=&bath=0&bal=0&furnished=&parking" +
                     "=0&amenities=&postedon=0&floor=&lat=0&lon=0&sort=New&areafrom=0&areato=100000#."
 
-            (activity as HomeActivity).callBrowserActivity(url,"Search Map Page")
+            (activity as HomeActivity).callBrowserActivity(url, "Search Map Page")
         }
 
         binding.ivSaveResult.setOnClickListener {
@@ -137,15 +148,18 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                         selectedHighlightedText
                     )
                 )
-                CustomAlertDialog(requireContext(),
-                    "Message","You will be notified when there are new results for the search tags").show()
+                CustomAlertDialog(
+                    requireContext(),
+                    "Message", "You will be notified when there are new results for the search tags"
+                ).show()
             }
         }
 
 
         binding.layoutFilter.buttonClearFilter.setOnClickListener {
             selectedFiltersList.clear()
-         //   updateSelectedFilterRecycler()
+
+            //   updateSelectedFilterRecycler()
             clearFilter()
             getFilterInfo()
             updatePriceUnitDopDown()
@@ -158,12 +172,11 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
             binding.recyclerView.visibility = View.VISIBLE
             binding.topSearchTypes.visibility = View.VISIBLE
             binding.filterIcon.visibility = View.VISIBLE
-                changeSelectedTextColourAndCallAPi(selectedHighlightedText)
+            changeSelectedTextColourAndCallAPi(selectedHighlightedText)
         }
         addPostedSinceDataToList()
         //change seleted top option given for search like properties, projects, auction, agencies        
 
-        getFilterInfo()
         updatePriceUnitDopDown()
 
         binding.filterIcon.setOnClickListener {
@@ -171,10 +184,12 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
             binding.llFilter.visibility = View.VISIBLE
             binding.filterIcon.visibility = View.GONE
             binding.topSearchTypes.visibility = View.GONE
+            getFilterInfo()
+
         }
 
         binding.layoutFilter.buttonSearch.setOnClickListener {
-           // updateSelectedFilterRecycler()
+            // updateSelectedFilterRecycler()
             binding.llFilter.visibility = View.GONE
             binding.recyclerView.visibility = View.VISIBLE
             binding.topSearchTypes.visibility = View.VISIBLE
@@ -192,7 +207,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
             object : RangeSlider.OnSliderTouchListener {
                 override fun onStartTrackingTouch(slider: RangeSlider) {
                     //Log.d("cost", slider.values[0].toString())
-                    if (price == 2) {
+                    if (price == 3) {
                         CustomAlertDialog(
                             requireContext(),
                             "Alert",
@@ -207,6 +222,30 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
 
                     costToPrice = slider.values[1].toInt()
                     costFromPrice = slider.values[0].toInt()
+
+                    for (i in 0 until selectedTagsArray.size) {
+                        if (selectedTagsArray[i].type == "Price") {
+                            selectedTagsArray.removeAt(i)
+                        }
+                    }
+                    var unit = ""
+                    if (price == 0) {
+                        unit = "K"
+                    } else if (price == 1) {
+                        unit = "L"
+                    } else if (price == 2) {
+                        unit = "Cr"
+                    }
+                    if (price != 3) {
+                        selectedTagsArray.add(
+                            SearchTagModel(
+                                "$costFromPrice-$costToPrice $unit",
+                                "Price"
+                            )
+                        )
+                    }
+
+                    updateTagsFilterUi()
                     if (costToPrice < 0) {
                         costToPrice = 0
                         costFromPrice = 0
@@ -233,14 +272,6 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
 
     }
 
-    private fun updateSelectedFilterRecycler() {
-        binding.rvSelectedFilters.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.rvSelectedFilters.itemAnimator = DefaultItemAnimator()
-        selectedFiltersAdapter = SelectedFiltersAdapter(activity, selectedFiltersList, this)
-        binding.rvSelectedFilters.adapter = selectedFiltersAdapter
-    }
-
     private fun clearFilter() {
         categoryID = 0
         subCategoryID = 0
@@ -256,7 +287,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         postedSince.clear()
         priceRange.clear()
         postedDate = ""
-        price = 2
+        price = 3
         amenitiesArray.clear()
         costToPrice = 0
         costFromPrice = 0
@@ -304,11 +335,12 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         binding.layoutFilter.rvPostedSince.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.layoutFilter.rvPostedSince.adapter =
-            PostedSinceAdapter(postedSince, this)
+            PostedSinceAdapter(postedSince, this, postedDate)
     }
 
 
     private fun updatePriceUnitDopDown() {
+        priceRange.add(MonthsDataModel(0, "Thousand"))
         priceRange.add(MonthsDataModel(1, "Lakh"))
         priceRange.add(MonthsDataModel(2, "Crore"))
         // create an array adapter and pass the required parameter
@@ -327,8 +359,10 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
 
     //function to change text color and hit api on the basis of text selected
     private fun changeSelectedTextColourAndCallAPi(selectedText: String) {
-        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen((activity as HomeActivity),
-            "Search $selectedText Fragment", null);
+        FirebaseAnalytics.getInstance((activity as HomeActivity)).setCurrentScreen(
+            (activity as HomeActivity),
+            "Search $selectedText Fragment", null
+        )
 
         selectedHighlightedText = selectedText
         binding.tvProperty.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
@@ -343,7 +377,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                     )
                 )
                 binding.recyclerView.visibility = View.GONE
-                    search(selectedText)
+                search(selectedText)
             }
             "Project" -> {
                 binding.tvProjects.setTextColor(
@@ -353,7 +387,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                     )
                 )
                 binding.recyclerView.visibility = View.GONE
-                    search(selectedText)
+                search(selectedText)
             }
             "Agency" -> {
                 binding.tvAgency.setTextColor(
@@ -362,15 +396,17 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                         R.color.colour_app
                     )
                 )
-                    search(selectedText)
+                search(selectedText)
             }
         }
     }
 
     private fun costFrom(selectedUnit: Int): Int {
         if (selectedUnit == 0) {
-            costFromPrice *= 100000
+            costToPrice *= 1000
         } else if (selectedUnit == 1) {
+            costFromPrice *= 100000
+        } else if (selectedUnit == 2) {
             costFromPrice *= 10000000
         } else {
             costFromPrice = 0
@@ -380,8 +416,10 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
 
     private fun costTo(selectedUnit: Int): Int {
         if (selectedUnit == 0) {
-            costToPrice *= 100000
+            costToPrice *= 1000
         } else if (selectedUnit == 1) {
+            costToPrice *= 100000
+        } else if (selectedUnit == 2) {
             costToPrice *= 10000000
         } else {
             costToPrice = 0
@@ -448,12 +486,12 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
     //function for get filter data
     private fun getFilterInfo() {
         // Show progress bar
-        /*  progressDialog = CustomProgressDialog(requireContext())
-          progressDialog!!.show()*/
+//          progressDialog = CustomProgressDialog(requireContext())
+//          progressDialog!!.show()
         val filterResponse = RegisterRepository().getFilterMaster()
         filterResponse.observe(viewLifecycleOwner) {
             // hide progress bar
-            // progressDialog!!.cancelProgress()
+            //  progressDialog!!.cancelProgress()
 
             // parse dashboard info
             if (it.toString() != "null") {
@@ -499,7 +537,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         binding.layoutFilter.rvFloor.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.layoutFilter.rvFloor.adapter =
-            FloorAdapter(filterData!!.floormaster, this)
+            FloorAdapter(filterData!!.floormaster, this, floorValue)
 
 
         binding.layoutFilter.rvBHK.layoutManager =
@@ -526,27 +564,46 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         binding.layoutFilter.rvFurnishedType.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.layoutFilter.rvFurnishedType.adapter =
-            SaletypeAdapter(filterData!!.furnishedmaster, this, "furnishedType", furnishedType)
+            SaletypeAdapter(
+                filterData!!.furnishedmaster,
+                this,
+                "furnishedType",
+                furnishedType,
+                furnishedTypeText
+            )
 
         //binding recycler view for category type filter
         binding.layoutFilter.rvCategory.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.layoutFilter.rvCategory.adapter = CategoriesAdapter(categoryList, this, categoryID)
+        binding.layoutFilter.rvCategory.adapter =
+            CategoriesAdapter(categoryList, this, categoryID, categoryText)
 
         //binding recycler view for sale type filter
         binding.layoutFilter.rvSaleType.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.layoutFilter.rvSaleType.adapter =
-            SaletypeAdapter(filterData!!.saletypemaster, this, "saleTypeClick", saleType)
+            SaletypeAdapter(
+                filterData!!.saletypemaster,
+                this,
+                "saleTypeClick",
+                saleType,
+                saleTypeText
+            )
 
         //binding recycler view for possession type filter
         binding.layoutFilter.rvPossessionStatus.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.layoutFilter.rvPossessionStatus.adapter =
-            SaletypeAdapter(filterData!!.possessionmaster, this, "possessionCLick", possetionType)
+            SaletypeAdapter(
+                filterData!!.possessionmaster,
+                this,
+                "possessionCLick",
+                possetionType,
+                possessionTypeText
+            )
     }
 
-    //DAta model for search
+    //Data model for search
     class SearchRequestDataModel(
         keyword: String,
         category: String,
@@ -600,14 +657,15 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
     private fun updatePropertyTypeList(categoryType: String) {
         binding.layoutFilter.rvPropertyType.visibility = View.VISIBLE
         when (categoryType) {
+            //   subCategoryID = filterData!!.residentialTypeLinkedHashMap[categoryType]!![0].id
+
             "Residential" -> {
-                subCategoryID = filterData!!.residentialTypeLinkedHashMap[categoryType]!![0].id
                 binding.layoutFilter.rvPropertyType.layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 binding.layoutFilter.rvPropertyType.adapter =
                     PropertyTypeAdapter(
                         filterData!!.residentialTypeLinkedHashMap[categoryType]!!,
-                        this, subCategoryID
+                        this, subCategoryID, typeText
                     )
             }
             "Commercial" -> {
@@ -616,7 +674,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 binding.layoutFilter.rvPropertyType.adapter =
                     PropertyTypeAdapter(
                         filterData!!.commercialTypeLinkedList[categoryType]!!,
-                        this, subCategoryID
+                        this, subCategoryID, typeText
                     )
             }
             "Agricultural" -> {
@@ -625,7 +683,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 binding.layoutFilter.rvPropertyType.adapter =
                     PropertyTypeAdapter(
                         filterData!!.agriculturalTypeLinkedList[categoryType]!!,
-                        this, subCategoryID
+                        this, subCategoryID, typeText
                     )
             }
         }
@@ -637,14 +695,28 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
             "categoryClick" -> {
                 categoryID = categoryDataModel!!.id
                 updatePropertyTypeList(categoryDataModel.codevalue)
-                selectedFiltersList.add(categoryDataModel.codevalue)
+
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Category") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                selectedTagsArray.add(SearchTagModel(categoryDataModel.codevalue, "Category"))
+                updateTagsFilterUi()
+                categoryText = categoryDataModel.codevalue
 
             }
             "removeCategoryClicked" -> {
                 categoryID = 0
                 binding.layoutFilter.rvPropertyType.visibility = View.GONE
-                selectedFiltersList.remove(categoryDataModel!!.codevalue)
 
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Category") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                categoryText = ""
+                updateTagsFilterUi()
             }
         }
     }
@@ -654,13 +726,26 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         when (action) {
             "typeClick" -> {
                 subCategoryID = propertyDataModel!!.id
-                selectedFiltersList.add(propertyDataModel.codevalue)
 
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Type") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                selectedTagsArray.add(SearchTagModel(propertyDataModel.codevalue, "Type"))
+                updateTagsFilterUi()
+                categoryText = propertyDataModel.codevalue
             }
             "deleteTypeClick" -> {
                 subCategoryID = 0
-                selectedFiltersList.remove(propertyDataModel!!.codevalue)
 
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Type") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                typeText = ""
+                updateTagsFilterUi()
             }
 
         }
@@ -954,8 +1039,25 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         when (action) {
             "floor" -> {
                 floorValue = floormaster.floorvalue
+
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Floor") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                selectedTagsArray.add(SearchTagModel(floormaster.floorvalue, "Floor"))
+                updateTagsFilterUi()
             }
-            "Nofloor" -> floorValue = ""
+            "Nofloor" -> {
+                floorValue = ""
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Floor") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                updateTagsFilterUi()
+                floorValue = ""
+            }
         }
     }
 
@@ -963,9 +1065,22 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         when (action) {
             "postedDate" -> {
                 postedDate = posted
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Posted") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                selectedTagsArray.add(SearchTagModel(posted, "Posted"))
+                updateTagsFilterUi()
             }
             "removepostedDate" -> {
                 postedDate = ""
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Posted") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                updateTagsFilterUi()
             }
         }
     }
@@ -998,10 +1113,212 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
 
     }
 
-    override fun onFilterSelected(action: String, name: String) {
-        when(action){
+    override fun onDismissCLick(type: String) {
+        when (type) {
+            "Price" -> {
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Price") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                price = 3
+                costFromPrice = 0
+                costToPrice = 0
+                updatePriceUnitDopDown()
+            }
 
+            "Floor" -> {
+                floorValue = ""
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Floor") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+
+            }
+            "Posted" -> {
+                postedDate = ""
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Posted") {
+                        selectedTagsArray.removeAt(i)
+                        addPostedSinceDataToList()
+
+                    }
+                }
+
+            }
+            "Sale" -> {
+                saleType = 0
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Sale") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                saleTypeText = ""
+            }
+            "Furnished" -> {
+                furnishedType = 0
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Furnished") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                furnishedTypeText = ""
+            }
+            "Possession" -> {
+                possessionTypeText = ""
+                possetionType = 0
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Possession") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+
+            }
+            "Category" -> {
+                categoryID = 0
+                subCategoryID = 0
+
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Category") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Type") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                binding.layoutFilter.rvPropertyType.visibility = View.GONE
+                categoryText = ""
+                typeText = ""
+            }
+            "Type" -> {
+                subCategoryID = 0
+                typeText = ""
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Type") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+            }
+        }
+        updateTagsFilterUi()
+        getFilterInfo()
+        search(selectedHighlightedText)
+    }
+
+    override fun onArbitrageClick(action: String, arbitrage: Arbitragemaster) {
+        when (action) {
+            "saleTypeClick" -> {
+                saleType = arbitrage.id
+
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Sale") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                selectedTagsArray.add(SearchTagModel(arbitrage.codevalue, "Sale"))
+                updateTagsFilterUi()
+                saleTypeText = arbitrage.codevalue
+
+            }
+            "possessionCLick" -> {
+                possetionType = arbitrage.id
+
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Possession") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                selectedTagsArray.add(SearchTagModel(arbitrage.codevalue, "Possession"))
+                updateTagsFilterUi()
+                possessionTypeText = arbitrage.codevalue
+
+            }
+            "deleteSaleTypeClick" -> {
+                saleType = 0
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Sale") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                saleTypeText = ""
+                updateTagsFilterUi()
+            }
+            "deletePossessionCLick" -> {
+                possetionType = 0
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Possession") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                possessionTypeText = ""
+                updateTagsFilterUi()
+            }
+            "deleteFurnishedType" -> {
+                possetionType = 0
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Possession") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                possessionTypeText = ""
+                updateTagsFilterUi()
+            }
+            "agencyID" -> {
+                loadAgentProfileFragment(arbitrage.id)
+            }
+            "chatClicked" -> {
+                loadChatsFragment("Agency", AppInfo.getUserId().toInt(), arbitrage.id)
+            }
+            "furnishedType" -> {
+                furnishedType = arbitrage.id
+
+                for (i in 0 until selectedTagsArray.size) {
+                    if (selectedTagsArray[i].type == "Furnished") {
+                        selectedTagsArray.removeAt(i)
+                    }
+                }
+                selectedTagsArray.add(SearchTagModel(arbitrage.codevalue, "Furnished"))
+                updateTagsFilterUi()
+                furnishedTypeText = arbitrage.codevalue
+            }
+            "bedroom" -> {
+                bedroomCount = arbitrage.id
+            }
+            "bathroom" -> {
+                bathroomCount = arbitrage.id
+            }
+            "balcony" -> {
+                balconyCount = arbitrage.id
+            }
+            "parking" -> {
+                parkingCount = arbitrage.id
+            }
+
+            "Nobedroom" -> {
+                bedroomCount = 0
+            }
+            "Nobathroom" -> {
+                bathroomCount = 0
+            }
+            "Nobalcony" -> {
+                balconyCount = 0
+            }
+            "Noparking" -> {
+                parkingCount = 0
+            }
         }
     }
 
+
+}
+
+class SearchTagModel(
+    text: String,
+    type: String,
+) {
+    val text: String = text
+    val type: String = type
 }

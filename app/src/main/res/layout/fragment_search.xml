@@ -81,11 +81,17 @@
 
         </LinearLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSearchTags"
+            android:layout_below="@+id/searchLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <LinearLayout
             android:id="@+id/topSearchTypes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/searchLayout"
+            android:layout_below="@+id/rvSearchTags"
             android:orientation="vertical">
 
             <LinearLayout

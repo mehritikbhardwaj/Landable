@@ -15,7 +15,8 @@ import com.landable.app.ui.home.dataModels.CategoriesDataModel
 class CategoriesAdapter(
     private val categoriesList: ArrayList<CategoriesDataModel>,
     private var categoryTypeClickListener: CategoryTypeClickListener,
-    private var selectedItem:Int
+    private var selectedItem:Int,
+    private var selectedFilter:String
 ) :
     RecyclerView.Adapter<MyViewHolder>() {
 
@@ -35,6 +36,12 @@ class CategoriesAdapter(
         val category = categoriesList[position]
 
         if (category.id == selectedItem){
+            selectedView = holder.categoryBinding.linearLayout3
+            selectedTextView = holder.categoryBinding.tvCategoryName
+            changeBackground(selectedView!!, selectedTextView!!)
+            categoryTypeClickListener.onCategoryClick("categoryClick", category)
+        }
+        if (category.codevalue == selectedFilter){
             selectedView = holder.categoryBinding.linearLayout3
             selectedTextView = holder.categoryBinding.tvCategoryName
             changeBackground(selectedView!!, selectedTextView!!)

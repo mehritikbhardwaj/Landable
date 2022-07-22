@@ -17,16 +17,14 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.landable.app.R
-import com.landable.app.common.AgentProfileListener
-import com.landable.app.common.CategoryTypeClickListener
-import com.landable.app.common.LandableConstants
-import com.landable.app.common.PropertyTypeClickListener
+import com.landable.app.common.*
 import com.landable.app.data.repositories.RegisterRepository
 import com.landable.app.data.responses.ParseResponse
 import com.landable.app.databinding.ContentSupergroupWebBinding
 import com.landable.app.ui.dialog.CustomAlertDialog
 import com.landable.app.ui.dialog.CustomProgressDialog
 import com.landable.app.ui.home.categories.CategoriesAdapter
+import com.landable.app.ui.home.dataModels.Arbitragemaster
 import com.landable.app.ui.home.dataModels.CategoriesDataModel
 import com.landable.app.ui.home.dataModels.FilterMasterDataModel
 import com.landable.app.ui.home.dataModels.PropertyTypeDataModel
@@ -35,7 +33,7 @@ import com.landable.app.ui.home.postProjectProperty.filterAdapters.SaletypeAdapt
 import java.io.IOException
 
 class AddSuperGroupWebFragment : Fragment(), AgentProfileListener, CategoryTypeClickListener,
-    PropertyTypeClickListener, OnMapReadyCallback {
+    PropertyTypeClickListener, OnMapReadyCallback, ArbitrageTypeClick {
 
     private lateinit var binding: ContentSupergroupWebBinding
     private var categoryList = ArrayList<CategoriesDataModel>()
@@ -74,8 +72,8 @@ class AddSuperGroupWebFragment : Fragment(), AgentProfileListener, CategoryTypeC
         binding.buttonContinue.setOnClickListener {
             if (binding.edTitle.text.toString().isNullOrEmpty() ||
                 binding.edAddress.text.toString()
-                    .isNullOrEmpty() || binding.tvDescription.text.toString().isNullOrEmpty() ||
-                binding.tvCOst.text.toString().isNullOrEmpty()
+                    .isEmpty() || binding.tvDescription.text.toString().isEmpty() ||
+                binding.tvCOst.text.toString().isEmpty()
             ) {
                 Toast.makeText(requireContext(), "Please fill all the columns", Toast.LENGTH_LONG)
                     .show()
@@ -260,24 +258,24 @@ class AddSuperGroupWebFragment : Fragment(), AgentProfileListener, CategoryTypeC
         binding.rvArbitrage.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvArbitrage.adapter =
-            SaletypeAdapter(filterData!!.Arbitragemaster, this, "arbitrageClick", arbitrage)
+            SaletypeAdapter(filterData!!.Arbitragemaster, this, "arbitrageClick", arbitrage,"")
 
         binding.rvSaleType.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvSaleType.adapter =
-            SaletypeAdapter(filterData!!.saletypemaster, this, "saleTypeClick", saleType)
+            SaletypeAdapter(filterData!!.saletypemaster, this, "saleTypeClick", saleType,"")
 
         binding.rvPossessionStatus.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvPossessionStatus.adapter =
-            SaletypeAdapter(filterData!!.possessionmaster, this, "possessionCLick", possetionType)
+            SaletypeAdapter(filterData!!.possessionmaster, this, "possessionCLick", possetionType,"")
     }
 
     private fun updateDashboardInfo() {
         categoryList = filterData!!.categorymaster
         binding.rvCategory.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvCategory.adapter = CategoriesAdapter(categoryList, this, categoryID)
+        binding.rvCategory.adapter = CategoriesAdapter(categoryList, this, categoryID, "")
 
     }
 
@@ -290,7 +288,7 @@ class AddSuperGroupWebFragment : Fragment(), AgentProfileListener, CategoryTypeC
                 binding.rvPropertyType.adapter =
                     PropertyTypeAdapter(
                         filterData!!.residentialTypeLinkedHashMap[categoryType]!!,
-                        this, subCategoryID
+                        this, subCategoryID, ""
                     )
             }
             "Commercial" -> {
@@ -299,7 +297,7 @@ class AddSuperGroupWebFragment : Fragment(), AgentProfileListener, CategoryTypeC
                 binding.rvPropertyType.adapter =
                     PropertyTypeAdapter(
                         filterData!!.commercialTypeLinkedList[categoryType]!!,
-                        this, subCategoryID
+                        this, subCategoryID, ""
                     )
             }
             "Agricultural" -> {
@@ -308,7 +306,7 @@ class AddSuperGroupWebFragment : Fragment(), AgentProfileListener, CategoryTypeC
                 binding.rvPropertyType.adapter =
                     PropertyTypeAdapter(
                         filterData!!.agriculturalTypeLinkedList[categoryType]!!,
-                        this, subCategoryID
+                        this, subCategoryID, ""
                     )
             }
         }
@@ -383,6 +381,29 @@ class AddSuperGroupWebFragment : Fragment(), AgentProfileListener, CategoryTypeC
             }
             "arbitrageClick" -> {
                 arbitrage = id
+            }
+            "deleteArbitrageClick" -> {
+                arbitrage = 0
+            }
+        }
+    }
+
+    override fun onArbitrageClick(action: String, activity: Arbitragemaster) {
+        when (action) {
+            "saleTypeClick" -> {
+                saleType = activity.id
+            }
+            "possessionCLick" -> {
+                possetionType = activity.id
+            }
+            "deleteSaleTypeClick" -> {
+                saleType = 0
+            }
+            "deletePossessionCLick" -> {
+                possetionType = 0
+            }
+            "arbitrageClick" -> {
+                arbitrage = activity.id
             }
             "deleteArbitrageClick" -> {
                 arbitrage = 0

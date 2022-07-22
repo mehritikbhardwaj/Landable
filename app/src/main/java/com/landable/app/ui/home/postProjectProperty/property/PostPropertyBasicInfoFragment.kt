@@ -37,7 +37,7 @@ import java.io.IOException
 
 class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
     PropertyTypeClickListener, AdapterView.OnItemSelectedListener,
-    AgentProfileListener {
+    AgentProfileListener, ArbitrageTypeClick {
 
     private lateinit var binding: FragmentPostPropertyBasicInfoBinding
     private var categoryList = ArrayList<CategoriesDataModel>()
@@ -534,19 +534,19 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
         binding.rvSaleType.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvSaleType.adapter =
-            SaletypeAdapter(filterData!!.saletypemaster, this, "saleTypeClick", saleType)
+            SaletypeAdapter(filterData!!.saletypemaster, this, "saleTypeClick", saleType,"")
 
         binding.rvPossessionStatus.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvPossessionStatus.adapter =
-            SaletypeAdapter(filterData!!.possessionmaster, this, "possessionCLick", possetionType)
+            SaletypeAdapter(filterData!!.possessionmaster, this, "possessionCLick", possetionType,"")
     }
 
     private fun updateDashboardInfo() {
         categoryList = filterData!!.categorymaster
         binding.rvCategory.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvCategory.adapter = CategoriesAdapter(categoryList, this, categoryID)
+        binding.rvCategory.adapter = CategoriesAdapter(categoryList, this, categoryID,"")
 
     }
 
@@ -559,7 +559,7 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
                     PropertyTypeAdapter(
                         filterData!!.residentialTypeLinkedHashMap[categoryType]!!,
                         this, subCategoryID
-                    )
+                    ,"")
             }
             "Commercial" -> {
                 binding.rvPropertyType.layoutManager =
@@ -568,7 +568,7 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
                     PropertyTypeAdapter(
                         filterData!!.commercialTypeLinkedList[categoryType]!!,
                         this, subCategoryID
-                    )
+                    ,"")
             }
             "Agricultural" -> {
                 binding.rvPropertyType.layoutManager =
@@ -577,7 +577,7 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
                     PropertyTypeAdapter(
                         filterData!!.agriculturalTypeLinkedList[categoryType]!!,
                         this, subCategoryID
-                    )
+                    ,"")
             }
         }
     }
@@ -750,6 +750,23 @@ class PostPropertyBasicInfoFragment : Fragment(), CategoryTypeClickListener,
             }
             "possessionCLick" -> {
                 possetionType = id
+            }
+            "deleteSaleTypeClick" -> {
+                saleType = 0
+            }
+            "deletePossessionCLick" -> {
+                possetionType = 0
+            }
+        }
+    }
+
+    override fun onArbitrageClick(action: String, activity: Arbitragemaster) {
+        when (action) {
+            "saleTypeClick" -> {
+                saleType = activity.id
+            }
+            "possessionCLick" -> {
+                possetionType = activity.id
             }
             "deleteSaleTypeClick" -> {
                 saleType = 0

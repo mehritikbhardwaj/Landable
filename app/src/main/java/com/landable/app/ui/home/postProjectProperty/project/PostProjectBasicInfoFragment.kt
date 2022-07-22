@@ -43,7 +43,7 @@ import java.util.*
 
 class PostProjectBasicInfoFragment : Fragment(), PropertyTypeClickListener,
     CategoryTypeClickListener,
-    AgentProfileListener, AmenitiesClickListener, OnMapReadyCallback {
+    AgentProfileListener, AmenitiesClickListener, OnMapReadyCallback, ArbitrageTypeClick {
 
     private lateinit var binding: FragmentPostProjectBinding
     private var progressDialog: CustomProgressDialog? = null
@@ -350,12 +350,12 @@ class PostProjectBasicInfoFragment : Fragment(), PropertyTypeClickListener,
         categoryList = filterData!!.categorymaster
         binding.rvCategory.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvCategory.adapter = CategoriesAdapter(categoryList, this,categoryID)
+        binding.rvCategory.adapter = CategoriesAdapter(categoryList, this,categoryID,"")
 
         binding.rvPossessionStatus.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvPossessionStatus.adapter =
-            SaletypeAdapter(filterData!!.possessionmaster, this, "possessionCLick",possetionType)
+            SaletypeAdapter(filterData!!.possessionmaster, this, "possessionCLick",possetionType,"")
 
     }
 
@@ -368,7 +368,7 @@ class PostProjectBasicInfoFragment : Fragment(), PropertyTypeClickListener,
                     PropertyTypeAdapter(
                         filterData!!.residentialTypeLinkedHashMap[categoryType]!!,
                         this,subCategoryID
-                    )
+                    ,"")
             }
             /* "Commercial" -> {
                  binding.rvPropertyType.layoutManager =
@@ -593,5 +593,17 @@ class PostProjectBasicInfoFragment : Fragment(), PropertyTypeClickListener,
         private val fulladdress: String = fulladdress
         private val lat: String = lat
         private val lon: String = lon
+    }
+
+    override fun onArbitrageClick(action: String, activity: Arbitragemaster) {
+        when(action){
+            "possessionCLick" -> {
+                possetionType = activity.id
+            }
+            "deletePossessionCLick" -> {
+                possetionType = 0
+            }
+        }
+
     }
 }

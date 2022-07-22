@@ -23,6 +23,7 @@ import com.landable.app.ui.HomeActivity
 import com.landable.app.ui.dialog.CustomAlertDialog
 import com.landable.app.ui.dialog.CustomProgressDialog
 import com.landable.app.ui.home.categories.CategoriesAdapter
+import com.landable.app.ui.home.dataModels.Arbitragemaster
 import com.landable.app.ui.home.dataModels.CategoriesDataModel
 import com.landable.app.ui.home.dataModels.FilterMasterDataModel
 import com.landable.app.ui.home.dataModels.PropertyTypeDataModel
@@ -34,7 +35,7 @@ import java.io.IOException
 
 
 class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClickListener,
-    PropertyTypeClickListener {
+    PropertyTypeClickListener, ArbitrageTypeClick {
 
     private lateinit var binding: FragmentAddSupergroupBinding
     private var categoryList = ArrayList<CategoriesDataModel>()
@@ -370,24 +371,24 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
         binding.rvArbitrage.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvArbitrage.adapter =
-            SaletypeAdapter(filterData!!.Arbitragemaster, this, "arbitrageClick", arbitrage)
+            SaletypeAdapter(filterData!!.Arbitragemaster, this, "arbitrageClick", arbitrage,"")
 
         binding.rvSaleType.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvSaleType.adapter =
-            SaletypeAdapter(filterData!!.saletypemaster, this, "saleTypeClick", saleType)
+            SaletypeAdapter(filterData!!.saletypemaster, this, "saleTypeClick", saleType,"")
 
         binding.rvPossessionStatus.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvPossessionStatus.adapter =
-            SaletypeAdapter(filterData!!.possessionmaster, this, "possessionCLick", possetionType)
+            SaletypeAdapter(filterData!!.possessionmaster, this, "possessionCLick", possetionType,"")
     }
 
     private fun updateDashboardInfo() {
         categoryList = filterData!!.categorymaster
         binding.rvCategory.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvCategory.adapter = CategoriesAdapter(categoryList, this, categoryID)
+        binding.rvCategory.adapter = CategoriesAdapter(categoryList, this, categoryID,"")
 
     }
 
@@ -400,7 +401,7 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
                     PropertyTypeAdapter(
                         filterData!!.residentialTypeLinkedHashMap[categoryType]!!,
                         this, subCategoryID
-                    )
+                    ,"")
             }
             "Commercial" -> {
                 binding.rvPropertyType.layoutManager =
@@ -409,7 +410,7 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
                     PropertyTypeAdapter(
                         filterData!!.commercialTypeLinkedList[categoryType]!!,
                         this, subCategoryID
-                    )
+                    ,"")
             }
             "Agricultural" -> {
                 binding.rvPropertyType.layoutManager =
@@ -418,7 +419,7 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
                     PropertyTypeAdapter(
                         filterData!!.agriculturalTypeLinkedList[categoryType]!!,
                         this, subCategoryID
-                    )
+                    ,"")
             }
         }
     }
@@ -549,4 +550,26 @@ class AddSuperGroupFragment : Fragment(), AgentProfileListener, CategoryTypeClic
         binding.edCommission.setText(details[0].commission.toString())
 
     }
+
+    override fun onArbitrageClick(action: String, activity: Arbitragemaster) {
+        when (action) {
+            "saleTypeClick" -> {
+                saleType = activity.id
+            }
+            "possessionCLick" -> {
+                possetionType = activity.id
+            }
+            "deleteSaleTypeClick" -> {
+                saleType = 0
+            }
+            "deletePossessionCLick" -> {
+                possetionType = 0
+            }
+            "arbitrageClick" -> {
+                arbitrage = activity.id
+            }
+            "deleteArbitrageClick" -> {
+                arbitrage = 0
+            }
+        }    }
 }

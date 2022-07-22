@@ -491,7 +491,7 @@ class FragmentAuction : Fragment(),
         categoryList = filterData!!.categorymaster
         binding.layoutFilter.rvCategory.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.layoutFilter.rvCategory.adapter = CategoriesAdapter(categoryList, this, categoryID)
+        binding.layoutFilter.rvCategory.adapter = CategoriesAdapter(categoryList, this, categoryID,"")
 
     }
 
@@ -505,7 +505,7 @@ class FragmentAuction : Fragment(),
                     PropertyTypeAdapter(
                         filterData!!.residentialTypeLinkedHashMap[categoryType]!!,
                         this, subCategoryID
-                    )
+                    ,"")
             }
             "Commercial" -> {
                 binding.layoutFilter.rvPropertyType.layoutManager =
@@ -514,7 +514,7 @@ class FragmentAuction : Fragment(),
                     PropertyTypeAdapter(
                         filterData!!.commercialTypeLinkedList[categoryType]!!,
                         this, subCategoryID
-                    )
+                   ,"" )
             }
             "Agricultural" -> {
                 // set adapter to the autocomplete tv to the arrayAdapter
@@ -524,7 +524,7 @@ class FragmentAuction : Fragment(),
                     PropertyTypeAdapter(
                         filterData!!.agriculturalTypeLinkedList[categoryType]!!,
                         this, subCategoryID
-                    )
+                   ,"" )
             }
         }
     }

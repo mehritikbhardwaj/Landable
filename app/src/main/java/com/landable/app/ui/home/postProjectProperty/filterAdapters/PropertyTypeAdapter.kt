@@ -15,7 +15,9 @@ import com.landable.app.ui.home.dataModels.PropertyTypeDataModel
 class PropertyTypeAdapter(
     private val propertyTypeList: ArrayList<PropertyTypeDataModel>,
     private var propertyTypeClickListener: PropertyTypeClickListener,
-    private var selectedItem:Int
+    private var selectedItem:Int,
+    private var selectedFilter:String
+
 
 ) :
     RecyclerView.Adapter<MyViewHolder>() {
@@ -37,6 +39,10 @@ class PropertyTypeAdapter(
         val propertyType = propertyTypeList[position]
 
         if (propertyType.id == selectedItem){
+            selectedView = holder.categoryBinding.linearLayout3
+            changeBackground(selectedView!!)
+        }
+        if (propertyType.codevalue == selectedFilter){
             selectedView = holder.categoryBinding.linearLayout3
             changeBackground(selectedView!!)
         }

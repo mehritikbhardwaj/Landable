@@ -15,6 +15,7 @@ import com.landable.app.ui.home.dataModels.Floormaster
 class FloorAdapter(
     private val arrayList: ArrayList<Floormaster>,
     private var floorClickListener: FloorClickListener,
+    private var selectedFilter:String
 ) :
     RecyclerView.Adapter<FloorHolder>() {
 
@@ -52,6 +53,15 @@ class FloorAdapter(
             floorClickListener.onFloorClick("floor", list)
 
         }*/
+
+        if (list.floorvalue == selectedFilter){
+            selectedView = holder.bedBAthBinding.linearLayout3
+            selectedTextView = holder.bedBAthBinding.tvCategoryName
+            changeBackground(
+                selectedView!!,
+                selectedTextView!!
+            )
+        }
 
         holder.bedBAthBinding.tvCategoryName.text = list.floor
         holder.bedBAthBinding.linearLayout3.setOnClickListener {

@@ -16,6 +16,8 @@ import com.landable.app.ui.home.dataModels.BedsDataModel
 class PostedSinceAdapter(
     private val arrayList: ArrayList<BedsDataModel>,
     private var postedDateClickListener: PostedDateClickListener,
+    private var selectedFilter:String
+
 ) :
     RecyclerView.Adapter<PostedHolder>() {
 
@@ -34,6 +36,18 @@ class PostedSinceAdapter(
 
     override fun onBindViewHolder(holder: PostedHolder, position: Int) {
         val list = arrayList[position]
+
+
+        if (list.value == selectedFilter){
+            selectedView = holder.bedBAthBinding.linearLayout3
+            selectedTextView = holder.bedBAthBinding.tvCategoryName
+            changeBackground(
+                selectedView!!,
+                selectedTextView!!
+            )
+        }
+
+
         holder.bedBAthBinding.tvCategoryName.text = list.value
         holder.bedBAthBinding.linearLayout3.setOnClickListener {
             if (selectedView == null) {

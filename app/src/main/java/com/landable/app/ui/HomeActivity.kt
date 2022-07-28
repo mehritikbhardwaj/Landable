@@ -31,14 +31,12 @@ import com.landable.app.ui.home.dataModels.FeaturePropertiesDataModel
 import com.landable.app.ui.home.dataModels.ProjectsDataModel
 import com.landable.app.ui.home.dataModels.UserProfileDataModel
 import com.landable.app.ui.home.dataModels.WhyLandableDataModel
+import com.landable.app.ui.home.deeplink.AuctionDetailPageDeepLinkFragment
 import com.landable.app.ui.home.favorites.FavoritesFragment
 import com.landable.app.ui.home.homeUI.HomeFragment
 import com.landable.app.ui.home.lead.LeadFragment
 import com.landable.app.ui.home.login.OTPLoginFragment
-import com.landable.app.ui.home.myActivity.MyActivityFragment
 import com.landable.app.ui.home.profile.ProfileFragment
-import com.landable.app.ui.home.property.PropertyDetailFragment
-import com.landable.app.ui.home.search.SearchFragment
 import com.landable.app.ui.home.splash.SplashFragment
 import com.landable.app.ui.home.supergroups.AddSuperGroupFragment
 
@@ -72,7 +70,11 @@ class HomeActivity : AppCompatActivity(),
         handleIntent()
 
             if (intent.hasExtra("url")) {
-                loadAddSupergroupFragment()
+                val url = intent.getStringExtra("url")
+                if(url!!.contains("auction-")){
+                    LandableConstants.deepLinkURL = url
+                    loadDeepLinkOpenAuctionFragment()
+                }else loadAddSupergroupFragment()
             } else {
                 loadSplashFragment()
         }
@@ -131,6 +133,18 @@ class HomeActivity : AppCompatActivity(),
     }
 
 
+    private fun loadDeepLinkOpenAuctionFragment() {
+        val bundle = Bundle()
+        val auctionDeepLink = AuctionDetailPageDeepLinkFragment.newInstance()
+        auctionDeepLink.arguments = bundle
+
+        FragmentHelper().replaceFragmentAddToBackstack(
+            supportFragmentManager,
+            HomeActivity().getHomePageContainerId(),
+            AuctionDetailPageDeepLinkFragment.newInstance(),
+            AuctionDetailPageDeepLinkFragment::class.java.name
+        )
+    }
 
 
     private fun inProgressUpdate() {

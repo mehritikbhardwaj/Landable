@@ -86,6 +86,9 @@ class PropertyDetailDeepLinkFragment : Fragment(), PropertyDetailListener,
             url = LandableConstants.deepLinkURL!!
 
             propertyid = url.substringAfter("pr-")
+          if(propertyid.contains("-dp")){
+              propertyid = propertyid.substringBefore("-dp")
+            }
 
         }
     }

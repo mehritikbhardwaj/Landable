@@ -39,7 +39,7 @@ import com.landable.app.ui.home.search.filterAdapters.SearchTagsAdapter
 class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickListener,
     AgentProfileListener, PropertyDetailListener, ProjectDetailListener, FloorClickListener,
     PostedDateClickListener,
-    AmenitiesClickListener, FilterDismissListener, ArbitrageTypeClick {
+    AmenitiesClickListener, FilterDismissListener, ArbitrageTypeClick, BedBathClickListener {
 
     private lateinit var binding: FragmentSearchBinding
     private var selectedHighlightedText: String = "Property"
@@ -79,6 +79,10 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
     private var saleTypeText: String = ""
     private var possessionTypeText: String = ""
     private var furnishedTypeText: String = ""
+    private var bhkTypeText: String = ""
+    private var balconyTypeText: String = ""
+    private var parkingTypeText: String = ""
+    private var bathroomTypeText: String = ""
 
     var selectedFiltersList = ArrayList<String>()
 
@@ -129,9 +133,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         )
 
         binding.ivSearchMap.setOnClickListener {
-            val url = "https://www.landable.in/property-list.aspx?city=37" +
-                    "&key=&ct=&st=&stype=0&ps=0&cfrom=0&cto=0&bed=&bath=0&bal=0&furnished=&parking" +
-                    "=0&amenities=&postedon=0&floor=&lat=0&lon=0&sort=New&areafrom=0&areato=100000#."
+            val url = "https://www.landable.in/app/allmap.aspx"
 
             (activity as HomeActivity).callBrowserActivity(url, "Search Map Page")
         }
@@ -159,11 +161,11 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         binding.layoutFilter.buttonClearFilter.setOnClickListener {
             selectedFiltersList.clear()
 
-            //   updateSelectedFilterRecycler()
             clearFilter()
             getFilterInfo()
             updatePriceUnitDopDown()
             addPostedSinceDataToList()
+            updateTagsFilterUi()
             binding.layoutFilter.rvPropertyType.visibility = View.GONE
         }
 
@@ -226,6 +228,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                     for (i in 0 until selectedTagsArray.size) {
                         if (selectedTagsArray[i].type == "Price") {
                             selectedTagsArray.removeAt(i)
+                            break
                         }
                     }
                     var unit = ""
@@ -543,22 +546,22 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
         binding.layoutFilter.rvBHK.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.layoutFilter.rvBHK.adapter =
-            BedBathBalParAdapter(filterData!!.bedroom, this, "bedroom")
+            BedBathBalParAdapter(filterData!!.bedroom, this, "bedroom", bhkTypeText)
 
         binding.layoutFilter.rvBathroom.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.layoutFilter.rvBathroom.adapter =
-            BedBathBalParAdapter(filterData!!.bathroom, this, "bathroom")
+            BedBathBalParAdapter(filterData!!.bathroom, this, "bathroom", bathroomTypeText)
 
         binding.layoutFilter.rvBalcony.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.layoutFilter.rvBalcony.adapter =
-            BedBathBalParAdapter(filterData!!.balconey, this, "balcony")
+            BedBathBalParAdapter(filterData!!.balconey, this, "balcony", balconyTypeText)
 
         binding.layoutFilter.rvParking.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.layoutFilter.rvParking.adapter =
-            BedBathBalParAdapter(filterData!!.parking, this, "parking")
+            BedBathBalParAdapter(filterData!!.parking, this, "parking", parkingTypeText)
 
         //binding recycler view for furnished type filter
         binding.layoutFilter.rvFurnishedType.layoutManager =
@@ -699,6 +702,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Category") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 selectedTagsArray.add(SearchTagModel(categoryDataModel.codevalue, "Category"))
@@ -713,6 +717,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Category") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 categoryText = ""
@@ -730,6 +735,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Type") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 selectedTagsArray.add(SearchTagModel(propertyDataModel.codevalue, "Type"))
@@ -742,6 +748,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Type") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 typeText = ""
@@ -1043,6 +1050,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Floor") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 selectedTagsArray.add(SearchTagModel(floormaster.floorvalue, "Floor"))
@@ -1053,6 +1061,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Floor") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 updateTagsFilterUi()
@@ -1068,6 +1077,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Posted") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 selectedTagsArray.add(SearchTagModel(posted, "Posted"))
@@ -1078,6 +1088,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Posted") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 updateTagsFilterUi()
@@ -1119,6 +1130,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Price") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 price = 3
@@ -1132,6 +1144,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Floor") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
 
@@ -1142,7 +1155,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                     if (selectedTagsArray[i].type == "Posted") {
                         selectedTagsArray.removeAt(i)
                         addPostedSinceDataToList()
-
+                        break
                     }
                 }
 
@@ -1152,6 +1165,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Sale") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 saleTypeText = ""
@@ -1161,6 +1175,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Furnished") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 furnishedTypeText = ""
@@ -1171,6 +1186,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Possession") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
 
@@ -1182,11 +1198,13 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Category") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Type") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 binding.layoutFilter.rvPropertyType.visibility = View.GONE
@@ -1199,12 +1217,17 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Type") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
             }
         }
+
         updateTagsFilterUi()
         getFilterInfo()
+        binding.llFilter.visibility = View.GONE
+        binding.recyclerView.visibility = View.VISIBLE
+        binding.filterIcon.visibility = View.VISIBLE
         search(selectedHighlightedText)
     }
 
@@ -1216,6 +1239,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Sale") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 selectedTagsArray.add(SearchTagModel(arbitrage.codevalue, "Sale"))
@@ -1229,6 +1253,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Possession") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 selectedTagsArray.add(SearchTagModel(arbitrage.codevalue, "Possession"))
@@ -1241,6 +1266,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Sale") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 saleTypeText = ""
@@ -1251,6 +1277,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Possession") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 possessionTypeText = ""
@@ -1261,6 +1288,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Possession") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 possessionTypeText = ""
@@ -1278,6 +1306,7 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
                 for (i in 0 until selectedTagsArray.size) {
                     if (selectedTagsArray[i].type == "Furnished") {
                         selectedTagsArray.removeAt(i)
+                        break
                     }
                 }
                 selectedTagsArray.add(SearchTagModel(arbitrage.codevalue, "Furnished"))
@@ -1295,6 +1324,60 @@ class SearchFragment : Fragment(), CategoryTypeClickListener, PropertyTypeClickL
             }
             "parking" -> {
                 parkingCount = arbitrage.id
+            }
+
+            "Nobedroom" -> {
+                bedroomCount = 0
+            }
+            "Nobathroom" -> {
+                bathroomCount = 0
+            }
+            "Nobalcony" -> {
+                balconyCount = 0
+            }
+            "Noparking" -> {
+                parkingCount = 0
+            }
+        }
+    }
+
+    override fun onBedBathClick(action: String, bedroom: Bedroom) {
+        when (action) {
+            "saleTypeClick" -> {
+                saleType = bedroom.id
+            }
+            "possessionCLick" -> {
+                possetionType = bedroom.id
+            }
+            "deleteSaleTypeClick" -> {
+                saleType = 0
+            }
+            "deletePossessionCLick" -> {
+                possetionType = 0
+            }
+            "deleteFurnishedType" -> {
+                possetionType = 0
+            }
+            "agencyID" -> {
+                loadAgentProfileFragment(bedroom.id)
+            }
+            "chatClicked" -> {
+                loadChatsFragment("Agency", AppInfo.getUserId().toInt(), bedroom.id)
+            }
+            "furnishedType" -> {
+                furnishedType = bedroom.id
+            }
+            "bedroom" -> {
+                bedroomCount = bedroom.id
+            }
+            "bathroom" -> {
+                bathroomCount = bedroom.id
+            }
+            "balcony" -> {
+                balconyCount = bedroom.id
+            }
+            "parking" -> {
+                parkingCount = bedroom.id
             }
 
             "Nobedroom" -> {

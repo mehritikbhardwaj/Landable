@@ -88,7 +88,11 @@ class ProjectDetailDeepLinkFragment : Fragment(), ProjectDetailListener, Adverti
         // getting album model from other fragments
         if (LandableConstants.deepLinkURL!!.isNotEmpty()) {
             projectid = LandableConstants.deepLinkURL!!.substringAfter("-pj-")
+            if(projectid.contains("-dp")){
+                projectid = projectid.substringBefore("-dp")
+            }
         }
+
     }
 
     override fun onCreateView(

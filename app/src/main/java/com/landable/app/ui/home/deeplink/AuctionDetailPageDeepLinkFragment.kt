@@ -64,6 +64,7 @@ class AuctionDetailPageDeepLinkFragment : Fragment(), AdvertisementClickListener
         FirebaseAnalytics.getInstance((activity as HomeActivity))
             .setCurrentScreen((activity as HomeActivity), "Auction Detail Fragment", null)
 
+
         binding.buttonContact.setOnClickListener {
             CustomAlertDialog(
                 requireContext(),

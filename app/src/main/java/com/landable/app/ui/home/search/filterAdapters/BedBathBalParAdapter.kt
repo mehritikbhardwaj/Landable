@@ -9,14 +9,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.landable.app.R
 import com.landable.app.common.AgentProfileListener
+import com.landable.app.common.BedBathClickListener
 import com.landable.app.databinding.RowCategoriesFilterBinding
 import com.landable.app.ui.home.dataModels.Arbitragemaster
 import com.landable.app.ui.home.dataModels.Bedroom
 
 class BedBathBalParAdapter (
     private val arrayList: ArrayList<Bedroom>,
-    private var agentProfileListener: AgentProfileListener,
-    private var isComingFromSale:String
+    private var agentProfileListener: BedBathClickListener,
+    private var isComingFromSale:String,
+    private var selectedFilter:String
 ) :
     RecyclerView.Adapter<BedBAthHolder>() {
 
@@ -66,6 +68,15 @@ class BedBathBalParAdapter (
 
         }*/
 
+        if (list.value == selectedFilter){
+            selectedView = holder.bedBAthBinding.linearLayout3
+            selectedTextView = holder.bedBAthBinding.tvCategoryName
+            changeBackground(
+                selectedView!!,
+                selectedTextView!!
+            )
+        }
+
         holder.bedBAthBinding.tvCategoryName.text = list.value
         holder.bedBAthBinding.linearLayout3.setOnClickListener {
             if (selectedView == null) {
@@ -76,30 +87,30 @@ class BedBathBalParAdapter (
                     selectedTextView!!
                 )
                 if (isComingFromSale=="bedroom"){
-                    agentProfileListener.onAgentClick("bedroom",list.id)
+                    agentProfileListener.onBedBathClick("bedroom",list)
                 } else if(isComingFromSale=="bathroom"){
-                    agentProfileListener.onAgentClick("bathroom",list.id)
+                    agentProfileListener.onBedBathClick("bathroom",list)
                 }
                 else if(isComingFromSale=="balcony"){
-                    agentProfileListener.onAgentClick("balcony",list.id)
+                    agentProfileListener.onBedBathClick("balcony",list)
                 }
                 else if(isComingFromSale=="parking"){
-                    agentProfileListener.onAgentClick("parking",list.id)
+                    agentProfileListener.onBedBathClick("parking",list)
                 }
             } else if (selectedView == holder.bedBAthBinding.linearLayout3) {
                 selectedView!!.setBackgroundResource(R.drawable.alert_dialog_bg)
                 selectedTextView!!.setTextColor(Color.BLACK)
                 selectedView = null
                 if (isComingFromSale=="bedroom"){
-                    agentProfileListener.onAgentClick("Nobedroom",list.id)
+                    agentProfileListener.onBedBathClick("Nobedroom",list)
                 } else if(isComingFromSale=="bathroom"){
-                    agentProfileListener.onAgentClick("Nobathroom",list.id)
+                    agentProfileListener.onBedBathClick("Nobathroom",list)
                 }
                 else if(isComingFromSale=="balcony"){
-                    agentProfileListener.onAgentClick("Nobalcony",list.id)
+                    agentProfileListener.onBedBathClick("Nobalcony",list)
                 }
                 else if(isComingFromSale=="parking"){
-                    agentProfileListener.onAgentClick("Noparking",list.id)
+                    agentProfileListener.onBedBathClick("Noparking",list)
                 }
             } else {
                 selectedView!!.setBackgroundResource(R.drawable.alert_dialog_bg)
@@ -111,15 +122,15 @@ class BedBathBalParAdapter (
                 selectedView = holder.bedBAthBinding.linearLayout3
                 selectedTextView = holder.bedBAthBinding.tvCategoryName
                 if (isComingFromSale=="bedroom"){
-                    agentProfileListener.onAgentClick("bedroom",list.id)
+                    agentProfileListener.onBedBathClick("bedroom",list)
                 } else if(isComingFromSale=="bathroom"){
-                    agentProfileListener.onAgentClick("bathroom",list.id)
+                    agentProfileListener.onBedBathClick("bathroom",list)
                 }
                 else if(isComingFromSale=="balcony"){
-                    agentProfileListener.onAgentClick("balcony",list.id)
+                    agentProfileListener.onBedBathClick("balcony",list)
                 }
                 else if(isComingFromSale=="parking"){
-                    agentProfileListener.onAgentClick("parking",list.id)
+                    agentProfileListener.onBedBathClick("parking",list)
                 }
             }
         }

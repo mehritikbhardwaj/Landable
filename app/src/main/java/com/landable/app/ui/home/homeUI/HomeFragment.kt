@@ -263,7 +263,7 @@ class HomeFragment : Fragment(), PropertyDetailListener, ProjectDetailListener,
                 loadDeepLinkOpenPropertyFragment()
             } else if (LandableConstants.deepLinkURL!!.contains("-pj-proj")) {
                 loadDeepLinkOpenProjectFragment()
-            } else if (LandableConstants.deepLinkURL!!.contains("https://www.landable.in/powerbi.aspx")) {
+            } else if (LandableConstants.deepLinkURL!!.contains("powerbi.aspx")) {
                 FirebaseAnalytics.getInstance((activity as HomeActivity))
                     .setCurrentScreen((activity as HomeActivity), "Registration Lookup", null)
 

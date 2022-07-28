@@ -183,6 +183,14 @@ public class BrowserActivity extends AppCompatActivity {
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);
+                }else if (url.contains("https://www.landable.in/auction-")) {
+                    if (pd.isShowing()) {
+                        pd.dismiss();
+                    }
+                    Intent intent = new Intent(mContext, HomeActivity.class);
+                    intent.putExtra("url", url);
+                    startActivity(intent);
+                    finish();
                 }
 
             }
